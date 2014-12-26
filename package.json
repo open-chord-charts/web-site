@@ -1,0 +1,50 @@
+{
+  "name": "openchordcharts-web-site",
+  "version": "0.0.1",
+  "description": "Open Chord Charts - web site",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/openchordcharts/openchordcharts-web-ui.git"
+  },
+  "author": "Christophe Benz <christophe.benz@gmail.com>",
+  "license": "AGPLv3+",
+  "bugs": {
+    "url": "https://github.com/openchordcharts/openchordcharts-web-site/issues"
+  },
+  "dependencies": {
+    "bootstrap": "",
+    "html5shiv": "",
+    "jquery": "",
+    "react": "",
+    "respond": "",
+    "superagent": ""
+  },
+  "devDependencies": {
+    "browserify": "",
+    "browserify-shim": "",
+    "del": "",
+    "gulp": "",
+    "gulp-notify": "",
+    "gulp-util": "",
+    "jsxhint": "",
+    "minifyify": "",
+    "reactify": "",
+    "vinyl-source-stream": "",
+    "watchify": ""
+  },
+  "browserify": {
+    "transform": [
+      "reactify",
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "jquery": "global:$",
+    "react": "global:React",
+    "react/addons": "global:React"
+  },
+  "private": true
+}

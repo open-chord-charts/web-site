@@ -1,0 +1,18 @@
+{
+  "browser": true,
+  "globals": {
+    "alert": false,
+    "confirm": false,
+    "console": false,
+    "prompt": false
+  },
+  "indent": 2,
+  "newcap": false,
+  "node": true,
+  "nonbsp": false,
+  "nonew": true,
+  "strict": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true
+}
