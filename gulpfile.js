@@ -10,11 +10,11 @@ var browserify = require('browserify'),
   watchify = require('watchify');
 
 
-var staticDir = './static';
-var jsDir = './src';
-var indexJsFile = jsDir + '/index.js';
-var distDir = staticDir + '/dist';
-var vendorDir = distDir + '/vendor';
+var staticDir = './openchordcharts_web_site/static',
+  jsDir = staticDir +  '/js',
+  indexJsFile = jsDir + '/index.js',
+  distDir = staticDir + '/dist',
+  vendorDir = distDir + '/vendor';
 
 
 function handleError() {

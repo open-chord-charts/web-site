@@ -8,9 +8,12 @@ var webservices = require('./webservices');
 
 
 var Application = React.createClass({
+  propTypes: {
+    apiBaseUrl: React.PropTypes.string.isRequired,
+  },
   componentWillMount: function() {
     var slug = 'all-of-me';
-    webservices.fetchChart(slug, this.handleFetchChartSuccess, this.handleFetchChartError);
+    webservices.fetchChart(this.props.apiBaseUrl, slug, this.handleFetchChartSuccess, this.handleFetchChartError);
   },
   getInitialState: function() {
     return {
@@ -18,7 +21,7 @@ var Application = React.createClass({
     };
   },
   handleFetchChartError: function(message) {
-    console.error(message);
+    console.error('error fetching chart:', message);
   },
   handleFetchChartSuccess: function(data) {
     this.setState({chart: data.chart});
@@ -140,8 +143,9 @@ var KeySelect = React.createClass({
 
 
 function bootstrap() {
+  var appconfig = global.appconfig;
   React.render(
-    <Application />,
+    <Application apiBaseUrl={appconfig.apiBaseUrl} />,
     document.getElementById('app')
   );
 }

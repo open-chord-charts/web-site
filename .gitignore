@@ -1,4 +1,5 @@
 *~
+/*.egg-info
 /node_modules/
-/static/dist/
+/openchordcharts_web_site/static/dist/
 /tags

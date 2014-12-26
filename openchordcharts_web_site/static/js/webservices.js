@@ -4,11 +4,11 @@
 var $ = require('jquery');
 
 
-function fetchChart(slug, onSuccess, onError) {
+function fetchChart(apiBaseUrl, slug, onSuccess, onError) {
   $.ajax({
     dataType: 'json',
     type: 'GET',
-    url: 'http://localhost:8765/api/1/charts/' + slug,
+    url: apiBaseUrl + '/charts/' + slug,
   })
   .done(function(data/*, textStatus, jqXHR*/) {
     onSuccess(data);
