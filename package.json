@@ -27,7 +27,6 @@
     "browserify-shim": "",
     "del": "",
     "gulp": "",
-    "gulp-notify": "",
     "gulp-util": "",
     "jsxhint": "",
     "minifyify": "",
