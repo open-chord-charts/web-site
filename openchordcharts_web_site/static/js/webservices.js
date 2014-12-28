@@ -1,26 +1,39 @@
 'use strict';
 
 
-var $ = require('jquery');
+function getJSON(url) {
+  if (getJSON._cache[url])
+    return Promise.resolve(getJSON._cache[url]);
 
-
-function fetchChart(apiBaseUrl, slug, onSuccess, onError) {
-  $.ajax({
-    dataType: 'json',
-    type: 'GET',
-    url: apiBaseUrl + '/charts/' + slug,
-  })
-  .done(function(data/*, textStatus, jqXHR*/) {
-    onSuccess(data);
-  })
-  .fail(function(jqXHR, textStatus, errorThrown) {
-    onError(
-      errorThrown && jqXHR.responseText ?
-        errorThrown + ': ' + jqXHR.responseText :
-        errorThrown || jqXHR.responseText
-    );
+  return new Promise((resolve, reject) => {
+    var req = new XMLHttpRequest();
+    req.onload = function () {
+      if (req.status === 404) {
+        reject(new Error('not found'));
+      } else {
+        // fake a slow response every now and then
+        setTimeout(function () {
+          var data = JSON.parse(req.response);
+          resolve(data);
+          getJSON._cache[url] = data;
+        }, Math.random() > 0.5 ? 0 : 1000);
+      }
+    };
+    req.open('GET', url);
+    req.send();
   });
+}
+getJSON._cache = {};
+
+
+function fetchChart(slug) {
+  return getJSON(`${global.appconfig.apiBaseUrl}/charts/${slug}`).then((res) => res.chart);
 }
 
 
-module.exports = {fetchChart: fetchChart};
+function fetchCharts() {
+  return getJSON(`${global.appconfig.apiBaseUrl}/charts`).then((res) => res.charts);
+}
+
+
+module.exports = {fetchChart, fetchCharts, getJSON};
