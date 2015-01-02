@@ -7,27 +7,6 @@ var React = require('react'),
 var NavBar = require('./navbar');
 
 
-        // {
-        //   chart ? (
-        //     <ChartPage
-        //       chartKey={this.state.selectedKey || chart.key}
-        //       composers={chart.composers}
-        //       compositionYear={chart.compositionYear}
-        //       genre={chart.genre}
-        //       interpretations={chart.interpretations}
-        //       onKeyChange={this.handleKeyChange}
-        //       ownerUsername={chart.ownerUsername}
-        //       parts={chart.parts}
-        //       slug={chart.slug}
-        //       structure={chart.structure}
-        //       title={chart.title}
-        //     />
-        //   ) : (
-        //     <p>Loading...</p>
-        //   )
-        // }
-
-
 var App = React.createClass({
   componentDidMount: function() {
     var timer;
