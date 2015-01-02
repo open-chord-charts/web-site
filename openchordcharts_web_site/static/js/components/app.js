@@ -23,19 +23,25 @@ var App = React.createClass({
       clearTimeout(timer);
       this.setState({loading: false});
     });
+    global.authEvents.on('loggedIn', () => {
+      this.setState({loggedIn: true});
+    });
+    global.authEvents.on('loggedOut', () => {
+      this.setState({loggedIn: false});
+    });
   },
   getInitialState: function() {
-    return {loading: false};
-  },
-  handleKeyChange: function(value) {
-    this.setState({selectedKey: value});
+    return {
+      loading: false,
+      loggedIn: localStorage.loggedIn ? JSON.parse(localStorage.loggedIn) : false,
+    };
   },
   render: function() {
     return (
       <div>
-        <NavBar />
+        <NavBar loading={this.state.loading} loggedIn={this.state.loggedIn} />
         <div className='container'>
-          <RouteHandler {...this.props} />
+          <RouteHandler {...this.props} appState={this.state} />
         </div>
       </div>
     );

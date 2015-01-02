@@ -9,7 +9,12 @@ var cx = React.addons.classSet;
 
 var NavBar = React.createClass({
   mixins: [State],
+  propTypes: {
+    loading: React.PropTypes.bool,
+    loggedIn: React.PropTypes.bool,
+  },
   render: function() {
+    var query = this.getQuery();
     return (
       <nav className="navbar navbar-default navbar-static-top">
         <div className="container">
@@ -24,16 +29,21 @@ var NavBar = React.createClass({
           </div>
           <div id="navbar" className="navbar-collapse collapse">
             <ul className="nav navbar-nav">
-              <li className={cx({active: this.isActive('charts')})}><Link to='charts'>Home</Link></li>
+              <li className={cx({active: this.isActive('charts') && ! query.owner})}>
+                <Link to='charts'>Home</Link>
+              </li>
               <li className={cx({active: this.isActive('about')})}><Link to='about'>About</Link></li>
             </ul>
-            {
-              /*
-              <ul className="nav navbar-nav navbar-right">
-                <li><Link to='login'>Login</Link></li>
-              </ul>
-              */
-            }
+            <ul className="nav navbar-nav navbar-right">
+              {this.props.loading && <li><p className='navbar-text'>Loading</p></li>}
+              {
+                this.props.loggedIn ? (
+                  <li><Link to='logout'>Sign out</Link></li>
+                ) : (
+                  <li className={cx({active: this.isActive('login')})}><Link to='login'>Sign in</Link></li>
+                )
+              }
+            </ul>
           </div>
         </div>
       </nav>

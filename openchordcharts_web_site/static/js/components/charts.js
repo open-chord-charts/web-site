@@ -2,27 +2,31 @@
 
 
 var React = require('react'),
-  {Link} = require('react-router');
+  {Link, State} = require('react-router');
 
 var webservices = require('../webservices');
 
 
 var Charts = React.createClass({
+  mixins: [State],
+  propTypes: {
+    charts: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  },
   statics: {
-    fetchData: function() {
-      return webservices.fetchCharts();
+    fetchData: function(params, query) {
+      return webservices.fetchCharts({ownerSlug: query.owner});
     },
   },
   render: function() {
-    var charts = this.props.data.charts;
+    var query = this.getQuery();
     return (
       <div>
         <div className="page-header">
-          <h1>List of charts</h1>
+          <h1>List of charts {query.owner && <small>of {query.owner}</small>}</h1>
         </div>
         <ul>
           {
-            charts.map((chart, idx) => (
+            this.props.charts.map((chart, idx) => (
               <li key={idx}>
                 <Link to='chart' params={chart}>{chart.title}</Link>
               </li>
