@@ -3,6 +3,8 @@
 
 var React = require('react');
 
+var model = require('../model');
+
 
 var KeySelect = React.createClass({
   propTypes: {
@@ -13,11 +15,10 @@ var KeySelect = React.createClass({
     this.props.onChange(event.target.value);
   },
   render: function() {
-    var keys = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
     return (
       <div className='form-inline'>
         <select className='form-control' onChange={this.handleChange} value={this.props.value}>
-          {keys.map((key, idx) => <option key={idx}>{key}</option>)}
+          {model.chromaticKeys.map((key, idx) => <option key={idx}>{key}</option>)}
         </select>
       </div>
     );
