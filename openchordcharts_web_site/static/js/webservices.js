@@ -3,10 +3,10 @@
 
 // HTTP functions
 
-function getJSON(url, options) {
+function xhrPromise(url, options) {
   options = options || {};
-  if (options.useCache && getJSON._cache[url]) {
-    return Promise.resolve(getJSON._cache[url]);
+  if (options.useCache && xhrPromise._cache[url]) {
+    return Promise.resolve(xhrPromise._cache[url]);
   }
   return new Promise((resolve, reject) => {
     var req = new XMLHttpRequest();
@@ -17,35 +17,18 @@ function getJSON(url, options) {
         var data = JSON.parse(req.response);
         resolve(data);
         if (options.useCache) {
-          getJSON._cache[url] = data;
+          xhrPromise._cache[url] = data;
         }
       }
     };
-    req.open('GET', url);
+    req.open(options.formData ? 'POST' : 'GET', url, Boolean(options.formData));
     if(options.beforeSend) {
       options.beforeSend(req);
     }
-    req.send();
+    req.send(options.formData);
   });
 }
-getJSON._cache = {};
-
-
-// function post(url, data) {
-//   return new Promise((resolve, reject) => {
-//     var req = new XMLHttpRequest();
-//     req.onload = function() {
-//       if (req.status === 404) {
-//         reject(new Error('not found'));
-//       } else {
-//         var data = JSON.parse(req.response);
-//         resolve(data);
-//       }
-//     };
-//     req.open('POST', url);
-//     req.send();
-//   });
-// }
+xhrPromise._cache = {};
 
 
 // Data manipulation
@@ -55,7 +38,7 @@ var CHARTS_URL = `${global.appconfig.apiBaseUrl}/charts`;
 
 function deleteChart(slug) {
   var url = `${CHARTS_URL}/${slug}/delete`;
-  return getJSON(url, {beforeSend: (req) => { req.withCredentials = true; }});
+  return xhrPromise(url, {beforeSend: (req) => { req.withCredentials = true; }});
 }
 
 
@@ -81,7 +64,7 @@ function fetchCharts(query) {
   if (queryString) {
     url += `?${queryString}`;
   }
-  return getJSON(url, {useCache: true}).then((res) => {
+  return xhrPromise(url, {useCache: true}).then((res) => {
     return res.charts;
   });
 }
@@ -91,14 +74,25 @@ function fetchCharts(query) {
 
 function login() {
   var url = `${global.appconfig.apiBaseUrl}/login`;
-  return getJSON(url, {beforeSend: (req) => { req.withCredentials = true; }});
+  return xhrPromise(url, {beforeSend: (req) => { req.withCredentials = true; }});
 }
 
 
 function logout() {
   var url = `${global.appconfig.apiBaseUrl}/logout`;
-  return getJSON(url, {beforeSend: (req) => { req.withCredentials = true; }});
+  return xhrPromise(url, {beforeSend: (req) => { req.withCredentials = true; }});
 }
 
 
-module.exports = {deleteChart, fetchAccount, fetchChart, fetchCharts, login, logout};
+function register(username, password, email) {
+  var url = `${global.appconfig.apiBaseUrl}/register`;
+  var formData = new FormData();
+  formData.append('username', username);
+  formData.append('password', password);
+  formData.append('email', email);
+  return xhrPromise(url, {formData: formData});
+
+}
+
+
+module.exports = {deleteChart, fetchAccount, fetchChart, fetchCharts, login, logout, register};

@@ -12,7 +12,8 @@ var About = require('./components/about'),
   App = require('./components/app'),
   Chart = require('./components/chart'),
   Charts = require('./components/charts'),
-  NotFound = require('./components/not-found');
+  NotFound = require('./components/not-found'),
+  Register = require('./components/register');
 
 
 global.authEvents = new EventEmitter();
@@ -28,6 +29,7 @@ function bootstrap() {
       <Route name='about' handler={About} />
       <Route name='account' path='accounts/:slug' handler={Account} />
       <Route name='chart' path='charts/:slug' handler={Chart} />
+      <Route name='register' path='register' handler={Register} />
       <DefaultRoute name='charts' handler={Charts} />
     </Route>
   );

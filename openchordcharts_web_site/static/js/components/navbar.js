@@ -46,15 +46,14 @@ var NavBar = React.createClass({
             </ul>
             <ul className="nav navbar-nav navbar-right">
               {this.props.loading && <li><p className='navbar-text'>Loading</p></li>}
-              <li>
-                {
-                  this.props.loggedInUsername ? (
-                    <a href='#' onClick={this.handleSignOutClick}>Sign Out ({this.props.loggedInUsername})</a>
-                  ) : (
-                    <a href='#' onClick={this.handleSignInClick}>Sign In</a>
-                  )
-                }
-              </li>
+              {
+                this.props.loggedInUsername ? (
+                  <li><a href='#' onClick={this.handleSignOutClick}>Sign Out ({this.props.loggedInUsername})</a></li>
+                ) : [
+                  (<li key='register'><Link to='register'>Register</Link></li>),
+                  (<li key='sign-in'><a href='#' onClick={this.handleSignInClick}>Sign In</a></li>),
+                ]
+              }
             </ul>
           </div>
         </div>
