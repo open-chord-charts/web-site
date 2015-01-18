@@ -50,7 +50,11 @@ var NavBar = React.createClass({
                 this.props.loggedInUsername ? (
                   <li><a href='#' onClick={this.handleSignOutClick}>Sign Out ({this.props.loggedInUsername})</a></li>
                 ) : [
-                  (<li key='register'><Link to='register'>Register</Link></li>),
+                  (
+                    <li className={cx({active: this.isActive('register')})} key='register'>
+                      <Link to='register'>Register</Link>
+                    </li>
+                  ),
                   (<li key='sign-in'><a href='#' onClick={this.handleSignInClick}>Sign In</a></li>),
                 ]
               }

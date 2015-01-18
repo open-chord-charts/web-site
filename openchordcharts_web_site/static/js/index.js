@@ -10,10 +10,10 @@ var EventEmitter = require('events').EventEmitter,
 var About = require('./components/about'),
   Account = require('./components/account'),
   App = require('./components/app'),
-  Chart = require('./components/chart'),
+  ChartHandler = require('./components/chart-handler'),
   Charts = require('./components/charts'),
   NotFound = require('./components/not-found'),
-  Register = require('./components/register');
+  RegisterHandler = require('./components/register-handler');
 
 
 global.authEvents = new EventEmitter();
@@ -22,14 +22,13 @@ global.loadingEvents = new EventEmitter();
 
 function bootstrap() {
   var appElement = document.getElementById('app');
-  // TODO add a ChartHandler to handle not found
   var routes = (
     <Route handler={App}>
       <NotFoundRoute handler={NotFound} />
       <Route name='about' handler={About} />
       <Route name='account' path='accounts/:slug' handler={Account} />
-      <Route name='chart' path='charts/:slug' handler={Chart} />
-      <Route name='register' path='register' handler={Register} />
+      <Route name='chart' path='charts/:slug' handler={ChartHandler} />
+      <Route name='register' path='register' handler={RegisterHandler} />
       <DefaultRoute name='charts' handler={Charts} />
     </Route>
   );
