@@ -4,6 +4,8 @@
 var React = require('react/addons'),
   {Link, State} = require('react-router');
 
+var auth = require('../auth');
+
 var cx = React.addons.classSet;
 
 
@@ -11,7 +13,15 @@ var NavBar = React.createClass({
   mixins: [State],
   propTypes: {
     loading: React.PropTypes.bool,
-    loggedIn: React.PropTypes.bool,
+    loggedInUsername: React.PropTypes.string,
+  },
+  handleSignInClick: function(evt) {
+    evt.preventDefault();
+    auth.login();
+  },
+  handleSignOutClick: function(evt) {
+    evt.preventDefault();
+    auth.logout();
   },
   render: function() {
     var query = this.getQuery();
@@ -36,13 +46,15 @@ var NavBar = React.createClass({
             </ul>
             <ul className="nav navbar-nav navbar-right">
               {this.props.loading && <li><p className='navbar-text'>Loading</p></li>}
-              {
-                this.props.loggedIn ? (
-                  <li><Link to='logout'>Sign out</Link></li>
-                ) : (
-                  <li className={cx({active: this.isActive('login')})}><Link to='login'>Sign in</Link></li>
-                )
-              }
+              <li>
+                {
+                  this.props.loggedInUsername ? (
+                    <a href='#' onClick={this.handleSignOutClick}>Sign Out ({this.props.loggedInUsername})</a>
+                  ) : (
+                    <a href='#' onClick={this.handleSignInClick}>Sign In</a>
+                  )
+                }
+              </li>
             </ul>
           </div>
         </div>

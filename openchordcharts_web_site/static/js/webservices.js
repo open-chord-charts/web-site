@@ -5,7 +5,7 @@
 
 function getJSON(url, options) {
   options = options || {};
-  if ( ! options.noCache && getJSON._cache[url]) {
+  if (options.useCache && getJSON._cache[url]) {
     return Promise.resolve(getJSON._cache[url]);
   }
   return new Promise((resolve, reject) => {
@@ -16,7 +16,7 @@ function getJSON(url, options) {
       } else {
         var data = JSON.parse(req.response);
         resolve(data);
-        if ( ! options.noCache) {
+        if (options.useCache) {
           getJSON._cache[url] = data;
         }
       }
@@ -48,7 +48,16 @@ getJSON._cache = {};
 // }
 
 
-// Data fetching
+// Data manipulation
+
+var CHARTS_URL = `${global.appconfig.apiBaseUrl}/charts`;
+
+
+function deleteChart(slug) {
+  var url = `${CHARTS_URL}/${slug}/delete`;
+  return getJSON(url, {beforeSend: (req) => { req.withCredentials = true; }});
+}
+
 
 function fetchAccount(slug) {
   return fetchCharts().then((charts) => charts.filter((chart) => chart.owner.slug === slug));
@@ -64,7 +73,7 @@ function fetchChart(slug) {
 
 
 function fetchCharts(query) {
-  var url = `${global.appconfig.apiBaseUrl}/charts`;
+  var url = CHARTS_URL;
   var queryString = '';
   if (query && query.ownerSlug) {
     queryString += `ownerSlug=${query.ownerSlug}`;
@@ -72,24 +81,24 @@ function fetchCharts(query) {
   if (queryString) {
     url += `?${queryString}`;
   }
-  return getJSON(url).then((res) => {
+  return getJSON(url, {useCache: true}).then((res) => {
     return res.charts;
   });
 }
 
 
-// Authenticating
+// Authentication
 
-function login(username, password) {
+function login() {
   var url = `${global.appconfig.apiBaseUrl}/login`;
-  return getJSON(
-    url,
-    {
-      beforeSend: (req) => req.setRequestHeader('Authorization', 'Basic ' + global.btoa(username + ':' + password)),
-      noCache: true,
-    }
-  );
+  return getJSON(url, {beforeSend: (req) => { req.withCredentials = true; }});
 }
 
 
-module.exports = {fetchAccount, fetchChart, fetchCharts, login};
+function logout() {
+  var url = `${global.appconfig.apiBaseUrl}/logout`;
+  return getJSON(url, {beforeSend: (req) => { req.withCredentials = true; }});
+}
+
+
+module.exports = {deleteChart, fetchAccount, fetchChart, fetchCharts, login, logout};

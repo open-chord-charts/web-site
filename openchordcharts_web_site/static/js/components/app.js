@@ -24,22 +24,22 @@ var App = React.createClass({
       this.setState({loading: false});
     });
     global.authEvents.on('loggedIn', () => {
-      this.setState({loggedIn: true});
+      this.setState({loggedInUsername: sessionStorage.loggedInUsername});
     });
     global.authEvents.on('loggedOut', () => {
-      this.setState({loggedIn: false});
+      this.setState({loggedInUsername: null});
     });
   },
   getInitialState: function() {
     return {
       loading: false,
-      loggedIn: localStorage.loggedIn ? JSON.parse(localStorage.loggedIn) : false,
+      loggedInUsername: sessionStorage.loggedInUsername || null,
     };
   },
   render: function() {
     return (
       <div>
-        <NavBar loading={this.state.loading} loggedIn={this.state.loggedIn} />
+        <NavBar loading={this.state.loading} loggedInUsername={this.state.loggedInUsername} />
         <div className='container'>
           <RouteHandler {...this.props} appState={this.state} />
         </div>

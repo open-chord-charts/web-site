@@ -4,12 +4,10 @@
 var webservices = require('./webservices');
 
 
-function login(username, password, remember) {
-  return webservices.login(username, password).then((res) => {
+function login() {
+  return webservices.login().then((res) => {
     if (res.login === 'ok') {
-      if (remember) {
-        localStorage.loggedIn = true;
-      }
+      sessionStorage.loggedInUsername = res.userName;
       global.authEvents.emit('loggedIn');
       return true;
     } else {
@@ -21,8 +19,10 @@ function login(username, password, remember) {
 
 
 function logout() {
-  delete localStorage.loggedIn;
-  global.authEvents.emit('loggedOut');
+  return webservices.logout().then((res) => {
+    delete sessionStorage.loggedInUsername;
+    global.authEvents.emit('loggedOut');
+  });
 }
 
 
