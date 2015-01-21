@@ -10,8 +10,18 @@ var ChartGrid = React.createClass({
   propTypes: {
     chartKey: React.PropTypes.string.isRequired,
     edited: React.PropTypes.bool,
+    fontSize: React.PropTypes.string.isRequired,
     parts: React.PropTypes.object.isRequired,
     structure: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
+    tableColumnWidth: React.PropTypes.number.isRequired,
+    tableRowHeight: React.PropTypes.number.isRequired,
+  },
+  getDefaultProps: function() {
+    return {
+      fontSize: '1.6em',
+      tableColumnWidth: 90,
+      tableRowHeight: 60,
+    };
   },
   handleCellChange: function(evt) {
     console.log(evt);
@@ -26,11 +36,44 @@ var ChartGrid = React.createClass({
     );
   },
   renderCell: function(cellChords) {
-    var cellStr = cellChords.map(this.renderChord).join(' / ');
+    var renderedCellChords = cellChords.map(this.renderChord);
     return this.props.edited ? (
-      <input onChange={this.handleCellChange} style={{border: 'none', height: 40, marginLeft: '1em', width: 90}} type='text' value={cellStr} />
+      <input
+        className='text-center'
+        onChange={this.handleCellChange}
+        style={{
+          border: 'none',
+          height: this.props.tableRowHeight - 1,
+          width: this.props.tableColumnWidth - 1,
+        }}
+        type='text'
+        value={renderedCellChords.join(' / ')}
+      />
     ) : (
-      <div style={{padding: '1em'}}>{cellStr}</div>
+      renderedCellChords.length === 1 ? (
+        <div className='text-center' style={{fontSize: this.props.fontSize}}>
+          {renderedCellChords[0]}
+        </div>
+      ) : (
+        <svg width={this.props.tableColumnWidth} height={this.props.tableRowHeight}>
+          <line
+            style={{
+              stroke: '#ddd', // Bootstrap table border color.
+              strokeWidth: 1,
+            }}
+            x1={this.props.tableColumnWidth}
+            x2={0}
+            y1={0}
+            y2={this.props.tableRowHeight}
+          />
+          <text style={{fontSize: this.props.fontSize, textAnchor: 'start'}} x={10} y={25}>
+            {renderedCellChords[0]}
+          </text>
+          <text style={{fontSize: this.props.fontSize, textAnchor: 'end'}} x={80} y={50}>
+            {renderedCellChords[1]}
+          </text>
+        </svg>
+      )
     );
   },
   renderChord: function(chord) {
@@ -44,11 +87,31 @@ var ChartGrid = React.createClass({
   renderPart: function(partName, idx) {
     var cells = model.chordsToCells(this.props.parts[partName]);
     return (
-      <tr key={idx}>
-        <td style={{fontStyle: 'italic', width: '3em'}}>{partName}</td>
+      <tr key={idx} style={{height: this.props.tableRowHeight}}>
+        <td
+          className='text-center'
+          style={{
+            fontStyle: 'italic',
+            height: this.props.tableRowHeight,
+            lineHeight: 0,
+            verticalAlign: 'middle',
+            width: '3em',
+          }}
+        >
+          {partName}
+        </td>
         {
           cells.map((cellChords, idx) => (
-            <td key={idx} style={{height: 40, padding: 0, textAlign: 'center', width: 90}}>
+            <td
+              key={idx}
+              style={{
+                height: this.props.tableRowHeight,
+                lineHeight: 0,
+                padding: 0,
+                minWidth: this.props.tableColumnWidth,
+                verticalAlign: 'middle',
+              }}
+            >
               {this.renderCell(cellChords)}
             </td>
           )
