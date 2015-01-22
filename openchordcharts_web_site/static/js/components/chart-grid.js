@@ -10,7 +10,6 @@ var ChartGrid = React.createClass({
   propTypes: {
     chartKey: React.PropTypes.string.isRequired,
     edited: React.PropTypes.bool,
-    fontSize: React.PropTypes.string.isRequired,
     parts: React.PropTypes.object.isRequired,
     structure: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     tableColumnWidth: React.PropTypes.number.isRequired,
@@ -18,7 +17,6 @@ var ChartGrid = React.createClass({
   },
   getDefaultProps: function() {
     return {
-      fontSize: '1.6em',
       tableColumnWidth: 90,
       tableRowHeight: 60,
     };
@@ -51,7 +49,7 @@ var ChartGrid = React.createClass({
       />
     ) : (
       renderedCellChords.length === 1 ? (
-        <div className='text-center' style={{fontSize: this.props.fontSize}}>
+        <div className='text-center'>
           {renderedCellChords[0]}
         </div>
       ) : (
@@ -66,10 +64,10 @@ var ChartGrid = React.createClass({
             y1={0}
             y2={this.props.tableRowHeight}
           />
-          <text style={{fontSize: this.props.fontSize, textAnchor: 'start'}} x={10} y={25}>
+          <text style={{textAnchor: 'start'}} x={10} y={25}>
             {renderedCellChords[0]}
           </text>
-          <text style={{fontSize: this.props.fontSize, textAnchor: 'end'}} x={80} y={50}>
+          <text style={{textAnchor: 'end'}} x={80} y={50}>
             {renderedCellChords[1]}
           </text>
         </svg>
