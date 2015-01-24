@@ -104,7 +104,7 @@ var ChartGrid = React.createClass({
     );
   },
   renderSplitCell: function(renderedCellChords, chordColumnWidth) {
-    var padding = chordColumnWidth / 6;
+    var padding = chordColumnWidth < 50 ? 2 : chordColumnWidth / 6;
     return (
       <svg width={chordColumnWidth} height={this.props.tableRowHeight}>
         <line
