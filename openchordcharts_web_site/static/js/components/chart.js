@@ -18,8 +18,16 @@ var Chart = React.createClass({
     chart: propTypes.chart.isRequired,
     loggedInUsername: React.PropTypes.string,
   },
+  componentDidMount: function() {
+    window.onresize = this.handleWidthChange;
+    this.handleWidthChange();
+  },
+  componentWillUnmount: function() {
+    window.onresize = null;
+  },
   getInitialState: function() {
     return {
+      chartGridWidth: null,
       edited: false,
       key: this.props.chart.key,
     };
@@ -38,6 +46,10 @@ var Chart = React.createClass({
   handleSaveClick: function() {
     // TODO save data
     this.setState({edited: false});
+  },
+  handleWidthChange: function() {
+    var componentWidth = this.getDOMNode().offsetWidth;
+    this.setState({chartGridWidth: componentWidth});
   },
   render: function() {
     var chart = this.props.chart;
@@ -82,12 +94,17 @@ var Chart = React.createClass({
         <div style={{marginBottom: 10}}>
           <KeySelect onChange={this.handleKeyChange} value={this.state.key} />
         </div>
-        <ChartGrid
-          chartKey={this.state.key}
-          edited={this.state.edited}
-          parts={chart.parts}
-          structure={chart.structure}
-        />
+        {
+          this.state.chartGridWidth && (
+            <ChartGrid
+              chartKey={this.state.key}
+              edited={this.state.edited}
+              parts={chart.parts}
+              structure={chart.structure}
+              width={this.state.chartGridWidth}
+            />
+          )
+        }
         <hr />
         <div className='row'>
           <div className='col-xs-10'>
