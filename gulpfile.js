@@ -34,11 +34,7 @@ gulp.task('bundle:dev', function() {
 
 
 gulp.task('bundle:prod', function() {
-  var bundler = browserify(indexJsFile);
-  bundler.plugin('minifyify', {
-    map: '/dist/bundle.map.json',
-    output: distDir + '/bundle.map.json',
-  });
+  var bundler = browserify(indexJsFile, {cache: {}, debug: false, packageCache: {}});
   var stream = bundler.bundle()
     .on('error', handleError)
     .pipe(source('bundle.min.js'))
