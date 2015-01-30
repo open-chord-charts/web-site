@@ -21,7 +21,7 @@ function xhrPromise(url, options) {
         }
       }
     };
-    req.open(options.formData ? 'POST' : 'GET', url, options.formData ? true : undefined);
+    req.open(options.formData ? 'POST' : 'GET', url);
     if(options.beforeSend) {
       options.beforeSend(req);
     }
