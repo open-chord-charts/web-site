@@ -15,26 +15,24 @@
     "url": "https://github.com/openchordcharts/openchordcharts-web-site/issues"
   },
   "dependencies": {
-    "bootstrap": "",
-    "html5shiv": "",
-    "jquery": "",
+    "bootstrap": "^3.3.2",
+    "html5shiv": "^3.7.2",
+    "jquery": "^2.1.3",
     "react": "^0.12.2",
     "react-router": "^0.11.6",
-    "respond": "",
-    "superagent": "",
-    "when": "^3.6.4"
+    "respond": "^0.9.0",
+    "when": "^3.7.2"
   },
   "devDependencies": {
-    "browserify": "< 8",
-    "browserify-shim": "",
-    "del": "",
-    "gulp": "",
-    "gulp-util": "",
-    "jsxhint": "",
-    "minifyify": "",
-    "reactify": "",
-    "vinyl-source-stream": "",
-    "watchify": ""
+    "browserify": "^8.1.1",
+    "browserify-shim": "^3.8.2",
+    "del": "^1.1.1",
+    "gulp": "^3.8.10",
+    "gulp-util": "^3.0.2",
+    "jsxhint": "^0.9.0",
+    "reactify": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^2.3.0"
   },
   "browserify": {
     "transform": [
