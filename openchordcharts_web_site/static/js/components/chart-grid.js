@@ -11,6 +11,7 @@ var ChartGrid = React.createClass({
   propTypes: {
     chartKey: React.PropTypes.string.isRequired,
     edited: React.PropTypes.bool,
+    onChordChange: React.PropTypes.func.isRequired,
     partNameColumnWidth: React.PropTypes.number.isRequired,
     parts: React.PropTypes.object.isRequired,
     structure: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
@@ -23,8 +24,18 @@ var ChartGrid = React.createClass({
       tableRowHeight: 60,
     };
   },
-  handleCellChange: function(evt) {
-    console.log(evt);
+  handleCellKeyPress: function(evt, idx, partName) {
+    var newChordStr = evt.key;
+    var chartKeyIndex = model.chromaticKeys.indexOf(this.props.chartKey);
+    var newChordIndex = model.chromaticKeys.indexOf(newChordStr);
+    var newChordDegree = (newChordIndex - chartKeyIndex) % model.chromaticKeys.length;
+    var chord = this.props.parts[partName][idx];
+    var newChord = {
+      alterations: chord.alterations,
+      degree: newChordDegree,
+      duration: chord.duration,
+    };
+    this.props.onChordChange(newChord, idx, partName);
   },
   render: function() {
     var chordColumnWidth = (this.props.width - this.props.partNameColumnWidth) / 8;
@@ -36,12 +47,13 @@ var ChartGrid = React.createClass({
       </table>
     );
   },
-  renderCell: function(cellChords, chordColumnWidth) {
+  renderCell: function(cellChords, idx, chordColumnWidth, partName) {
     var renderedCellChords = cellChords.map(this.renderChord);
     return this.props.edited ? (
       <input
         className='text-center'
-        onChange={this.handleCellChange}
+        onKeyPress={(evt) => this.handleCellKeyPress(evt, idx, partName)}
+        readOnly
         style={{
           border: 'none',
           height: this.props.tableRowHeight - 1,
@@ -61,8 +73,8 @@ var ChartGrid = React.createClass({
     );
   },
   renderChord: function(chord) {
-    var keyIndex = model.chromaticKeys.indexOf(this.props.chartKey);
-    var chordStr = model.chromaticKeys[(keyIndex + chord.degree) % model.chromaticKeys.length];
+    var chartKeyIndex = model.chromaticKeys.indexOf(this.props.chartKey);
+    var chordStr = model.chromaticKeys[(chartKeyIndex + chord.degree) % model.chromaticKeys.length];
     if (chord.alterations) {
       chordStr += chord.alterations.join();
     }
@@ -96,7 +108,7 @@ var ChartGrid = React.createClass({
                 verticalAlign: 'middle',
               }}
             >
-              {this.renderCell(cellChords, chordColumnWidth)}
+              {this.renderCell(cellChords, idx, chordColumnWidth, partName)}
             </td>
           )
         )}

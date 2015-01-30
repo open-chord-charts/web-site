@@ -27,14 +27,20 @@ var Chart = React.createClass({
   },
   getInitialState: function() {
     return {
+      chart: this.props.chart,
       chartGridWidth: null,
       edited: false,
       key: this.props.chart.key,
     };
   },
+  handleChordChange: function(newChord, idx, partName) {
+    var newChart = this.state.chart; // TODO immutable
+    newChart.parts[partName][idx] = newChord;
+    this.setState({chart: newChart});
+  },
   handleDeleteClick: function() {
-    if (confirm(`Delete this chart (${this.props.chart.title})?`)) {
-      webservices.deleteChart(this.props.chart.slug);
+    if (confirm(`Delete this chart (${this.state.chart.title})?`)) {
+      webservices.deleteChart(this.state.chart.slug);
     }
   },
   handleEditClick: function() {
@@ -52,7 +58,7 @@ var Chart = React.createClass({
     this.setState({chartGridWidth: componentWidth});
   },
   render: function() {
-    var chart = this.props.chart;
+    var chart = this.state.chart;
     return (
       <div>
         <div className='page-header'>
@@ -99,6 +105,7 @@ var Chart = React.createClass({
             <ChartGrid
               chartKey={this.state.key}
               edited={this.state.edited}
+              onChordChange={this.handleChordChange}
               parts={chart.parts}
               structure={chart.structure}
               width={this.state.chartGridWidth}
@@ -121,7 +128,7 @@ var Chart = React.createClass({
   },
   renderActionsToolbar: function() {
     var loggedInUsername = this.props.loggedInUsername;
-    var isOwner = loggedInUsername === this.props.chart.owner.username;
+    var isOwner = loggedInUsername === this.state.chart.owner.username;
     var buttons = [];
     if (isOwner) {
       if (this.state.edited) {
