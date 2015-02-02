@@ -2,88 +2,82 @@
 'use strict';
 
 
-var React = require('react');
+var React = require('react'),
+  t = require('transducers.js');
 
-var model = require('../model');
+var propTypes = require('../prop-types');
 
 
 var ChartGrid = React.createClass({
   propTypes: {
-    chartKey: React.PropTypes.string.isRequired,
+    barsByPartName: React.PropTypes.object.isRequired,
     edited: React.PropTypes.bool,
-    onChordChange: React.PropTypes.func.isRequired,
+    nbBarsByRow: React.PropTypes.number.isRequired,
+    onBarSelect: React.PropTypes.func,
     partNameColumnWidth: React.PropTypes.number.isRequired,
-    parts: React.PropTypes.object.isRequired,
+    selectedBar: propTypes.selectedBar,
+    selectedBarBorderWidth: React.PropTypes.number.isRequired,
     structure: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
     tableRowHeight: React.PropTypes.number.isRequired,
     width: React.PropTypes.number.isRequired,
   },
   getDefaultProps: function() {
     return {
+      nbBarsByRow: 8,
       partNameColumnWidth: 30,
+      selectedBarBorderWidth: 3,
       tableRowHeight: 60,
     };
   },
-  handleCellKeyPress: function(evt, idx, partName) {
-    var newChordStr = evt.key;
-    var chartKeyIndex = model.chromaticKeys.indexOf(this.props.chartKey);
-    var newChordIndex = model.chromaticKeys.indexOf(newChordStr);
-    var newChordDegree = (newChordIndex - chartKeyIndex) % model.chromaticKeys.length;
-    var chord = this.props.parts[partName][idx];
-    var newChord = {
-      alterations: chord.alterations,
-      degree: newChordDegree,
-      duration: chord.duration,
-    };
-    this.props.onChordChange(newChord, idx, partName);
+  handleBarKeyPress: function(evt, barChords) {
+    console.log(barChords);
+    // var newChordStr = evt.key;
+    // var chartKeyIndex = model.chromaticKeys.indexOf(this.props.chartKey);
+    // var newChordIndex = model.chromaticKeys.indexOf(newChordStr);
+    // var newChordDegree = (newChordIndex - chartKeyIndex) % model.chromaticKeys.length;
+    // var chord = this.props.parts[partName][idx];
+    // var newChord = {
+    //   alterations: chord.alterations,
+    //   degree: newChordDegree,
+    //   duration: chord.duration,
+    // };
+    // this.props.onChordChange(newChord, idx, partName);
   },
   render: function() {
-    var chordColumnWidth = (this.props.width - this.props.partNameColumnWidth) / 8;
+    var chordColumnWidth = Math.min(
+      (this.props.width - this.props.partNameColumnWidth) / this.props.nbBarsByRow,
+      this.props.tableRowHeight * 1.5
+    );
+    var rowsByPartName = t.map(
+      this.props.barsByPartName,
+      (kv) => [kv[0], t.partition(kv[1], this.props.nbBarsByRow)]
+    );
     return (
       <table className='table table-bordered' style={{width: 'initial'}}>
         <tbody>
-          {this.props.structure.map((partName, idx) => this.renderPart(partName, idx, chordColumnWidth))}
+          {
+            this.props.structure.map(
+              (partName) => rowsByPartName[partName].map(
+                (bars) => this.renderPartRow(partName, bars, chordColumnWidth)
+              )
+            )
+          }
         </tbody>
       </table>
     );
   },
-  renderCell: function(cellChords, idx, chordColumnWidth, partName) {
-    var renderedCellChords = cellChords.map(this.renderChord);
-    return this.props.edited ? (
-      <input
-        className='text-center'
-        onKeyPress={(evt) => this.handleCellKeyPress(evt, idx, partName)}
-        readOnly
-        style={{
-          border: 'none',
-          height: this.props.tableRowHeight - 1,
-          width: chordColumnWidth - 1,
-        }}
-        type='text'
-        value={renderedCellChords.join(' / ')}
-      />
+  renderBar: function(barChords, chordColumnWidth) {
+    return barChords.length === 1 ? (
+      <div className='text-center'>
+        {barChords[0].rendered}
+      </div>
     ) : (
-      renderedCellChords.length === 1 ? (
-        <div className='text-center'>
-          {renderedCellChords[0]}
-        </div>
-      ) : (
-        this.renderSplitCell(renderedCellChords, chordColumnWidth)
-      )
+      this.renderSplitBar(barChords, chordColumnWidth)
     );
   },
-  renderChord: function(chord) {
-    var chartKeyIndex = model.chromaticKeys.indexOf(this.props.chartKey);
-    var chordStr = model.chromaticKeys[(chartKeyIndex + chord.degree) % model.chromaticKeys.length];
-    if (chord.alterations) {
-      chordStr += chord.alterations.join();
-    }
-    return chordStr;
-  },
-  renderPart: function(partName, idx, chordColumnWidth) {
-    var cells = model.chordsToCells(this.props.parts[partName]);
+  renderPartRow: function(partName, bars, chordColumnWidth) {
     return (
-      <tr key={idx} style={{height: this.props.tableRowHeight}}>
+      <tr style={{height: this.props.tableRowHeight}}>
         <td
           className='text-center'
           style={{
@@ -97,10 +91,14 @@ var ChartGrid = React.createClass({
           {partName}
         </td>
         {
-          cells.map((cellChords, idx) => (
+          bars.map((barChords, idx) => (
             <td
               key={idx}
+              onClick={this.props.onBarSelect ? () => this.props.onBarSelect(partName, idx) : null}
               style={{
+                borderWidth: this.props.selectedBar &&
+                  this.props.selectedBar.partName === partName &&
+                  this.props.selectedBar.partIndex === idx ? this.props.selectedBarBorderWidth : null,
                 height: this.props.tableRowHeight,
                 lineHeight: 0,
                 padding: 0,
@@ -108,14 +106,14 @@ var ChartGrid = React.createClass({
                 verticalAlign: 'middle',
               }}
             >
-              {this.renderCell(cellChords, idx, chordColumnWidth, partName)}
+              {this.renderBar(barChords,  chordColumnWidth)}
             </td>
           )
         )}
       </tr>
     );
   },
-  renderSplitCell: function(renderedCellChords, chordColumnWidth) {
+  renderSplitBar: function(barChords, chordColumnWidth) {
     var padding = chordColumnWidth < 50 ? 2 : chordColumnWidth / 6;
     return (
       <svg width={chordColumnWidth} height={this.props.tableRowHeight}>
@@ -130,10 +128,10 @@ var ChartGrid = React.createClass({
           y2={0}
         />
         <text style={{textAnchor: 'start'}} x={padding} y={25}>
-          {renderedCellChords[0]}
+          {barChords[0].rendered}
         </text>
         <text style={{textAnchor: 'end'}} x={chordColumnWidth - padding} y={50}>
-          {renderedCellChords[1]}
+          {barChords[1].rendered}
         </text>
       </svg>
     );

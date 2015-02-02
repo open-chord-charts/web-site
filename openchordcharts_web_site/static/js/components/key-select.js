@@ -17,11 +17,9 @@ var KeySelect = React.createClass({
   },
   render: function() {
     return (
-      <div className='form-inline'>
-        <select className='form-control' onChange={this.handleChange} value={this.props.value}>
-          {model.chromaticKeys.map((key, idx) => <option key={idx}>{key}</option>)}
-        </select>
-      </div>
+      <select className='form-control' onChange={this.handleChange} value={this.props.value}>
+        {model.chromaticKeys.map((key, idx) => <option key={idx}>{key}</option>)}
+      </select>
     );
   },
 });

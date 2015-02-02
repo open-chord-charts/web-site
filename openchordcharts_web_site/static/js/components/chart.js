@@ -2,11 +2,14 @@
 'use strict';
 
 
-var React = require('react/addons'),
-  {Link} = require('react-router');
+var {Link} = require('react-router'),
+  React = require('react/addons'),
+  t = require('transducers.js');
 
-var ChartGrid = require('./chart-grid'),
+var ChordEditToolbar = require('./chord-edit-toolbar'),
+  ChartGrid = require('./chart-grid'),
   KeySelect = require('./key-select'),
+  model = require('../model'),
   propTypes = require('../prop-types'),
   webservices = require('../webservices');
 
@@ -31,12 +34,20 @@ var Chart = React.createClass({
       chartGridWidth: null,
       edited: false,
       key: this.props.chart.key,
+      selectedBar: null,
     };
   },
-  handleChordChange: function(newChord, idx, partName) {
-    var newChart = this.state.chart; // TODO immutable
-    newChart.parts[partName][idx] = newChord;
-    this.setState({chart: newChart});
+  handleBarSelect: function(partName, partIndex) {
+    this.setState({selectedBar: {partIndex, partName}});
+  },
+  handleChartKeyChange: function(newChartKey) {
+    this.setState({key: newChartKey});
+  },
+  handleChordKeyChange: function(newChordKey) {
+    console.log('handleChordChange', newChordKey);
+    // var newChart = this.state.chart; // TODO immutable
+    // newChart.parts[partName][idx] = newChord;
+    // this.setState({chart: newChart});
   },
   handleDeleteClick: function() {
     if (confirm(`Delete this chart (${this.state.chart.title})?`)) {
@@ -45,9 +56,6 @@ var Chart = React.createClass({
   },
   handleEditClick: function() {
     this.setState({edited: true});
-  },
-  handleKeyChange: function(value) {
-    this.setState({key: value});
   },
   handleSaveClick: function() {
     // TODO save data
@@ -59,6 +67,10 @@ var Chart = React.createClass({
   },
   render: function() {
     var chart = this.state.chart;
+    var barsByPartName = t.map(
+      chart.parts,
+      (kv) => [kv[0], model.chordsToBars(kv[1], this.state.key)]
+    );
     return (
       <div>
         <div className='page-header'>
@@ -97,16 +109,26 @@ var Chart = React.createClass({
             </p>
           )
         }
-        <div style={{marginBottom: 10}}>
-          <KeySelect onChange={this.handleKeyChange} value={this.state.key} />
+        <div className='form-inline' style={{marginBottom: 10}}>
+          <KeySelect onChange={this.handleChartKeyChange} value={this.state.key} />
+          {
+            this.state.edited && this.state.selectedBar &&
+            barsByPartName[this.state.selectedBar.partName][this.state.selectedBar.partIndex].map((barChord, idx) => (
+              <ChordEditToolbar
+                chordKey={barChord.rendered}
+                key={idx}
+                onChordChange={this.handleChordKeyChange}
+              />
+            ))
+          }
         </div>
         {
           this.state.chartGridWidth && (
             <ChartGrid
-              chartKey={this.state.key}
+              barsByPartName={barsByPartName}
               edited={this.state.edited}
-              onChordChange={this.handleChordChange}
-              parts={chart.parts}
+              onBarSelect={this.state.edited ? this.handleBarSelect : null}
+              selectedBar={this.state.selectedBar}
               structure={chart.structure}
               width={this.state.chartGridWidth}
             />

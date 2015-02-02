@@ -30,4 +30,10 @@ var chart = React.PropTypes.shape({
 });
 
 
-module.exports = {appState, chart};
+var selectedBar = React.PropTypes.shape({
+  partIndex: React.PropTypes.number.isRequired,
+  partName: React.PropTypes.string.isRequired,
+});
+
+
+module.exports = {appState, chart, selectedBar};
