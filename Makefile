@@ -2,10 +2,10 @@ STATIC_DIR=openchordcharts_web_site/static
 
 all: check build-dev
 
-build-dev:
+build-dev: install
 	./node_modules/.bin/gulp dev
 
-build-prod:
+build-prod: install
 	./node_modules/.bin/gulp prod
 
 check: jshint
