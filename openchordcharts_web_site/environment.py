@@ -48,6 +48,7 @@ def load_environment(global_conf, app_conf):
             'app_conf': conv.default(app_conf),
             'app_dir': conv.default(app_dir),
             'api.base_url': conv.pipe(conv.empty_to_none, conv.not_none),
+            'bundle_url_prefix': conv.default(''),
             'global_conf': conv.default(global_conf),
             'templates_dir': conv.default(templates_dir),
             },

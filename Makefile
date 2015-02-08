@@ -1,33 +1,27 @@
-STATIC_DIR=openchordcharts_web_site/static
+all: check
 
-all: check build-dev
-
-build-dev: install
-	./node_modules/.bin/gulp dev
-
-build-prod: install
-	./node_modules/.bin/gulp prod
+build-prod: install-npm-prod clean-js-dist
+	./node_modules/.bin/webpack -p --config webpack-production.config.js
 
 check: jshint
 
 clean: clean-js-dist
 
 clean-js-dist:
-	./node_modules/.bin/gulp clean:dist
+	rm -rf dist
 
 ctags:
-	ctags --recurse=yes --exclude=node_modules --exclude=${STATIC_DIR}/dist .
+	ctags --recurse=yes --exclude=dist --exclude=node_modules .
 
-install:
+install-npm:
 	npm install
 
-jshint: clean-js-dist
-	./node_modules/.bin/jsxhint ${STATIC_DIR}/js | sed 's/ line \([0-9]\+\), col \([0-9]\+\), /\1:\2:/'
+install-npm-prod:
+	npm install --production
 
-upgrade:
-	npm-check-updates -u; npm install
+jshint:
+	./node_modules/.bin/jsxhint js
 
-update-i18n: update-i18n-js
-
-watch:
-	./node_modules/.bin/gulp watch
+update-npm-modules:
+	[ -f ./node_modules/.bin/npm-check-updates ] || npm install
+	./node_modules/.bin/npm-check-updates -u; npm install

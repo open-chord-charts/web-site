@@ -42,5 +42,8 @@ def index(req):
     appconfig_json = json.dumps({
         'apiBaseUrl': conf['api.base_url']
         })
-    index_str = index_template_str.format(appconfig_json=appconfig_json)
+    index_str = index_template_str.format(
+        appconfig_json=appconfig_json,
+        bundle_url_prefix=conf['bundle_url_prefix'],
+        )
     return index_str
