@@ -87,7 +87,10 @@ var Chart = React.createClass({
   },
   handleSaveClick: function() {
     // TODO save data
-    this.setState({edited: false});
+    this.setState({
+      edited: false,
+      selectedBar: null,
+    });
   },
   handleWidthChange: function() {
     var componentWidth = this.getDOMNode().offsetWidth;
