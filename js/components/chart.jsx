@@ -27,7 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var {Link} = require('react-router'),
+var Immutable = require('immutable'),
+  {Link} = require('react-router'),
   React = require('react/addons'),
   t = require('transducers.js');
 
@@ -61,6 +62,17 @@ var Chart = React.createClass({
       key: this.props.chart.key,
       selectedBar: null,
     };
+  },
+  handleBarAdd(partName) {
+    var newChord = {
+      alterations: null,
+      degree: 0,
+      duration: 1,
+    };
+    var newChart = Immutable.fromJS(this.state.chart)
+      .updateIn(['parts', partName], (chords) => chords.push(newChord))
+      .toJS();
+    this.setState({chart: newChart});
   },
   handleBarSelect(partName, partIndex) {
     this.setState({selectedBar: {partIndex, partName}});
@@ -158,6 +170,7 @@ var Chart = React.createClass({
             <ChartGrid
               barsByPartName={barsByPartName}
               edited={this.state.edited}
+              onBarAdd={this.state.edited ? this.handleBarAdd : null}
               onBarSelect={this.state.edited ? this.handleBarSelect : null}
               selectedBar={this.state.selectedBar}
               structure={chart.structure}

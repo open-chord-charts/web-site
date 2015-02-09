@@ -38,6 +38,7 @@ var ChartGrid = React.createClass({
     barsByPartName: React.PropTypes.object.isRequired,
     edited: React.PropTypes.bool,
     nbBarsByRow: React.PropTypes.number.isRequired,
+    onBarAdd: React.PropTypes.func,
     onBarSelect: React.PropTypes.func,
     partNameColumnWidth: React.PropTypes.number.isRequired,
     selectedBar: propTypes.selectedBar,
@@ -53,8 +54,6 @@ var ChartGrid = React.createClass({
       selectedBarBorderWidth: 3,
       tableRowHeight: 60,
     };
-  },
-  handleAddBarClick(partName) {
   },
   handleBarKeyPress(evt, barChords) {
     console.log(barChords);
@@ -140,14 +139,15 @@ var ChartGrid = React.createClass({
         {
           this.props.edited && (
             <td
-             style={{
-               textAlign: 'center',
-               verticalAlign: 'middle',
-             }}
+              style={{
+                minWidth: chordColumnWidth,
+                textAlign: 'center',
+                verticalAlign: 'middle',
+              }}
             >
               <button
                 className='btn btn-default'
-                onClick={() => this.handleAddBarClick(partName)}
+                onClick={() => this.props.onBarAdd ? this.props.onBarAdd(partName) : null}
               >
                 +
               </button>
