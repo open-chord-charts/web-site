@@ -42,6 +42,9 @@ var About = require('./components/about'),
   RegisterHandler = require('./components/register-handler');
 
 
+require('6to5-core/polyfill');
+
+
 global.authEvents = new EventEmitter();
 global.loadingEvents = new EventEmitter();
 

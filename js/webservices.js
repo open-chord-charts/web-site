@@ -69,14 +69,15 @@ function deleteChart(slug) {
 
 
 function fetchAccount(slug) {
-  return fetchCharts().then((charts) => charts.filter((chart) => chart.owner.slug === slug));
+  return fetchCharts().then(
+    (charts) => charts.filter((chart) => chart.owner.slug === slug)
+  );
 }
 
 
 function fetchChart(slug) {
   return fetchCharts().then(
-    // TODO use Array.find
-    (charts) => charts.filter((chart) => chart.slug === slug)[0]
+    (charts) => charts.find((chart) => chart.slug === slug)
   );
 }
 
