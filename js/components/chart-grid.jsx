@@ -54,6 +54,8 @@ var ChartGrid = React.createClass({
       tableRowHeight: 60,
     };
   },
+  handleAddBarClick(partName) {
+  },
   handleBarKeyPress: function(evt, barChords) {
     console.log(barChords);
     // var newChordStr = evt.key;
@@ -133,8 +135,25 @@ var ChartGrid = React.createClass({
             >
               {this.renderBar(barChords,  chordColumnWidth)}
             </td>
+          ))
+        }
+        {
+          this.props.edited && (
+            <td
+             style={{
+               textAlign: 'center',
+               verticalAlign: 'middle',
+             }}
+            >
+              <button
+                className='btn btn-default'
+                onClick={() => this.handleAddBarClick(partName)}
+              >
+                +
+              </button>
+            </td>
           )
-        )}
+        }
       </tr>
     );
   },
