@@ -41,15 +41,15 @@ var NavBar = React.createClass({
     loading: React.PropTypes.bool,
     loggedInUsername: React.PropTypes.string,
   },
-  handleSignInClick: function(evt) {
+  handleSignInClick(evt) {
     evt.preventDefault();
     auth.login();
   },
-  handleSignOutClick: function(evt) {
+  handleSignOutClick(evt) {
     evt.preventDefault();
     auth.logout();
   },
-  render: function() {
+  render() {
     var query = this.getQuery();
     return (
       <nav className="navbar navbar-default navbar-static-top">

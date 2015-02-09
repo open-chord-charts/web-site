@@ -46,14 +46,14 @@ var Chart = React.createClass({
     chart: propTypes.chart.isRequired,
     loggedInUsername: React.PropTypes.string,
   },
-  componentDidMount: function() {
+  componentDidMount() {
     window.onresize = this.handleWidthChange;
     this.handleWidthChange();
   },
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     window.onresize = null;
   },
-  getInitialState: function() {
+  getInitialState() {
     return {
       chart: this.props.chart,
       chartGridWidth: null,
@@ -62,41 +62,41 @@ var Chart = React.createClass({
       selectedBar: null,
     };
   },
-  handleBarSelect: function(partName, partIndex) {
+  handleBarSelect(partName, partIndex) {
     this.setState({selectedBar: {partIndex, partName}});
   },
-  handleChartKeyChange: function(newChartKey) {
+  handleChartKeyChange(newChartKey) {
     this.setState({key: newChartKey});
   },
-  handleChordKeyChange: function(newChordKey) {
+  handleChordKeyChange(newChordKey) {
     console.log('handleChordChange', newChordKey);
     // var newChart = this.state.chart; // TODO immutable
     // newChart.parts[partName][idx] = newChord;
     // this.setState({chart: newChart});
   },
-  handleCloneClick: function(event) {
+  handleCloneClick(event) {
     console.log(event);
   },
-  handleDeleteClick: function() {
+  handleDeleteClick() {
     if (confirm(`Delete this chart (${this.state.chart.title})?`)) {
       webservices.deleteChart(this.state.chart.slug);
     }
   },
-  handleEditClick: function() {
+  handleEditClick() {
     this.setState({edited: true});
   },
-  handleSaveClick: function() {
+  handleSaveClick() {
     // TODO save data
     this.setState({
       edited: false,
       selectedBar: null,
     });
   },
-  handleWidthChange: function() {
+  handleWidthChange() {
     var componentWidth = this.getDOMNode().offsetWidth;
     this.setState({chartGridWidth: componentWidth});
   },
-  render: function() {
+  render() {
     var chart = this.state.chart;
     var barsByPartName = t.map(
       chart.parts,
@@ -179,7 +179,7 @@ var Chart = React.createClass({
       </div>
     );
   },
-  renderActionsToolbar: function() {
+  renderActionsToolbar() {
     var loggedInUsername = this.props.loggedInUsername;
     var isOwner = loggedInUsername === this.state.chart.owner.username;
     var buttons = [];
@@ -225,7 +225,7 @@ var Chart = React.createClass({
     }
     return buttons;
   },
-  renderInterpretation: function(interpretation) {
+  renderInterpretation(interpretation) {
     var label = interpretation.interpreterName;
     if (interpretation.year) {
       label += ` (${interpretation.year})`;

@@ -40,10 +40,10 @@ var RegisterForm = React.createClass({
   statics: {
     attemptedTransition: null
   },
-  getInitialState: function() {
+  getInitialState() {
     return {error: null};
   },
-  handleSubmit: function(event) {
+  handleSubmit(event) {
     event.preventDefault();
     var username = this.refs.username.getDOMNode().value;
     var password = this.refs.password.getDOMNode().value;
@@ -63,7 +63,7 @@ var RegisterForm = React.createClass({
       }
     });
   },
-  render: function() {
+  render() {
     return (
       <form onSubmit={this.handleSubmit}>
         {this.state.error && <p className='text-danger'>{this.state.error.message}</p>}

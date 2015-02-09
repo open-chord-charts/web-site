@@ -34,7 +34,7 @@ var NavBar = require('./navbar');
 
 
 var App = React.createClass({
-  componentDidMount: function() {
+  componentDidMount() {
     var timer;
     global.loadingEvents.on('loadStart', () => {
       clearTimeout(timer);
@@ -56,13 +56,13 @@ var App = React.createClass({
       this.setState({loggedInUsername: null});
     });
   },
-  getInitialState: function() {
+  getInitialState() {
     return {
       loading: false,
       loggedInUsername: sessionStorage.loggedInUsername || null,
     };
   },
-  render: function() {
+  render() {
     return (
       <div>
         <NavBar loading={this.state.loading} loggedInUsername={this.state.loggedInUsername} />

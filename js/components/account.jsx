@@ -34,11 +34,11 @@ var webservices = require('../webservices');
 
 var Account = React.createClass({
   statics: {
-    fetchData: function(params) {
+    fetchData(params) {
       return webservices.fetchAccount(params.slug);
     },
   },
-  render: function() {
+  render() {
     return (
       <div>
         <div className='page-header'>

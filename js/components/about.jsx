@@ -31,7 +31,7 @@ var React = require('react');
 
 
 var About = React.createClass({
-  render: function() {
+  render() {
     return (
       <div>
         <div className='page-header'>

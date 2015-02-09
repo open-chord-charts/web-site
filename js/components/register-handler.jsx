@@ -37,7 +37,7 @@ var RegisterHandler = React.createClass({
   propTypes: {
     appState: propTypes.appState.isRequired,
   },
-  render: function() {
+  render() {
     return (
       <div>
         <div className="page-header">

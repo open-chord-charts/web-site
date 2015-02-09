@@ -39,11 +39,11 @@ var Charts = React.createClass({
     charts: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   },
   statics: {
-    fetchData: function(params, query) {
+    fetchData(params, query) {
       return webservices.fetchCharts({ownerSlug: query.owner});
     },
   },
-  render: function() {
+  render() {
     var query = this.getQuery();
     return (
       <div>

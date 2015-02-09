@@ -37,7 +37,7 @@ var ChordEditToolbar = React.createClass({
     chordKey: React.PropTypes.string.isRequired,
     onChordChange: React.PropTypes.func.isRequired,
   },
-  render: function() {
+  render() {
     return (
       <KeySelect onChange={this.props.onChordChange} value={this.props.chordKey} />
     );

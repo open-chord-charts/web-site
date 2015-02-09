@@ -44,11 +44,11 @@ var ChartHandler = React.createClass({
     chart: propTypes.chart,
   },
   statics: {
-    fetchData: function(params) {
+    fetchData(params) {
       return webservices.fetchChart(params.slug);
     },
   },
-  render: function() {
+  render() {
     return this.props.chart ? (
       <Chart chart={this.props.chart} loggedInUsername={this.props.appState.loggedInUsername} />
     ) : (

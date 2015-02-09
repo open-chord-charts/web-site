@@ -37,10 +37,10 @@ var KeySelect = React.createClass({
     onChange: React.PropTypes.func.isRequired,
     value: React.PropTypes.string.isRequired,
   },
-  handleChange: function(event) {
+  handleChange(event) {
     this.props.onChange(event.target.value);
   },
-  render: function() {
+  render() {
     return (
       <select className='form-control' onChange={this.handleChange} value={this.props.value}>
         {model.chromaticKeys.map((key, idx) => <option key={idx}>{key}</option>)}
