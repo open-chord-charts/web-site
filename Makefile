@@ -1,6 +1,6 @@
 all: check
 
-build-prod: install-npm-prod clean-js-dist
+build-prod: install-npm clean-js-dist
 	./node_modules/.bin/webpack -p --config webpack-production.config.js
 
 check: jshint
@@ -15,9 +15,6 @@ ctags:
 
 install-npm:
 	npm install
-
-install-npm-prod:
-	npm install --production
 
 jshint:
 	./node_modules/.bin/jsxhint js
