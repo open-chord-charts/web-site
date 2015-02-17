@@ -36,7 +36,7 @@ var webservices = require('../webservices');
 var Charts = React.createClass({
   mixins: [State],
   propTypes: {
-    charts: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+    charts: React.PropTypes.arrayOf(React.PropTypes.object),
   },
   statics: {
     fetchData(params, query) {
@@ -50,15 +50,21 @@ var Charts = React.createClass({
         <div className="page-header">
           <h1>List of charts {query.owner && <small>of {query.owner}</small>}</h1>
         </div>
-        <ul>
-          {
-            this.props.charts.map((chart, idx) => (
-              <li key={idx}>
-                <Link to='chart' params={chart}>{chart.title}</Link>
-              </li>
-            ))
-          }
-        </ul>
+        {
+          this.props.charts ? (
+            <ul>
+              {
+                this.props.charts.map((chart, idx) => (
+                  <li key={idx}>
+                    <Link to='chart' params={chart}>{chart.title}</Link>
+                  </li>
+                ))
+              }
+            </ul>
+          ) : (
+            <p>No charts!</p>
+          )
+        }
       </div>
     );
   },
