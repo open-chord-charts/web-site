@@ -29,6 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 var React = require('react');
 
+var packageJSON = require('../../package.json');
+
 
 var About = React.createClass({
   render() {
@@ -37,7 +39,7 @@ var About = React.createClass({
         <div className='page-header'>
           <h1>About</h1>
         </div>
-        <p>bouh</p>
+        <p>Version {packageJSON.version}</p>
       </div>
     );
   },

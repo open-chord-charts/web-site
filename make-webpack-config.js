@@ -19,7 +19,12 @@ module.exports = function(options) {
           exclude: /node_modules/,
           loaders: options.devServer ? ['react-hot', '6to5-loader'] : ['6to5-loader'],
           test: /\.jsx?$/,
-        }
+        },
+        {
+          exclude: /node_modules/,
+          loader: 'json-loader',
+          test: /\.json$/,
+        },
       ]
     },
     output: {
