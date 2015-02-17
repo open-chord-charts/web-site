@@ -71,7 +71,7 @@ var NavBar = React.createClass({
               <li className={cx({active: this.isActive('about')})}><Link to='about'>About</Link></li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
-              {this.props.loading && <li><p className='navbar-text'>Loading</p></li>}
+              {this.props.loading && <li><p className='navbar-text'>Loading…</p></li>}
               {
                 this.props.loggedInUsername ? (
                   <li><a href='#' onClick={this.handleSignOutClick}>Sign Out ({this.props.loggedInUsername})</a></li>
