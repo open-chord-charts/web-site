@@ -1,0 +1,19 @@
+{
+    "ecmaFeatures": {
+        "arrowFunctions": true,
+        "defaultParams": true,
+        "jsx": true,
+        "objectLiteralShorthandProperties": true,
+        "templateStrings": true,
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+    },
+    "rules": {
+      "global-strict": 0,
+      "no-comma-dangle": 0, // removed by 6to5 transform
+      "no-use-before-define": [2, "nofunc"],
+      "quotes": [2, "single", "avoid-escape"],
+    }
+}
