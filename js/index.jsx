@@ -50,7 +50,7 @@ global.loadingEvents = new EventEmitter();
 
 
 function bootstrap() {
-  var appElement = document.getElementById('app');
+  var appMountPointElement = document.getElementById('app-mount-point');
   var routes = (
     <Route handler={App}>
       <NotFoundRoute handler={NotFound} />
@@ -66,11 +66,12 @@ function bootstrap() {
     routes: routes,
   });
   router.run((Handler, state) => {
+    React.render(<Handler />, appMountPointElement);
     global.loadingEvents.emit('loadStart');
     fetchData(state.routes, state.params, state.query)
     .then((data) => {
       global.loadingEvents.emit('loadEnd');
-      React.render(<Handler {...data} />, appElement);
+      React.render(<Handler {...data} />, appMountPointElement);
     })
     .done();
   });
