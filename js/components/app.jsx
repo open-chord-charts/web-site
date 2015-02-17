@@ -64,7 +64,7 @@ var App = React.createClass({
   },
   render() {
     return (
-      <div>
+      <div className='app'>
         <NavBar loading={this.state.loading} loggedInUsername={this.state.loggedInUsername} />
         <div className='container'>
           <RouteHandler {...this.props} appState={this.state} />
