@@ -31,8 +31,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 function xhrPromise(url, options) {
   options = options || {};
-  if (options.useCache && xhrPromise._cache[url]) {
-    return Promise.resolve(xhrPromise._cache[url]);
+  if (options.useCache && xhrPromise.cache[url]) {
+    return Promise.resolve(xhrPromise.cache[url]);
   }
   return new Promise((resolve, reject) => {
     var req = new XMLHttpRequest();
@@ -43,7 +43,7 @@ function xhrPromise(url, options) {
         var data = JSON.parse(req.response);
         resolve(data);
         if (options.useCache) {
-          xhrPromise._cache[url] = data;
+          xhrPromise.cache[url] = data;
         }
       }
     };
@@ -54,7 +54,7 @@ function xhrPromise(url, options) {
     req.send(options.formData);
   });
 }
-xhrPromise._cache = {};
+xhrPromise.cache = {};
 
 
 // Data manipulation
