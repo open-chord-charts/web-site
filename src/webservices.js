@@ -27,6 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
+const API_BASE_URL = 'http://localhost:3000';
+
+
 // HTTP functions
 
 function xhrPromise(url, options) {
@@ -59,7 +62,7 @@ xhrPromise.cache = {};
 
 // Data manipulation
 
-var CHARTS_URL = `${global.appconfig.apiBaseUrl}/charts`;
+var CHARTS_URL = `${API_BASE_URL}/charts`;
 
 
 function deleteChart(slug) {
@@ -100,19 +103,19 @@ function fetchCharts(query = null) {
 // Authentication
 
 function login() {
-  var url = `${global.appconfig.apiBaseUrl}/login`;
+  var url = `${API_BASE_URL}/login`;
   return xhrPromise(url, {beforeSend: (req) => { req.withCredentials = true; }});
 }
 
 
 function logout() {
-  var url = `${global.appconfig.apiBaseUrl}/logout`;
+  var url = `${API_BASE_URL}/logout`;
   return xhrPromise(url, {beforeSend: (req) => { req.withCredentials = true; }});
 }
 
 
 function register(username, password, email) {
-  var url = `${global.appconfig.apiBaseUrl}/register`;
+  var url = `${API_BASE_URL}/register`;
   var formData = new FormData();
   formData.append('username', username);
   formData.append('password', password);

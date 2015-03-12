@@ -1,7 +1,7 @@
 var webpack = require('webpack');
 
 
-var indexFile = __dirname + '/js/index.jsx';
+var indexFile = __dirname + '/src/index.jsx';
 
 
 module.exports = function(options) {
@@ -9,7 +9,7 @@ module.exports = function(options) {
     debug: options.devServer,
     devtool: options.devServer ? 'source-map' : null,
     entry: options.devServer ? [
-      'webpack-dev-server/client?http://localhost:3002',
+      'webpack-dev-server/client',
       'webpack/hot/only-dev-server',
       indexFile,
     ] : indexFile,
@@ -30,7 +30,7 @@ module.exports = function(options) {
     output: {
       filename: 'bundle.js',
       path: __dirname + '/dist',
-      publicPath: options.devServer ? 'http://localhost:3002/dist/' : null,
+      publicPath: options.devServer ? '/dist' : null,
     },
     plugins: options.devServer ? [
       new webpack.HotModuleReplacementPlugin(),
