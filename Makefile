@@ -1,17 +1,19 @@
+DEV_SERVER_BIN=./node_modules/.bin/webpack-dev-server
+
+
 all: check
 
-build-prod: install-npm clean-js-dist
+build-prod: install-npm
 	./node_modules/.bin/webpack -p --config webpack-production.config.js
 
 check: eslint
 
-clean: clean-js-dist
-
-clean-js-dist:
-	rm -rf dist
-
 ctags:
-	ctags --recurse=yes --exclude=dist --exclude=node_modules .
+	ctags --recurse=yes --exclude=node_modules .
+
+dev-server:
+	@($(DEV_SERVER_BIN) || echo "Run \"npm install\" first.") && exit 1
+	$(DEV_SERVER_BIN) --content-base public
 
 eslint:
 	./node_modules/.bin/eslint js
