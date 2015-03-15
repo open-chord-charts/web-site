@@ -49,7 +49,7 @@ global.authEvents = new EventEmitter();
 global.loadingEvents = new EventEmitter();
 
 
-function bootstrap() {
+function bootstrapApplication() {
   var appMountPointElement = document.getElementById('app-mount-point');
   var routes = (
     <Route handler={App}>
@@ -88,4 +88,4 @@ function fetchData(routes, params, query) {
 }
 
 
-bootstrap();
+bootstrapApplication();
