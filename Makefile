@@ -12,7 +12,6 @@ ctags:
 	ctags --recurse=yes --exclude=node_modules .
 
 dev-server:
-	@($(DEV_SERVER_BIN) || echo "Run \"npm install\" first.") && exit 1
 	$(DEV_SERVER_BIN) --content-base public
 
 eslint:
