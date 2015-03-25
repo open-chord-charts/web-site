@@ -46,8 +46,8 @@ module.exports = function(options) {
       ],
     },
     output: {
-      filename: options.production ? 'app.[hash].js' : 'app.js',
-      path: options.production ? './dist' : './build',
+      filename: 'app.js',
+      path: './public',
       publicPath: '',
     },
     plugins: options.production ? [
