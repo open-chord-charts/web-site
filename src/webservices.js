@@ -27,37 +27,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-const API_BASE_URL = 'http://localhost:3000/api/1';
+var qs = require('querystringify');
 
 
-// HTTP functions
+var fetch = global.fetch;
 
-function xhrPromise(url, options) {
-  options = options || {};
-  if (options.useCache && xhrPromise.cache[url]) {
-    return Promise.resolve(xhrPromise.cache[url]);
+
+// Cache
+
+var dataByUrl = new Map();
+
+function fetchCachedJSON(url, options) {
+  if (dataByUrl.has(url)) {
+    return Promise.resolve(dataByUrl.get(url));
+  } else {
+    return fetchJSON(url, options)
+      .then(data => {
+        dataByUrl.set(url, data);
+        return data;
+      });
   }
-  return new Promise((resolve, reject) => {
-    var req = new XMLHttpRequest();
-    req.onload = function() {
-      if (req.status === 404) {
-        reject(new Error('not found'));
-      } else {
-        var data = JSON.parse(req.response);
-        resolve(data);
-        if (options.useCache) {
-          xhrPromise.cache[url] = data;
-        }
-      }
-    };
-    req.open(options.formData ? 'POST' : 'GET', url);
-    if(options.beforeSend) {
-      options.beforeSend(req);
-    }
-    req.send(options.formData);
-  });
 }
-xhrPromise.cache = {};
+
+function fetchJSON(url, options) {
+  return fetch(url, options).then(response => response.json());
+}
 
 
 // Data manipulation
@@ -67,36 +61,28 @@ var CHARTS_URL = `${API_BASE_URL}/charts`;
 
 function deleteChart(slug) {
   var url = `${CHARTS_URL}/${slug}/delete`;
-  return xhrPromise(url, {beforeSend: (req) => { req.withCredentials = true; }});
+  return fetch(url);
+  // return fetch(url, {credentials: 'core'});
 }
 
 
 function fetchAccount(slug) {
-  return fetchCharts().then(
-    (charts) => charts.filter((chart) => chart.owner.slug === slug)
-  );
+  return fetchCharts().then(charts => charts.filter(chart => chart.owner.slug === slug));
 }
 
 
 function fetchChart(slug) {
-  return fetchCharts().then(
-    (charts) => charts.find((chart) => chart.slug === slug)
-  );
+  return fetchCharts().then(charts => charts.find(chart => chart.slug === slug));
 }
 
 
-function fetchCharts(query = null) {
+function fetchCharts(query = {}) {
   var url = CHARTS_URL;
-  var queryString = '';
-  if (query && query.ownerSlug) {
-    queryString += `ownerSlug=${query.ownerSlug}`;
+  if (Object.keys(query).length) {
+    query = {ownerSlug: query.owner}; // Rename route params to endpoint GET params.
+    url += qs.stringify(query, true);
   }
-  if (queryString) {
-    url += `?${queryString}`;
-  }
-  return xhrPromise(url, {useCache: true}).then((res) => {
-    return res.charts;
-  });
+  return fetchCachedJSON(url).then(data => data.charts);
 }
 
 
@@ -104,13 +90,13 @@ function fetchCharts(query = null) {
 
 function login() {
   var url = `${API_BASE_URL}/login`;
-  return xhrPromise(url, {beforeSend: (req) => { req.withCredentials = true; }});
+  return fetchJSON(url, {credentials: 'cors'});
 }
 
 
 function logout() {
   var url = `${API_BASE_URL}/logout`;
-  return xhrPromise(url, {beforeSend: (req) => { req.withCredentials = true; }});
+  return fetchJSON(url, {credentials: 'cors'});
 }
 
 
@@ -120,8 +106,7 @@ function register(username, password, email) {
   formData.append('username', username);
   formData.append('password', password);
   formData.append('email', email);
-  return xhrPromise(url, {formData: formData});
-
+  return fetchJSON(url, {body: formData, method: 'post'});
 }
 
 

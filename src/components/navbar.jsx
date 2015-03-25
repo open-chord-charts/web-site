@@ -27,16 +27,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var React = require('react/addons'),
-  {Link, State} = require('react-router');
+var classNames = require('classnames'),
+  React = require('react/addons'),
+  {Link} = require('react-router');
 
 var auth = require('../auth');
 
-var cx = React.addons.classSet;
-
 
 var NavBar = React.createClass({
-  mixins: [State],
+  contextTypes: {
+    router: React.PropTypes.func.isRequired
+  },
   propTypes: {
     loading: React.PropTypes.bool,
     loggedInUsername: React.PropTypes.string,
@@ -50,7 +51,8 @@ var NavBar = React.createClass({
     auth.logout();
   },
   render() {
-    var query = this.getQuery();
+    var {router} = this.context;
+    var params = router.getCurrentParams();
     return (
       <nav className="navbar navbar-default navbar-static-top">
         <div className="container">
@@ -65,10 +67,10 @@ var NavBar = React.createClass({
           </div>
           <div id="navbar" className="navbar-collapse collapse">
             <ul className="nav navbar-nav">
-              <li className={cx({active: this.isActive('charts') && ! query.owner})}>
-                <Link to='charts'>Home</Link>
+              <li className={classNames({active: router.isActive('charts') && ! params.owner})}>
+                <Link to='charts'>Charts</Link>
               </li>
-              <li className={cx({active: this.isActive('about')})}><Link to='about'>About</Link></li>
+              <li className={classNames({active: router.isActive('about')})}><Link to='about'>About</Link></li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
               {this.props.loading && <li><p className='navbar-text'>Loading…</p></li>}
@@ -77,7 +79,7 @@ var NavBar = React.createClass({
                   <li><a href='#' onClick={this.handleSignOutClick}>Sign Out ({this.props.loggedInUsername})</a></li>
                 ) : [
                   (
-                    <li className={cx({active: this.isActive('register')})} key='register'>
+                    <li className={classNames({active: router.isActive('register')})} key='register'>
                       <Link to='register'>Register</Link>
                     </li>
                   ),

@@ -36,7 +36,6 @@ var NavBar = require('./navbar');
 // Bootstrap
 
 require('bootstrap/dist/css/bootstrap.css');
-global.jQuery = require('jquery/dist/jquery.js');
 require('bootstrap/dist/js/bootstrap.js');
 
 

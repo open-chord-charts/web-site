@@ -39,11 +39,10 @@ var ChordEditToolbar = require('./chord-edit-toolbar'),
   propTypes = require('../prop-types'),
   webservices = require('../webservices');
 
-var cx = React.addons.classSet;
-
 
 var Chart = React.createClass({
   propTypes: {
+    // TODO Remove nest level of chart.
     chart: propTypes.chart.isRequired,
     loggedInUsername: React.PropTypes.string,
   },
@@ -205,11 +204,7 @@ var Chart = React.createClass({
       } else {
         var editButton = (
           <button
-            className={cx({
-              active: this.state.edited,
-              btn: true,
-              'btn-default': true,
-            })}
+            className='btn btn-default'
             key='edit'
             onClick={this.handleEditClick}
           >

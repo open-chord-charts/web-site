@@ -28,27 +28,39 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 var React = require('react'),
-  {Link, State} = require('react-router');
+  {Link} = require('react-router');
 
 var webservices = require('../webservices');
 
 
 var Charts = React.createClass({
-  mixins: [State],
+  contextTypes: {
+    router: React.PropTypes.func.isRequired
+  },
   propTypes: {
+    errors: React.PropTypes.object,
     charts: React.PropTypes.arrayOf(React.PropTypes.object),
   },
   statics: {
     fetchData(params, query) {
-      return webservices.fetchCharts({ownerSlug: query.owner});
+      return webservices.fetchCharts(query);
     },
   },
   render() {
-    var query = this.getQuery();
+    var {router} = this.context;
+    var params = router.getCurrentParams();
+    var error = this.props.errors && this.props.errors.charts;
     return (
       <div>
+        {
+          error && (
+            <div className='alert alert-danger'>
+              Unable to fetch charts: "{error.message}".
+            </div>
+          )
+        }
         <div className="page-header">
-          <h1>List of charts {query.owner && <small>of {query.owner}</small>}</h1>
+          <h1>List of charts {params.owner && <small>of {params.owner}</small>}</h1>
         </div>
         {
           this.props.charts ? (

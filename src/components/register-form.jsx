@@ -27,12 +27,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var React = require('react'),
+var classNames = require('classnames'),
+  React = require('react'),
   {Navigation} = require('react-router');
 
 var webservices = require('../webservices');
-
-var cx = React.addons.classSet;
 
 
 var RegisterForm = React.createClass({
@@ -67,11 +66,11 @@ var RegisterForm = React.createClass({
     return (
       <form onSubmit={this.handleSubmit}>
         {this.state.error && <p className='text-danger'>{this.state.error.message}</p>}
-        <div className={cx({'form-group': true, 'has-error': this.state.error})}>
+        <div className={classNames('form-group', {'has-error': this.state.error})}>
           <label className='sr-only' htmlFor='inputUsername'>Username</label>
           <input className='form-control' id='inputUsername' placeholder='Username' ref='username' required />
         </div>
-        <div className={cx({'form-group': true, 'has-error': this.state.error})}>
+        <div className={classNames('form-group', {'has-error': this.state.error})}>
           <label htmlFor='inputPassword' className='sr-only'>Password</label>
           <input
             className='form-control'
@@ -82,7 +81,7 @@ var RegisterForm = React.createClass({
             type='password'
           />
         </div>
-        <div className={cx({'form-group': true, 'has-error': this.state.error})}>
+        <div className={classNames('form-group', {'has-error': this.state.error})}>
           <label className='sr-only' htmlFor='inputEmail'>Email</label>
           <input className='form-control' id='inputEmail' placeholder='Email' ref='email' required type="email" />
           {

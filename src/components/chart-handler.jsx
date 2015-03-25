@@ -41,6 +41,7 @@ var ChartHandler = React.createClass({
       loading: React.PropTypes.bool,
       loggedInUsername: React.PropTypes.string,
     }).isRequired,
+    errors: React.PropTypes.object,
     chart: propTypes.chart,
   },
   statics: {
@@ -49,11 +50,28 @@ var ChartHandler = React.createClass({
     },
   },
   render() {
-    return this.props.chart ? (
-      <Chart chart={this.props.chart} loggedInUsername={this.props.appState.loggedInUsername} />
-    ) : (
-      <NotFound />
-    );
+    var error = this.props.errors && this.props.errors.chart;
+    if (this.props.chart) {
+      return (
+        <Chart chart={this.props.chart} loggedInUsername={this.props.appState.loggedInUsername} />
+      );
+    } else if (this.props.appState.loading) {
+      return (
+        <div className='page-header'>
+          <h1>Loading…</h1>
+        </div>
+      );
+    } else if (error) {
+      return (
+        <div className='alert alert-danger'>
+          Unable to fetch chart: "{error.message}".
+        </div>
+      );
+    } else {
+      return (
+        <NotFound />
+      );
+    }
   },
 });
 

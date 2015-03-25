@@ -28,17 +28,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 var React = require('react');
+var Router = require('react-router');
+var {DefaultRoute, NotFoundRoute, Redirect, Route} = Router;
+
+var About = require('./components/about'),
+  Account = require('./components/account'),
+  App = require('./components/app'),
+  ChartHandler = require('./components/chart-handler'),
+  Charts = require('./components/charts'),
+  NotFound = require('./components/not-found'),
+  RegisterHandler = require('./components/register-handler');
 
 
-var NotFound = React.createClass({
-  render() {
-    return (
-      <div className='page-header'>
-        <h1>Not found</h1>
-      </div>
-    );
-  },
-});
+var routes = (
+  <Route handler={App}>
+    <NotFoundRoute handler={NotFound} />
+    <Route name='about' handler={About} />
+    <Route name='account' path='accounts/:slug' handler={Account} />
+    <Route path='charts'>
+      <Route name='chart' path=':slug' handler={ChartHandler} />
+      <DefaultRoute name='charts' handler={Charts} />
+    </Route>
+    <Route name='register' path='register' handler={RegisterHandler} />
+    <Redirect from='/' to='charts' />
+  </Route>
+);
 
 
-module.exports = NotFound;
+module.exports = routes;
