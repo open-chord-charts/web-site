@@ -50,7 +50,9 @@ module.exports = function(options) {
       path: './public',
       publicPath: '',
     },
-    plugins: options.production ? [
+    plugins: [
+      new webpack.ProvidePlugin({'jQuery': 'jquery'}),
+    ].concat(options.production ? [
       new webpack.DefinePlugin({
         API_BASE_URL: JSON.stringify('//api.openchordcharts.org/api/1'),
       }),
@@ -74,8 +76,7 @@ module.exports = function(options) {
       new webpack.DefinePlugin({
         API_BASE_URL: JSON.stringify('//localhost:3000/api/1'),
       }),
-      new webpack.ProvidePlugin({'jQuery': 'jquery'}),
-    ],
+    ]),
     resolve: {
       extensions: ['', '.js', '.jsx']
     }
