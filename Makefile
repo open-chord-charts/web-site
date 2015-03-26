@@ -1,9 +1,12 @@
 all: check
 
-build-prod: install-npm
+build-prod: install-npm clean
 	./node_modules/.bin/webpack -p --config webpack-prod.config.js
 
 check: eslint
+
+clean:
+	rm -rf dist
 
 ctags:
 	ctags --recurse=yes --exclude=node_modules .
