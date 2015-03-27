@@ -1,6 +1,6 @@
 all: check
 
-build-prod: install-npm clean
+build-prod: install-npm
 	./node_modules/.bin/webpack -p --config webpack-prod.config.js
 
 check: eslint
