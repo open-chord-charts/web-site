@@ -36,7 +36,6 @@ var propTypes = require('../prop-types');
 var ChartsList = React.createClass({
   propTypes: {
     charts: React.PropTypes.arrayOf(propTypes.chart),
-    owner: React.PropTypes.string,
   },
   render() {
     return this.props.charts ? (

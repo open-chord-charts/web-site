@@ -51,7 +51,7 @@ var ChartsHandler = React.createClass({
   render() {
     var error = this.props.errors && this.props.errors.charts;
     var {router} = this.context;
-    var params = router.getCurrentParams();
+    var query = router.getCurrentQuery();
     var content;
     if (this.props.appState.loading) {
       content = this.props.appState.loading === 'slow' ? (
@@ -65,13 +65,13 @@ var ChartsHandler = React.createClass({
       );
     } else {
       content = (
-        <ChartsList charts={this.props.charts} owner={params.owner} />
+        <ChartsList charts={this.props.charts} />
       );
     }
     return (
       <div>
         <div className="page-header">
-            <h1>Charts {this.props.owner && <small>of {this.props.owner}</small>}</h1>
+          <h1>Charts {query.owner && <small>belonging to {query.owner}</small>}</h1>
         </div>
         {content}
       </div>
