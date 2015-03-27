@@ -27,19 +27,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var React = require('react'),
-  {Link} = require('react-router');
+var React = require('react');
 
-var webservices = require('../webservices');
+var ChartsList = require('../charts-list'),
+  propTypes = require('../../prop-types'),
+  webservices = require('../../webservices');
 
 
-var Charts = React.createClass({
+var ChartsHandler = React.createClass({
   contextTypes: {
     router: React.PropTypes.func.isRequired
   },
   propTypes: {
+    appState: propTypes.appState.isRequired,
+    charts: React.PropTypes.arrayOf(propTypes.chart),
     errors: React.PropTypes.object,
-    charts: React.PropTypes.arrayOf(React.PropTypes.object),
   },
   statics: {
     fetchData(params, query) {
@@ -47,40 +49,35 @@ var Charts = React.createClass({
     },
   },
   render() {
+    var error = this.props.errors && this.props.errors.charts;
     var {router} = this.context;
     var params = router.getCurrentParams();
-    var error = this.props.errors && this.props.errors.charts;
+    var content;
+    if (this.props.appState.loading) {
+      content = this.props.appState.loading === 'slow' ? (
+        <p>Loading…</p>
+      ) : null;
+    } else if (error) {
+      content = (
+        <div className='alert alert-danger'>
+          Unable to fetch charts: "{error.message}".
+        </div>
+      );
+    } else {
+      content = (
+        <ChartsList charts={this.props.charts} owner={params.owner} />
+      );
+    }
     return (
       <div>
-        {
-          error && (
-            <div className='alert alert-danger'>
-              Unable to fetch charts: "{error.message}".
-            </div>
-          )
-        }
         <div className="page-header">
-          <h1>List of charts {params.owner && <small>of {params.owner}</small>}</h1>
+            <h1>Charts {this.props.owner && <small>of {this.props.owner}</small>}</h1>
         </div>
-        {
-          this.props.charts ? (
-            <ul>
-              {
-                this.props.charts.map((chart, idx) => (
-                  <li key={idx}>
-                    <Link to='chart' params={chart}>{chart.title}</Link>
-                  </li>
-                ))
-              }
-            </ul>
-          ) : (
-            <p>No charts!</p>
-          )
-        }
+        {content}
       </div>
     );
   },
 });
 
 
-module.exports = Charts;
+module.exports = ChartsHandler;

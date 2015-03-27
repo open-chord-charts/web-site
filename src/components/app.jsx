@@ -44,11 +44,12 @@ var App = React.createClass({
     var timer;
     global.loadingEvents.on('loadStart', () => {
       clearTimeout(timer);
+      this.setState({loading: true});
       // for slow responses, indicate the app is thinking
       // otherwise its fast enough to just wait for the
       // data to load
       timer = setTimeout(() => {
-        this.setState({loading: true});
+        this.setState({loading: 'slow'});
       }, 300);
     });
     global.loadingEvents.on('loadEnd', () => {
@@ -64,14 +65,14 @@ var App = React.createClass({
   },
   getInitialState() {
     return {
-      loading: false,
+      loading: true,
       loggedInUsername: sessionStorage.loggedInUsername || null,
     };
   },
   render() {
     return (
       <div className='app'>
-        <NavBar loading={this.state.loading} loggedInUsername={this.state.loggedInUsername} />
+        <NavBar appState={this.state} loggedInUsername={this.state.loggedInUsername} />
         <div className='container'>
           <RouteHandler {...this.props} appState={this.state} />
         </div>

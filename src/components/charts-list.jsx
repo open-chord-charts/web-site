@@ -27,27 +27,33 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var React = require('react');
+var React = require('react'),
+  {Link} = require('react-router');
 
-var webservices = require('../webservices');
+var propTypes = require('../prop-types');
 
 
-var Account = React.createClass({
-  statics: {
-    fetchData(params) {
-      return webservices.fetchAccount(params.slug);
-    },
+var ChartsList = React.createClass({
+  propTypes: {
+    charts: React.PropTypes.arrayOf(propTypes.chart),
+    owner: React.PropTypes.string,
   },
   render() {
-    return (
-      <div>
-        <div className='page-header'>
-          <h1>Account</h1>
-        </div>
-      </div>
+    return this.props.charts ? (
+      <ul>
+        {
+          this.props.charts.map((chart, idx) => (
+            <li key={idx}>
+              <Link to='chart' params={chart}>{chart.title}</Link>
+            </li>
+          ))
+        }
+      </ul>
+    ) : (
+      <p>No charts!</p>
     );
   },
 });
 
 
-module.exports = Account;
+module.exports = ChartsList;

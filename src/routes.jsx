@@ -32,22 +32,22 @@ var Router = require('react-router');
 var {DefaultRoute, NotFoundRoute, Redirect, Route} = Router;
 
 var About = require('./components/about'),
-  Account = require('./components/account'),
+  AccountHandler = require('./components/route-handlers/account-handler'),
   App = require('./components/app'),
-  ChartHandler = require('./components/chart-handler'),
-  Charts = require('./components/charts'),
+  ChartPageHandler = require('./components/route-handlers/chart-page-handler'),
+  ChartsHandler = require('./components/route-handlers/charts-handler'),
   NotFound = require('./components/not-found'),
-  RegisterHandler = require('./components/register-handler');
+  RegisterHandler = require('./components/route-handlers/register-handler');
 
 
 var routes = (
   <Route handler={App}>
     <NotFoundRoute handler={NotFound} />
     <Route name='about' handler={About} />
-    <Route name='account' path='accounts/:slug' handler={Account} />
+    <Route name='account' path='accounts/:slug' handler={AccountHandler} />
     <Route path='charts'>
-      <Route name='chart' path=':slug' handler={ChartHandler} />
-      <DefaultRoute name='charts' handler={Charts} />
+      <Route name='chart' path=':slug' handler={ChartPageHandler} />
+      <DefaultRoute name='charts' handler={ChartsHandler} />
     </Route>
     <Route name='register' path='register' handler={RegisterHandler} />
     <Redirect from='/' to='charts' />

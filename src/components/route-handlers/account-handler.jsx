@@ -29,51 +29,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 var React = require('react');
 
-var Chart = require('./chart'),
-  NotFound = require('./not-found'),
-  propTypes = require('../prop-types'),
-  webservices = require('../webservices');
+var webservices = require('../../webservices');
 
 
-var ChartHandler = React.createClass({
-  propTypes: {
-    appState: React.PropTypes.shape({
-      loading: React.PropTypes.bool,
-      loggedInUsername: React.PropTypes.string,
-    }).isRequired,
-    errors: React.PropTypes.object,
-    chart: propTypes.chart,
-  },
+var AccountHandler = React.createClass({
   statics: {
     fetchData(params) {
-      return webservices.fetchChart(params.slug);
+      return webservices.fetchAccount(params.slug);
     },
   },
   render() {
-    var error = this.props.errors && this.props.errors.chart;
-    if (this.props.chart) {
-      return (
-        <Chart chart={this.props.chart} loggedInUsername={this.props.appState.loggedInUsername} />
-      );
-    } else if (this.props.appState.loading) {
-      return (
+    return (
+      <div>
         <div className='page-header'>
-          <h1>Loading…</h1>
+          <h1>Account</h1>
         </div>
-      );
-    } else if (error) {
-      return (
-        <div className='alert alert-danger'>
-          Unable to fetch chart: "{error.message}".
-        </div>
-      );
-    } else {
-      return (
-        <NotFound />
-      );
-    }
+      </div>
+    );
   },
 });
 
 
-module.exports = ChartHandler;
+module.exports = AccountHandler;

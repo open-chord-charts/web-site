@@ -40,7 +40,7 @@ var ChordEditToolbar = require('./chord-edit-toolbar'),
   webservices = require('../webservices');
 
 
-var Chart = React.createClass({
+var ChartPage = React.createClass({
   propTypes: {
     // TODO Remove nest level of chart.
     chart: propTypes.chart.isRequired,
@@ -265,4 +265,4 @@ var Chart = React.createClass({
 });
 
 
-module.exports = Chart;
+module.exports = ChartPage;

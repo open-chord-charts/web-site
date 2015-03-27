@@ -31,7 +31,10 @@ var React = require('react');
 
 
 var appState = React.PropTypes.shape({
-  loading: React.PropTypes.bool,
+  loading: React.PropTypes.oneOfType([
+    React.PropTypes.bool,
+    React.PropTypes.string,
+  ]),
   loggedInUsername: React.PropTypes.string,
 });
 

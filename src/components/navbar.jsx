@@ -31,7 +31,8 @@ var classNames = require('classnames'),
   React = require('react/addons'),
   {Link} = require('react-router');
 
-var auth = require('../auth');
+var auth = require('../auth'),
+  propTypes = require('../prop-types');
 
 
 var NavBar = React.createClass({
@@ -39,7 +40,7 @@ var NavBar = React.createClass({
     router: React.PropTypes.func.isRequired
   },
   propTypes: {
-    loading: React.PropTypes.bool,
+    appState: propTypes.appState.isRequired,
     loggedInUsername: React.PropTypes.string,
   },
   handleSignInClick(evt) {
@@ -73,7 +74,7 @@ var NavBar = React.createClass({
               <li className={classNames({active: router.isActive('about')})}><Link to='about'>About</Link></li>
             </ul>
             <ul className="nav navbar-nav navbar-right">
-              {this.props.loading && <li><p className='navbar-text'>Loading…</p></li>}
+              {this.props.appState.loading === 'slow' && <li><p className='navbar-text'>Loading…</p></li>}
               {
                 this.props.loggedInUsername ? (
                   <li><a href='#' onClick={this.handleSignOutClick}>Sign Out ({this.props.loggedInUsername})</a></li>
