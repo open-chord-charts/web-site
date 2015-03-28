@@ -31,9 +31,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 require('isomorphic-fetch');
 
 
-var EventEmitter = require('events').EventEmitter,
-  React = require('react'),
-  Router = require('react-router');
+var EventEmitter = require('events').EventEmitter;
+var React = require('react');
+var Router = require('react-router');
 
 var routes = require('./routes');
 

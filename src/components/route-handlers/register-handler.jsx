@@ -29,8 +29,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 var React = require('react');
 
-var propTypes = require('../../prop-types'),
-  RegisterForm = require('../register-form');
+var propTypes = require('../../prop-types');
+var RegisterForm = require('../register-form');
 
 
 var RegisterHandler = React.createClass({

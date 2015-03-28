@@ -27,17 +27,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var classNames = require('classnames'),
-  React = require('react/addons'),
-  {Link} = require('react-router');
+var {Link} = require('react-router');
+var classNames = require('classnames');
+var React = require('react/addons');
 
-var auth = require('../auth'),
-  propTypes = require('../prop-types');
+var auth = require('../auth');
+var propTypes = require('../prop-types');
 
 
 var NavBar = React.createClass({
   contextTypes: {
-    router: React.PropTypes.func.isRequired
+    router: React.PropTypes.func.isRequired,
   },
   propTypes: {
     appState: propTypes.appState.isRequired,

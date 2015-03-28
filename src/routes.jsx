@@ -27,17 +27,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
+var {DefaultRoute, NotFoundRoute, Redirect, Route} = require('react-router');
 var React = require('react');
-var Router = require('react-router');
-var {DefaultRoute, NotFoundRoute, Redirect, Route} = Router;
 
-var About = require('./components/about'),
-  AccountHandler = require('./components/route-handlers/account-handler'),
-  App = require('./components/app'),
-  ChartPageHandler = require('./components/route-handlers/chart-page-handler'),
-  ChartsHandler = require('./components/route-handlers/charts-handler'),
-  NotFound = require('./components/not-found'),
-  RegisterHandler = require('./components/route-handlers/register-handler');
+var About = require('./components/about');
+var AccountHandler = require('./components/route-handlers/account-handler');
+var App = require('./components/app');
+var ChartPageHandler = require('./components/route-handlers/chart-page-handler');
+var ChartsHandler = require('./components/route-handlers/charts-handler');
+var NotFound = require('./components/not-found');
+var RegisterHandler = require('./components/route-handlers/register-handler');
 
 
 var routes = (

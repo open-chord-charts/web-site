@@ -27,8 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var React = require('react'),
-  t = require('transducers.js');
+var React = require('react');
+var t = require('transducers.js');
 
 var propTypes = require('../prop-types');
 

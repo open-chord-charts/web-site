@@ -27,17 +27,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var Immutable = require('immutable'),
-  {Link} = require('react-router'),
-  React = require('react/addons'),
-  t = require('transducers.js');
+var {Link} = require('react-router');
+var Immutable = require('immutable');
+var React = require('react/addons');
+var t = require('transducers.js');
 
-var ChordEditToolbar = require('./chord-edit-toolbar'),
-  ChartGrid = require('./chart-grid'),
-  KeySelect = require('./key-select'),
-  model = require('../model'),
-  propTypes = require('../prop-types'),
-  webservices = require('../webservices');
+var ChartGrid = require('./chart-grid');
+var ChordEditToolbar = require('./chord-edit-toolbar');
+var KeySelect = require('./key-select');
+var model = require('../model');
+var propTypes = require('../prop-types');
+var webservices = require('../webservices');
 
 
 var ChartPage = React.createClass({

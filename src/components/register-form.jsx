@@ -27,9 +27,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var classNames = require('classnames'),
-  React = require('react'),
-  {Navigation} = require('react-router');
+var classNames = require('classnames');
+var React = require('react');
+var {Navigation} = require('react-router');
 
 var webservices = require('../webservices');
 

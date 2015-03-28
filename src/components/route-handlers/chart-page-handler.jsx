@@ -29,10 +29,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 var React = require('react');
 
-var ChartPage = require('../chart-page'),
-  NotFound = require('../not-found'),
-  propTypes = require('../../prop-types'),
-  webservices = require('../../webservices');
+var ChartPage = require('../chart-page');
+var NotFound = require('../not-found');
+var propTypes = require('../../prop-types');
+var webservices = require('../../webservices');
 
 
 var ChartPageHandler = React.createClass({

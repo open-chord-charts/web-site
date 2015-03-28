@@ -27,8 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var Immutable = require('immutable'),
-  t = require('transducers.js');
+var Immutable = require('immutable');
+var t = require('transducers.js');
 
 
 var chromaticKeys = ['Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G'];

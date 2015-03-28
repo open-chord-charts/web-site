@@ -27,8 +27,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var React = require('react'),
-  {RouteHandler} = require('react-router');
+var React = require('react');
+var {RouteHandler} = require('react-router');
 
 var NavBar = require('./navbar');
 

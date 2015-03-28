@@ -29,14 +29,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 var React = require('react');
 
-var ChartsList = require('../charts-list'),
-  propTypes = require('../../prop-types'),
-  webservices = require('../../webservices');
+var ChartsList = require('../charts-list');
+var propTypes = require('../../prop-types');
+var webservices = require('../../webservices');
 
 
 var ChartsHandler = React.createClass({
   contextTypes: {
-    router: React.PropTypes.func.isRequired
+    router: React.PropTypes.func.isRequired,
   },
   propTypes: {
     appState: propTypes.appState.isRequired,
