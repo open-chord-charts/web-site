@@ -30,39 +30,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 var React = require('react');
 
 
-var appState = React.PropTypes.shape({
-  loading: React.PropTypes.oneOfType([
-    React.PropTypes.bool,
-    React.PropTypes.string,
+const PT = React.PropTypes;
+
+
+var appState = PT.shape({
+  loading: PT.oneOfType([
+    PT.bool,
+    PT.string,
   ]),
-  loggedInUsername: React.PropTypes.string,
+  loggedInUsername: PT.string,
 });
 
 
-var chart = React.PropTypes.shape({
-  key: React.PropTypes.string.isRequired,
-  composers: React.PropTypes.arrayOf(React.PropTypes.string),
-  compositionYear: React.PropTypes.number,
-  genre: React.PropTypes.string,
-  interpretations: React.PropTypes.arrayOf(React.PropTypes.shape({
-    externalLinks: React.PropTypes.arrayOf(React.PropTypes.string),
-    interpreterName: React.PropTypes.string,
-    year: React.PropTypes.number,
+var chart = PT.shape({
+  key: PT.string.isRequired,
+  composers: PT.arrayOf(PT.string),
+  compositionYear: PT.number,
+  genre: PT.string,
+  interpretations: PT.arrayOf(PT.shape({
+    externalLinks: PT.arrayOf(PT.string),
+    interpreterName: PT.string,
+    year: PT.number,
   })),
-  owner: React.PropTypes.shape({
-    slug: React.PropTypes.string.isRequired,
-    username: React.PropTypes.string.isRequired,
+  owner: PT.shape({
+    slug: PT.string.isRequired,
+    username: PT.string.isRequired,
   }).isRequired,
-  parts: React.PropTypes.object.isRequired,
-  slug: React.PropTypes.string.isRequired,
-  structure: React.PropTypes.arrayOf(React.PropTypes.string).isRequired,
-  title: React.PropTypes.string.isRequired,
+  parts: PT.object.isRequired,
+  slug: PT.string.isRequired,
+  structure: PT.arrayOf(PT.string).isRequired,
+  title: PT.string.isRequired,
 });
 
 
-var selectedBar = React.PropTypes.shape({
-  partIndex: React.PropTypes.number.isRequired,
-  partName: React.PropTypes.string.isRequired,
+var selectedBar = PT.shape({
+  partIndex: PT.number.isRequired,
+  partName: PT.string.isRequired,
 });
 
 
