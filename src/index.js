@@ -28,8 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 // Polyfills, loaded at the very first.
-
-require('babel-core/polyfill');
 require('isomorphic-fetch');
 
 
