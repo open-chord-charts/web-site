@@ -28,10 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 var React = require('react');
-var {RaisedButton} = require('material-ui');
 
 var auth = require('../../auth');
-var ChartsList = require('../charts-list');
+var ChartsPage = require('../charts-page');
 var propTypes = require('../../prop-types');
 var webservices = require('../../webservices');
 
@@ -73,16 +72,7 @@ var ChartsHandler = React.createClass({
       );
     } else {
       content = (
-        <div className='clearfix'>
-          <ChartsList charts={this.props.charts} />
-          <div style={{float: 'right', marginTop: 24}}>
-            {
-              this.props.appState.loggedInUsername ?
-                <RaisedButton label='Logout' onTouchTap={this.handleLogoutTouchTap} /> :
-                <RaisedButton label='Login' onTouchTap={this.handleLoginTouchTap} />
-            }
-          </div>
-        </div>
+        <ChartsPage charts={this.props.charts} loggedInUsername={this.props.appState.loggedInUsername} />
       );
     }
     return (
