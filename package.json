@@ -3,7 +3,11 @@
   "version": "0.0.5",
   "description": "Open Chord Charts - web site",
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server --config webpack.config.js --hot --progress --colors --inline",
+    "analyze": "jq '.modules | sort_by(.size) | .[] | {name: .name, size: .size}' stats.json",
+    "build:prod": "webpack -p --config webpack-prod.config.js --json > stats.json",
+    "clean": "rm -rf dist stats.json",
+    "ctags": "ctags --recurse=yes --exclude=node_modules .",
+    "start": "webpack-dev-server --hot --progress --colors --inline",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
