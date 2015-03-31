@@ -39,10 +39,7 @@ var RegisterHandler = React.createClass({
   },
   render() {
     return (
-      <div>
-        <div className="page-header">
-          <h1>Registration form</h1>
-        </div>
+      <div className='page-with-nav-content'>
         {
           this.props.appState.loggedInUsername ? (
             <p>Please sign out first.</p>

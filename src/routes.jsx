@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 var {DefaultRoute, NotFoundRoute, Redirect, Route} = require('react-router');
 var React = require('react');
 
-var About = require('./components/about');
+var AboutPage = require('./components/about-page');
 var AccountHandler = require('./components/route-handlers/account-handler');
 var App = require('./components/app');
 var ChartPageHandler = require('./components/route-handlers/chart-page-handler');
@@ -42,7 +42,7 @@ var RegisterHandler = require('./components/route-handlers/register-handler');
 var routes = (
   <Route handler={App}>
     <NotFoundRoute handler={NotFound} />
-    <Route name='about' handler={About} />
+    <Route name='about' handler={AboutPage} />
     <Route name='account' path='accounts/:slug' handler={AccountHandler} />
     <Route path='charts'>
       <Route name='chart' path=':slug' handler={ChartPageHandler} />

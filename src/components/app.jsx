@@ -94,9 +94,7 @@ var App = React.createClass({
         />
         <AppLeftNav appState={this.state} ref='leftNav' />
         <div className='mui-app-content-canvas'>
-          <div className='page-with-nav-content'>
-            <RouteHandler {...this.props} appState={this.state} />
-          </div>
+          <RouteHandler {...this.props} appState={this.state} />
         </div>
       </AppCanvas>
     );

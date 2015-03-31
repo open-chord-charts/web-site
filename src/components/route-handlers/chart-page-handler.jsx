@@ -49,7 +49,9 @@ var ChartPageHandler = React.createClass({
   render() {
     if (this.props.chart) {
       return (
-        <ChartPage chart={this.props.chart} loggedInUsername={this.props.appState.loggedInUsername} />
+        <div className='page-with-nav-content'>
+          <ChartPage chart={this.props.chart} loggedInUsername={this.props.appState.loggedInUsername} />
+        </div>
       );
     } else if (this.props.appState.loading) {
       return this.props.appState.loading === 'slow' ? <h1>Loading…</h1> : null;

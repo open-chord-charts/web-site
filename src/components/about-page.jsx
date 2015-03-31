@@ -32,10 +32,10 @@ var React = require('react');
 var constants = require('../constants');
 
 
-var About = React.createClass({
+var AboutPage = React.createClass({
   render() {
     return (
-      <div>
+      <div className='page-with-nav-content'>
         <h1>Open Chord Charts</h1>
         <p>Version {constants.VERSION}</p>
       </div>
@@ -44,4 +44,4 @@ var About = React.createClass({
 });
 
 
-module.exports = About;
+module.exports = AboutPage;

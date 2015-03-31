@@ -46,12 +46,14 @@ var ChartsPage = React.createClass({
     return (
       <div className='charts-page'>
         <ChartsList charts={this.props.charts} />
-        <div style={{float: 'right', marginTop: 24}}>
-          {
-            this.props.loggedInUsername ?
-              <RaisedButton label='Logout' onTouchTap={this.handleLogoutTouchTap} /> :
-              <RaisedButton label='Login' onTouchTap={this.handleLoginTouchTap} />
-          }
+        <div className='clearfix page-with-nav-content'>
+          <div style={{float: 'right'}}>
+            {
+              this.props.loggedInUsername ?
+                <RaisedButton label='Logout' onTouchTap={this.handleLogoutTouchTap} /> :
+                <RaisedButton label='Login' onTouchTap={this.handleLoginTouchTap} />
+            }
+          </div>
         </div>
       </div>
     );
