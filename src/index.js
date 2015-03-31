@@ -47,8 +47,6 @@ function bootstrapApplication() {
   // https://github.com/zilverline/react-tap-event-plugin
   injectTapEventPlugin();
 
-  require('./main.less');
-
   global.authEvents = new EventEmitter();
   global.loadingEvents = new EventEmitter();
 
