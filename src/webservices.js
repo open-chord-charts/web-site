@@ -29,11 +29,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 var qs = require('querystringify');
 
+var constants = require('./constants');
 
-var fetch = global.fetch;
 
-
-// Cache
+// Generic fetch functions
 
 var dataByUrl = new Map();
 
@@ -50,19 +49,23 @@ function fetchCachedJSON(url, options) {
 }
 
 function fetchJSON(url, options) {
-  return fetch(url, options).then(response => response.json());
+  return fetch(url, options).then(json);
+}
+
+
+function json(response) {
+  return response.json();
 }
 
 
 // Data manipulation
 
-var CHARTS_URL = `${API_BASE_URL}/charts`;
+var CHARTS_URL = `${constants.API_BASE_URL}/charts`;
 
 
 function deleteChart(slug) {
   var url = `${CHARTS_URL}/${slug}/delete`;
-  return fetch(url);
-  // return fetch(url, {credentials: 'core'});
+  return fetch(url, {credentials: 'cors'});
 }
 
 
@@ -89,19 +92,19 @@ function fetchCharts(query = {}) {
 // Authentication
 
 function login() {
-  var url = `${API_BASE_URL}/login`;
+  var url = `${constants.API_BASE_URL}/login`;
   return fetchJSON(url, {credentials: 'cors'});
 }
 
 
 function logout() {
-  var url = `${API_BASE_URL}/logout`;
+  var url = `${constants.API_BASE_URL}/logout`;
   return fetchJSON(url, {credentials: 'cors'});
 }
 
 
 function register(username, password, email) {
-  var url = `${API_BASE_URL}/register`;
+  var url = `${constants.API_BASE_URL}/register`;
   var formData = new FormData();
   formData.append('username', username);
   formData.append('password', password);

@@ -28,21 +28,30 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 // Polyfills, loaded at the very first.
+require('babel-core/polyfill');
 require('isomorphic-fetch');
 
 
 var EventEmitter = require('events').EventEmitter;
+var injectTapEventPlugin = require("react-tap-event-plugin");
 var React = require('react');
 var Router = require('react-router');
 
 var routes = require('./routes');
 
 
-global.authEvents = new EventEmitter();
-global.loadingEvents = new EventEmitter();
-
-
 function bootstrapApplication() {
+  // Needed for onTouchTap
+  // Can go away when react 1.0 release
+  // Check this repo:
+  // https://github.com/zilverline/react-tap-event-plugin
+  injectTapEventPlugin();
+
+  require('./main.less');
+
+  global.authEvents = new EventEmitter();
+  global.loadingEvents = new EventEmitter();
+
   var appMountPointElement = document.getElementById('app-mount-point');
   var router = Router.create({routes});
   router.run((Handler, state) => {
@@ -72,10 +81,11 @@ function fetchData(routes, params, query) {
       .filter(route => route.handler.fetchData)
       .map(
         route => route.handler.fetchData(params, query)
-          .then(
-            handlerData => { data[route.name] = handlerData; },
-            error => { errors[route.name] = error; }
-          )
+          .then(handlerData => { data[route.name] = handlerData; })
+          .catch(error => {
+            console.error(error);
+            errors[route.name] = error;
+          })
       )
   ).then(() => {
     if (Object.keys(errors).length > 0) {

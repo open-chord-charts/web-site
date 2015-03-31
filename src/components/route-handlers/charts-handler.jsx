@@ -28,7 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 var React = require('react');
+var {RaisedButton} = require('material-ui');
 
+var auth = require('../../auth');
 var ChartsList = require('../charts-list');
 var propTypes = require('../../prop-types');
 var webservices = require('../../webservices');
@@ -45,11 +47,17 @@ var ChartsHandler = React.createClass({
   },
   statics: {
     fetchData(params, query) {
+      // query is used when user clicks on chart owner, to open a list of charts belonging to this owner.
       return webservices.fetchCharts(query);
     },
   },
+  handleLoginTouchTap() {
+    auth.login();
+  },
+  handleLogoutTouchTap() {
+    auth.logout();
+  },
   render() {
-    var error = this.props.errors && this.props.errors.charts;
     var {router} = this.context;
     var query = router.getCurrentQuery();
     var content;
@@ -57,22 +65,29 @@ var ChartsHandler = React.createClass({
       content = this.props.appState.loading === 'slow' ? (
         <p>Loading…</p>
       ) : null;
-    } else if (error) {
+    } else if (this.props.errors && this.props.errors.charts) {
       content = (
         <div className='alert alert-danger'>
-          Unable to fetch charts: "{error.message}".
+          Unable to fetch data from API.
         </div>
       );
     } else {
       content = (
-        <ChartsList charts={this.props.charts} />
+        <div className='clearfix'>
+          <ChartsList charts={this.props.charts} />
+          <div style={{float: 'right', marginTop: 24}}>
+            {
+              this.props.appState.loggedInUsername ?
+                <RaisedButton label='Logout' onTouchTap={this.handleLogoutTouchTap} /> :
+                <RaisedButton label='Login' onTouchTap={this.handleLoginTouchTap} />
+            }
+          </div>
+        </div>
       );
     }
     return (
       <div>
-        <div className="page-header">
-          <h1>Charts {query.owner && <small>belonging to {query.owner}</small>}</h1>
-        </div>
+        {query.owner && <h2>belonging to {query.owner}</h2>}
         {content}
       </div>
     );

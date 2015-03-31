@@ -47,21 +47,16 @@ var ChartPageHandler = React.createClass({
     },
   },
   render() {
-    var error = this.props.errors && this.props.errors.chart;
     if (this.props.chart) {
       return (
         <ChartPage chart={this.props.chart} loggedInUsername={this.props.appState.loggedInUsername} />
       );
     } else if (this.props.appState.loading) {
-      return this.props.appState.loading === 'slow' ? (
-        <div className='page-header'>
-          <h1>Loading…</h1>
-        </div>
-      ) : null;
-    } else if (error) {
+      return this.props.appState.loading === 'slow' ? <h1>Loading…</h1> : null;
+    } else if (this.props.errors && this.props.errors.chart) {
       return (
         <div className='alert alert-danger'>
-          Unable to fetch chart: "{error.message}".
+          Unable to fetch data from API.
         </div>
       );
     } else {

@@ -19,29 +19,10 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-@flow weak
 */
 
 
-'use strict';
-
-
-var React = require('react');
-
-var constants = require('../constants');
-
-
-var About = React.createClass({
-  render() {
-    return (
-      <div>
-        <h1>Open Chord Charts</h1>
-        <p>Version {constants.VERSION}</p>
-      </div>
-    );
-  },
-});
-
-
-module.exports = About;
+.page-with-nav-content {
+  padding: @desktop-gutter;
+  max-width: (@desktop-keyline-increment * 14);
+}

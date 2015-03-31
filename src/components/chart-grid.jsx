@@ -79,7 +79,11 @@ var ChartGrid = React.createClass({
       (kv) => [kv[0], t.partition(kv[1], this.props.nbBarsByRow)]
     );
     return (
-      <table className='table table-bordered' style={{width: 'initial'}}>
+      <table
+        style={{
+          border: '1px solid #ddd',
+        }}
+      >
         <tbody>
           {
             this.props.structure.map(
@@ -103,10 +107,16 @@ var ChartGrid = React.createClass({
   },
   renderPartRow(partName, bars, chordColumnWidth) {
     return (
-      <tr style={{height: this.props.tableRowHeight}}>
+      <tr
+        style={{
+          border: '1px solid #ddd',
+          height: this.props.tableRowHeight,
+        }}
+      >
         <td
           className='text-center'
           style={{
+            border: '1px solid #ddd',
             fontStyle: 'italic',
             height: this.props.tableRowHeight,
             lineHeight: 0,
@@ -122,6 +132,7 @@ var ChartGrid = React.createClass({
               key={idx}
               onClick={() => this.props.onBarSelect ? this.props.onBarSelect(partName, idx) : null}
               style={{
+                border: '1px solid #ddd',
                 borderWidth: this.props.selectedBar &&
                   this.props.selectedBar.partName === partName &&
                   this.props.selectedBar.partIndex === idx ? this.props.selectedBarBorderWidth : null,

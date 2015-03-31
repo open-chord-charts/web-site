@@ -27,21 +27,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var React = require('react');
-
-var constants = require('../constants');
-
-
-var About = React.createClass({
-  render() {
-    return (
-      <div>
-        <h1>Open Chord Charts</h1>
-        <p>Version {constants.VERSION}</p>
-      </div>
-    );
-  },
-});
+/*
+This file concentrates all the constants coming from webpack configuration file via DefinePlugin,
+so the JS modules require it explicit and avoid "magical" constants substitution,
+and also avoid jshint "undefined variable" errors.
+*/
 
 
-module.exports = About;
+module.exports = {API_BASE_URL, VERSION};

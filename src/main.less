@@ -19,29 +19,12 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-@flow weak
 */
 
 
-'use strict';
+@import '~material-ui/src/less/scaffolding.less';
+@import '~material-ui/src/less/components.less';
 
-
-var React = require('react');
-
-var constants = require('../constants');
-
-
-var About = React.createClass({
-  render() {
-    return (
-      <div>
-        <h1>Open Chord Charts</h1>
-        <p>Version {constants.VERSION}</p>
-      </div>
-    );
-  },
-});
-
-
-module.exports = About;
+@import 'components/app.less';
+@import 'components/app-left-nav.less';
+@import 'components/list.less';

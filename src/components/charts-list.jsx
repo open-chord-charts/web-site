@@ -27,27 +27,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var {Link} = require('react-router');
 var React = require('react');
 
+var List = require('./list');
 var propTypes = require('../prop-types');
 
 
 var ChartsList = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.func.isRequired,
+  },
   propTypes: {
     charts: React.PropTypes.arrayOf(propTypes.chart),
   },
+  handleItemTouchTap(item) {
+    this.context.router.transitionTo('chart', {slug: item.slug});
+  },
   render() {
     return this.props.charts ? (
-      <ul>
-        {
-          this.props.charts.map((chart, idx) => (
-            <li key={idx}>
-              <Link to='chart' params={chart}>{chart.title}</Link>
-            </li>
-          ))
-        }
-      </ul>
+      <List items={this.props.charts} onTouchTap={this.handleItemTouchTap} />
     ) : (
       <p>No charts!</p>
     );

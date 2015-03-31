@@ -56,7 +56,7 @@ var ChartPage = React.createClass({
   getInitialState() {
     return {
       chart: this.props.chart,
-      chartGridWidth: null,
+      chartGridWidth: null, // TODO Use flexbox instead of computing column widths manually.
       edited: false,
       key: this.props.chart.key,
       selectedBar: null,
@@ -89,8 +89,9 @@ var ChartPage = React.createClass({
     console.log(event);
   },
   handleDeleteClick() {
-    if (confirm(`Delete this chart (${this.state.chart.title})?`)) {
-      webservices.deleteChart(this.state.chart.slug);
+    var {slug, title} = this.state.chart;
+    if (confirm(`Delete this chart (${title})?`)) {
+      webservices.deleteChart(slug);
     }
   },
   handleEditClick() {
@@ -108,16 +109,13 @@ var ChartPage = React.createClass({
     this.setState({chartGridWidth: componentWidth});
   },
   render() {
-    var chart = this.state.chart;
+    var {chart} = this.state;
     var barsByPartName = t.map(
       chart.parts,
       (kv) => [kv[0], model.chordsToBars(kv[1], this.state.key)]
     );
     return (
       <div>
-        <div className='page-header'>
-          <h1>{chart.title}</h1>
-        </div>
         {
           chart.composers && chart.compositionYear ? (
             <p>Composed by {chart.composers.join(', ')} in {chart.compositionYear}</p>
@@ -177,7 +175,6 @@ var ChartPage = React.createClass({
             />
           )
         }
-        <hr />
         <div className='row'>
           <div className='col-xs-10'>
             {this.renderActionsToolbar()}

@@ -27,19 +27,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var React = require('react');
+var {AppBar, AppCanvas, IconButton, Icons} = require('material-ui');
 var {RouteHandler} = require('react-router');
+var React = require('react');
 
-var NavBar = require('./navbar');
-
-
-// Bootstrap
-
-require('bootstrap/dist/css/bootstrap.css');
-require('bootstrap/dist/js/bootstrap.js');
+var AppLeftNav = require('./app-left-nav');
 
 
 var App = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.func.isRequired,
+  },
   componentDidMount() {
     var timer;
     global.loadingEvents.on('loadStart', () => {
@@ -69,14 +67,38 @@ var App = React.createClass({
       loggedInUsername: sessionStorage.loggedInUsername || null,
     };
   },
+  handleBackButtonTouchTap() {
+    this.context.router.transitionTo('charts');
+  },
+  handleMenuIconButtonTouchTap() {
+    this.refs.leftNav.toggle();
+  },
   render() {
+    var title = this.context.router.isActive('about') ? 'About' :
+      this.context.router.isActive('chart') ? this.props.chart && this.props.chart.title :
+      this.context.router.isActive('charts') ? 'Charts' :
+      this.context.router.isActive('register') ? 'Register' :
+      'Open Chord Charts';
+    var iconElementLeft = this.context.router.isActive('chart') ? (
+      <IconButton iconClassName={this.props.iconClassNameLeft} onTouchTap={this.handleBackButtonTouchTap}>
+        <Icons.NavigationChevronLeft />
+      </IconButton>
+    ) : null;
     return (
-      <div className='app'>
-        <NavBar appState={this.state} loggedInUsername={this.state.loggedInUsername} />
-        <div className='container'>
-          <RouteHandler {...this.props} appState={this.state} />
+      <AppCanvas predefinedLayout={1}>
+        <AppBar
+          iconElementLeft={iconElementLeft}
+          onMenuIconButtonTouchTap={this.handleMenuIconButtonTouchTap}
+          title={title}
+          zDepth={1}
+        />
+        <AppLeftNav appState={this.state} ref='leftNav' />
+        <div className='mui-app-content-canvas'>
+          <div className='page-with-nav-content'>
+            <RouteHandler {...this.props} appState={this.state} />
+          </div>
         </div>
-      </div>
+      </AppCanvas>
     );
   },
 });
