@@ -46,6 +46,7 @@ var ChartPage = React.createClass({
   propTypes: {
     // TODO Remove nest level of chart.
     chart: propTypes.chart.isRequired,
+    edited: React.PropTypes.bool,
     loggedInUsername: React.PropTypes.string,
   },
   componentDidMount() {
@@ -59,7 +60,6 @@ var ChartPage = React.createClass({
     return {
       chart: this.props.chart,
       chartGridWidth: null, // TODO Use flexbox instead of computing column widths manually.
-      edited: false,
       key: this.props.chart.key,
       selectedBar: null,
     };
@@ -96,16 +96,6 @@ var ChartPage = React.createClass({
       webservices.deleteChart(slug);
     }
   },
-  handleEditClick() {
-    this.setState({edited: true});
-  },
-  handleSaveClick() {
-    // TODO save data
-    this.setState({
-      edited: false,
-      selectedBar: null,
-    });
-  },
   handleWidthChange() {
     var componentWidth = this.getDOMNode().offsetWidth;
     this.setState({chartGridWidth: componentWidth});
@@ -118,6 +108,7 @@ var ChartPage = React.createClass({
     );
     return (
       <PageContainer>
+        <Link to='charts' query={{owner: chart.owner.slug}}>{chart.owner.username}</Link>
         {
           chart.composers && chart.compositionYear ? (
             <p>Composed by {chart.composers.join(', ')} in {chart.compositionYear}</p>
@@ -154,7 +145,7 @@ var ChartPage = React.createClass({
         <div>
           <KeySelect onChange={this.handleChartKeyChange} value={this.state.key} />
           {
-            this.state.edited && this.state.selectedBar &&
+            this.props.edited && this.state.selectedBar &&
             barsByPartName[this.state.selectedBar.partName][this.state.selectedBar.partIndex].map((barChord, idx) => (
               <ChordEditToolbar
                 chordKey={barChord.rendered}
@@ -168,9 +159,9 @@ var ChartPage = React.createClass({
           this.state.chartGridWidth && (
             <ChartGrid
               barsByPartName={barsByPartName}
-              edited={this.state.edited}
-              onBarAdd={this.state.edited ? this.handleBarAdd : null}
-              onBarSelect={this.state.edited ? this.handleBarSelect : null}
+              edited={this.props.edited}
+              onBarAdd={this.props.edited ? this.handleBarAdd : null}
+              onBarSelect={this.props.edited ? this.handleBarSelect : null}
               selectedBar={this.state.selectedBar}
               structure={chart.structure}
               width={this.state.chartGridWidth}
@@ -178,7 +169,6 @@ var ChartPage = React.createClass({
           )
         }
         {this.renderActionsToolbar()}
-        <Link to='charts' query={{owner: chart.owner.slug}}>{chart.owner.username}</Link>
       </PageContainer>
     );
   },
@@ -187,19 +177,10 @@ var ChartPage = React.createClass({
     var isOwner = loggedInUsername === this.state.chart.owner.username;
     var buttons = [];
     if (isOwner) {
-      if (this.state.edited) {
-        var saveButton = (
-          <Button key='save' onClick={this.handleSaveClick} raised={true}>Save</Button>
-        );
-        buttons.push(saveButton);
-      } else {
-        var editButton = (
-          <Button key='edit' onClick={this.handleEditClick} raised={true}>Edit</Button>
-        );
+      if (!this.props.edited) {
         var deleteButton = (
           <Button key='delete' onClick={this.handleDeleteClick} raised={true}>Delete</Button>
         );
-        buttons.push(editButton);
         buttons.push(deleteButton);
       }
     }

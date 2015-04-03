@@ -34,6 +34,7 @@ const PT = React.PropTypes;
 
 
 var appState = PT.shape({
+  edited: PT.bool,
   loading: PT.oneOfType([
     PT.bool,
     PT.string,

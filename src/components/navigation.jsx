@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var {AppBar, List, ListItem, Overlay, SideNavigation} = require('react-material').components;
+var {AppBar, IconButton, List, ListItem, Overlay, SideNavigation} = require('react-material').components;
 var {Colors} = require('react-material').style;
 var React = require('react');
 var StyleSheet = require('react-style');
@@ -40,7 +40,10 @@ var Navigation = React.createClass({
     router: React.PropTypes.func.isRequired,
   },
   propTypes: {
+    edited: React.PropTypes.bool,
     loggedInUsername: React.PropTypes.string,
+    onEdit: React.PropTypes.func,
+    onSave: React.PropTypes.func,
   },
   getInitialState() {
     return {
@@ -71,13 +74,22 @@ var Navigation = React.createClass({
     var {title} = this.props;
     var {router} = this.context;
     var isChartRoute = router.isActive('chart');
+    var actionButtons = isChartRoute ? [
+      this.props.edited ? (
+        <IconButton icon="publish" onClick={this.props.onSave} />
+      ) : (
+        <IconButton icon="mode-edit" onClick={this.props.onEdit} />
+      )
+    ] : null;
     return (
       <div>
         <AppBar
           onBackButtonClick={isChartRoute ? this.handleBackButtonClick : null}
           onNavButtonClick={isChartRoute ? null : this.handleNavButtonClick}
+          shadow={true}
           styles={Styles}
           title={title}
+          actionButtons={actionButtons}
         />
         <Overlay show={showSideNavigation} onClick={this.handleOverlayClick} />
         <SideNavigation show={showSideNavigation}>

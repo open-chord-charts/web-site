@@ -64,22 +64,39 @@ var App = React.createClass({
   },
   getInitialState() {
     return {
+      edited: false, // Is current displayed chart edited.
       loading: true,
       loggedInUsername: sessionStorage.loggedInUsername || null,
     };
   },
+  handleEdit() {
+    this.setState({edited: true});
+  },
+  handleSave() {
+    // TODO Really save chart.
+    this.setState({edited: false});
+  },
   render() {
     var {router} = this.context;
     var query = router.getCurrentQuery();
+    var {chart} = this.props;
     var title = router.isActive('about') ? 'About' :
-      router.isActive('chart') ? this.props.chart && this.props.chart.title :
-      router.isActive('charts') ?
-        (query.owner ? `Charts of ${query.owner}` : 'Charts') :
+      router.isActive('chart') ? (chart ? `${chart.title}${this.state.edited ? ' (edit mode)' : ''}` : null) :
+      router.isActive('charts') ? (query.owner ? `Charts of ${query.owner}` : 'Charts') :
       router.isActive('register') ? 'Register' :
       'Open Chord Charts';
+    var isChartRoute = router.isActive('chart');
+    var onEdit = isChartRoute && ! this.state.edited ? this.handleEdit : null;
+    var onSave = isChartRoute && this.state.edited ? this.handleSave : null;
     return (
       <div styles={{fontFamily: Typography.fontFamily}}>
-        <Navigation loggedInUsername={this.state.loggedInUsername} title={title} />
+        <Navigation
+          edited={this.state.edited}
+          loggedInUsername={this.state.loggedInUsername}
+          onEdit={onEdit}
+          onSave={onSave}
+          title={title}
+        />
         <div styles={Styles.belowNavigation}>
           <RouteHandler {...this.props} appState={this.state} />
         </div>
