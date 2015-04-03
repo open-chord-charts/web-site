@@ -29,7 +29,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 var React = require('react');
 
-var auth = require('../../auth');
 var ChartsPage = require('../charts-page');
 var propTypes = require('../../prop-types');
 var webservices = require('../../webservices');
@@ -50,12 +49,6 @@ var ChartsHandler = React.createClass({
       return webservices.fetchCharts(query);
     },
   },
-  handleLoginTouchTap() {
-    auth.login();
-  },
-  handleLogoutTouchTap() {
-    auth.logout();
-  },
   render() {
     var {router} = this.context;
     var query = router.getCurrentQuery();
@@ -66,9 +59,7 @@ var ChartsHandler = React.createClass({
       ) : null;
     } else if (this.props.errors && this.props.errors.charts) {
       content = (
-        <div className='alert alert-danger'>
-          Unable to fetch data from API.
-        </div>
+        <p>Unable to fetch data from API.</p>
       );
     } else {
       content = (

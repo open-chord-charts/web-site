@@ -35,7 +35,7 @@ var constants = require('../constants');
 var AboutPage = React.createClass({
   render() {
     return (
-      <div className='page-with-nav-content'>
+      <div>
         <h1>Open Chord Charts</h1>
         <p>Version {constants.VERSION}</p>
       </div>

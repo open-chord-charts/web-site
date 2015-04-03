@@ -28,6 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 var {Link} = require('react-router');
+var {Button} = require('react-material').components;
 var Immutable = require('immutable');
 var React = require('react/addons');
 var t = require('transducers.js');
@@ -36,6 +37,7 @@ var ChartGrid = require('./chart-grid');
 var ChordEditToolbar = require('./chord-edit-toolbar');
 var KeySelect = require('./key-select');
 var model = require('../model');
+var PageContainer = require('./page-container');
 var propTypes = require('../prop-types');
 var webservices = require('../webservices');
 
@@ -115,7 +117,7 @@ var ChartPage = React.createClass({
       (kv) => [kv[0], model.chordsToBars(kv[1], this.state.key)]
     );
     return (
-      <div>
+      <PageContainer>
         {
           chart.composers && chart.compositionYear ? (
             <p>Composed by {chart.composers.join(', ')} in {chart.compositionYear}</p>
@@ -149,7 +151,7 @@ var ChartPage = React.createClass({
             </p>
           )
         }
-        <div className='form-inline' style={{marginBottom: 10}}>
+        <div>
           <KeySelect onChange={this.handleChartKeyChange} value={this.state.key} />
           {
             this.state.edited && this.state.selectedBar &&
@@ -175,17 +177,9 @@ var ChartPage = React.createClass({
             />
           )
         }
-        <div className='row'>
-          <div className='col-xs-10'>
-            {this.renderActionsToolbar()}
-          </div>
-          <div className='col-xs-2'>
-            <p className='text-right'>
-              <Link to='charts' query={{owner: chart.owner.slug}}>{chart.owner.username}</Link>
-            </p>
-          </div>
-        </div>
-      </div>
+        {this.renderActionsToolbar()}
+        <Link to='charts' query={{owner: chart.owner.slug}}>{chart.owner.username}</Link>
+      </PageContainer>
     );
   },
   renderActionsToolbar() {
@@ -195,28 +189,15 @@ var ChartPage = React.createClass({
     if (isOwner) {
       if (this.state.edited) {
         var saveButton = (
-          <button className='btn btn-primary' key='save' onClick={this.handleSaveClick}>Save</button>
+          <Button key='save' onClick={this.handleSaveClick} raised={true}>Save</Button>
         );
         buttons.push(saveButton);
       } else {
         var editButton = (
-          <button
-            className='btn btn-default'
-            key='edit'
-            onClick={this.handleEditClick}
-          >
-            Edit
-          </button>
+          <Button key='edit' onClick={this.handleEditClick} raised={true}>Edit</Button>
         );
         var deleteButton = (
-          <button
-            className='btn btn-danger'
-            key='delete'
-            onClick={this.handleDeleteClick}
-            style={{marginLeft: 10}}
-          >
-            Delete
-          </button>
+          <Button key='delete' onClick={this.handleDeleteClick} raised={true}>Delete</Button>
         );
         buttons.push(editButton);
         buttons.push(deleteButton);
@@ -224,7 +205,7 @@ var ChartPage = React.createClass({
     }
     if (loggedInUsername !== null && ! isOwner) {
       var cloneButton = (
-        <button className='btn btn-danger' key='clone' onClick={this.handleCloneClick}>Clone</button>
+        <Button key='clone' onClick={this.handleCloneClick} raised={true}>Clone</Button>
       );
       buttons.push(cloneButton);
     }

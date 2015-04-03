@@ -27,36 +27,53 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var {RaisedButton} = require('material-ui');
+var {Colors} = require('react-material').style;
+var {List, ListItem} = require('react-material').components;
 var React = require('react');
+var StyleSheet = require('react-style');
 
-var ChartsList = require('./charts-list');
 var propTypes = require('../prop-types');
 
 
 var ChartsPage = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.func.isRequired,
+  },
   propTypes: {
     charts: React.PropTypes.arrayOf(propTypes.chart),
-    loggedInUsername: React.PropTypes.string,
   },
-  handleItemTouchTap(item) {
-    this.context.router.transitionTo('chart', {slug: item.slug});
+  handleListItemClick(chart) {
+    this.context.router.transitionTo('chart', chart);
   },
   render() {
     return (
-      <div className='charts-page'>
-        <ChartsList charts={this.props.charts} />
-        <div className='clearfix page-with-nav-content'>
-          <div style={{float: 'right'}}>
-            {
-              this.props.loggedInUsername ?
-                <RaisedButton label='Logout' onTouchTap={this.handleLogoutTouchTap} /> :
-                <RaisedButton label='Login' onTouchTap={this.handleLoginTouchTap} />
-            }
-          </div>
-        </div>
+      <div>
+        {
+          this.props.charts ? (
+            <List>
+              {
+                this.props.charts.map((chart, idx) => (
+                  <ListItem key={idx} onClick={() => this.handleListItemClick(chart)} styles={Styles.withSeparator}>
+                    {chart.title}
+                  </ListItem>
+                ))
+              }
+            </List>
+          ) : (
+            <p>No charts!</p>
+          )
+        }
       </div>
     );
+  },
+});
+
+
+var Styles = StyleSheet.create({
+  withSeparator: {
+    borderBottomColor: Colors.teal.P500,
+    borderBottomStyle: 'solid',
+    borderBottomWidth: 1,
   },
 });
 

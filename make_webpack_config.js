@@ -1,16 +1,40 @@
+/*
+Open Chord Charts -- Database of free chord charts
+By: Christophe Benz <contact@openchordcharts.org>
+
+Copyright (C) 2012, 2013, 2014, 2015 Christophe Benz
+https://github.com/openchordcharts/
+
+This file is part of Open Chord Charts.
+
+Open Chord Charts is free software; you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as
+published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version.
+
+Open Chord Charts is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+var HtmlPlugin = require('html-webpack-plugin');
 var path = require('path');
 var webpack = require('webpack');
-var WebpackErrorNotificationPlugin = require('webpack-error-notification');
+var ErrorNotificationPlugin = require('webpack-error-notification');
 
 var packageJSON = require('./package.json');
 
 
 module.exports = function(options) {
   var plugins = [
-    new ExtractTextPlugin('app.[hash].css'),
-    new HtmlWebpackPlugin({template: './index.tmpl.html'}),
+    new ExtractTextPlugin('[name].[contenthash].css'),
+    new HtmlPlugin({template: './index.tmpl.html'}),
   ];
   if (options.production) {
     plugins = plugins.concat([
@@ -33,7 +57,7 @@ module.exports = function(options) {
     ]);
   } else {
     plugins = plugins.concat([
-      new WebpackErrorNotificationPlugin(process.platform === 'linux' && function(msg) {
+      new ErrorNotificationPlugin(process.platform === 'linux' && function(msg) {
         if (!this.lastBuildSucceeded) {
           require('child_process').exec('notify-send --hint=int:transient:1 Webpack ' + msg);
         }
@@ -47,32 +71,39 @@ module.exports = function(options) {
   return {
     debug: !options.production,
     devtool: options.production ? null : 'eval',
-    entry: [
-      './src/index.js',
-      './src/index.less',
-    ],
+    entry: {
+      app: './src/index.js',
+      normalize: 'normalize.css',
+    },
     module: {
       loaders: [
+        {
+          // loaders: ['file?name=[name].[hash].css', 'css'],
+          loaders: [ExtractTextPlugin.extract('style-loader', 'css-loader'), 'css?minimize'],
+          test: /\.css$/,
+        },
+        {
+          loader: 'html',
+          test:/\.html$/,
+        },
         {
           include: path.join(__dirname, 'src'),
           loaders: ['react-hot', 'babel'],
           test: /\.jsx?$/,
-        },
-        {
-          exclude: /node_modules/,
-          loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader'),
-          test: /\.less$/,
         },
       ],
     },
     output: {
       filename: 'app.[hash].js',
       path: './dist',
-      publicPath: '',
     },
     plugins: plugins,
     resolve: {
-      extensions: ['', '.js', '.jsx']
-    }
+      extensions: ['', '.js', '.jsx'],
+      fallback: path.join(__dirname, 'node_modules'),
+    },
+    resolveLoader: {
+      fallback: path.join(__dirname, 'node_modules'),
+    },
   };
 };

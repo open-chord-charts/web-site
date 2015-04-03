@@ -27,11 +27,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 
-var {AppBar, AppCanvas, IconButton, Icons} = require('material-ui');
 var {RouteHandler} = require('react-router');
+var {Typography} = require('react-material').style;
 var React = require('react');
+var StyleSheet = require('react-style');
 
-var AppLeftNav = require('./app-left-nav');
+var Navigation = require('./navigation');
 
 
 var App = React.createClass({
@@ -67,37 +68,27 @@ var App = React.createClass({
       loggedInUsername: sessionStorage.loggedInUsername || null,
     };
   },
-  handleBackButtonTouchTap() {
-    this.context.router.transitionTo('charts');
-  },
-  handleMenuIconButtonTouchTap() {
-    this.refs.leftNav.toggle();
-  },
   render() {
     var title = this.context.router.isActive('about') ? 'About' :
       this.context.router.isActive('chart') ? this.props.chart && this.props.chart.title :
       this.context.router.isActive('charts') ? 'Charts' :
       this.context.router.isActive('register') ? 'Register' :
       'Open Chord Charts';
-    var iconElementLeft = this.context.router.isActive('chart') ? (
-      <IconButton iconClassName={this.props.iconClassNameLeft} onTouchTap={this.handleBackButtonTouchTap}>
-        <Icons.NavigationChevronLeft />
-      </IconButton>
-    ) : null;
     return (
-      <AppCanvas predefinedLayout={1}>
-        <AppBar
-          iconElementLeft={iconElementLeft}
-          onMenuIconButtonTouchTap={this.handleMenuIconButtonTouchTap}
-          title={title}
-          zDepth={1}
-        />
-        <AppLeftNav appState={this.state} ref='leftNav' />
-        <div className='mui-app-content-canvas'>
+      <div styles={{fontFamily: Typography.fontFamily}}>
+        <Navigation loggedInUsername={this.state.loggedInUsername} title={title} />
+        <div styles={Styles.belowNavigation}>
           <RouteHandler {...this.props} appState={this.state} />
         </div>
-      </AppCanvas>
+      </div>
     );
+  },
+});
+
+
+var Styles = StyleSheet.create({
+  belowNavigation: {
+    paddingTop: 56,
   },
 });
 

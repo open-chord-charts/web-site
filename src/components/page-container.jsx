@@ -19,17 +19,36 @@ GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+@flow weak
 */
 
 
-.logo {
-  .mui-font-style-headline;
-  .mui-font-weight-light;
-  .mui-text-full-white;
-  background-color: @primary-1-color;
-  cursor: pointer;
-  line-height: @app-bar-height;
-  margin-bottom: @desktop-gutter-mini;
-  padding-left: @desktop-gutter;
-  padding-top: 0;
-}
+'use strict';
+
+
+var React = require('react');
+var StyleSheet = require('react-style');
+
+
+var PageContainer = React.createClass({
+  render() {
+    return (
+      <div styles={Styles.style}>
+        {this.props.children}
+      </div>
+    );
+  },
+});
+
+
+var Styles = StyleSheet.create({
+  style: {
+    margin: 'auto',
+    maxWidth: 700,
+    padding: '0 20px',
+  },
+});
+
+
+module.exports = PageContainer;

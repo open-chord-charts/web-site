@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Open Chord Charts</title>
     <link href="//fonts.googleapis.com/css?family=Roboto:400,700,300,300italic,500,100,100italic,400italic,500italic,700italic,900,900italic" rel="stylesheet">
-    <link charset="utf-8" href="app.{%=o.webpack.hash%}.css" media="screen" rel="stylesheet">
+    <link href="{%=o.webpack.assetsByChunkName.normalize[1]%}" media="screen" rel="stylesheet">
   </head>
   <body>
     <div id="app-mount-point"></div>
-    <script src="{%=o.htmlWebpackPlugin.assets.main%}"></script>
+    <script src="{%=o.htmlWebpackPlugin.assets.app%}"></script>
   </body>
 </html>

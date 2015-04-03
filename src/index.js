@@ -32,8 +32,10 @@ require('babel-core/polyfill');
 require('isomorphic-fetch');
 
 
+// Require react-style before react: https://github.com/js-next/react-style/issues/82
+require('react-style');
+
 var EventEmitter = require('events').EventEmitter;
-var injectTapEventPlugin = require("react-tap-event-plugin");
 var React = require('react');
 var Router = require('react-router');
 
@@ -41,12 +43,6 @@ var routes = require('./routes');
 
 
 function bootstrapApplication() {
-  // Needed for onTouchTap
-  // Can go away when react 1.0 release
-  // Check this repo:
-  // https://github.com/zilverline/react-tap-event-plugin
-  injectTapEventPlugin();
-
   global.authEvents = new EventEmitter();
   global.loadingEvents = new EventEmitter();
 
