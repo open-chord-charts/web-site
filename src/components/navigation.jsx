@@ -69,7 +69,8 @@ var Navigation = React.createClass({
   render() {
     var {showSideNavigation} = this.state;
     var {title} = this.props;
-    var isChartRoute = this.context.router.isActive('chart');
+    var {router} = this.context;
+    var isChartRoute = router.isActive('chart');
     return (
       <div>
         <AppBar
@@ -91,6 +92,7 @@ var Navigation = React.createClass({
                 <ListItem onClick={this.handleLoginTouchTap}>Login</ListItem>
               )
             }
+            <ListItem onClick={() => this.handleListItemClick('about')}>About</ListItem>
           </List>
         </SideNavigation>
       </div>

@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 var React = require('react');
 
 var ChartsPage = require('../charts-page');
+var PageContainer = require('../page-container');
 var propTypes = require('../../prop-types');
 var webservices = require('../../webservices');
 
@@ -51,7 +52,6 @@ var ChartsHandler = React.createClass({
   },
   render() {
     var {router} = this.context;
-    var query = router.getCurrentQuery();
     var content;
     if (this.props.appState.loading) {
       content = this.props.appState.loading === 'slow' ? (
@@ -66,12 +66,7 @@ var ChartsHandler = React.createClass({
         <ChartsPage charts={this.props.charts} loggedInUsername={this.props.appState.loggedInUsername} />
       );
     }
-    return (
-      <div>
-        {query.owner && <h2>belonging to {query.owner}</h2>}
-        {content}
-      </div>
-    );
+    return content;
   },
 });
 

@@ -30,15 +30,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 var React = require('react');
 
 var constants = require('../constants');
+var PageContainer = require('./page-container');
 
 
 var AboutPage = React.createClass({
   render() {
     return (
-      <div>
+      <PageContainer>
         <h1>Open Chord Charts</h1>
         <p>Version {constants.VERSION}</p>
-      </div>
+      </PageContainer>
     );
   },
 });

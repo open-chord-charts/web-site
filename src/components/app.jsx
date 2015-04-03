@@ -69,10 +69,13 @@ var App = React.createClass({
     };
   },
   render() {
-    var title = this.context.router.isActive('about') ? 'About' :
-      this.context.router.isActive('chart') ? this.props.chart && this.props.chart.title :
-      this.context.router.isActive('charts') ? 'Charts' :
-      this.context.router.isActive('register') ? 'Register' :
+    var {router} = this.context;
+    var query = router.getCurrentQuery();
+    var title = router.isActive('about') ? 'About' :
+      router.isActive('chart') ? this.props.chart && this.props.chart.title :
+      router.isActive('charts') ?
+        (query.owner ? `Charts of ${query.owner}` : 'Charts') :
+      router.isActive('register') ? 'Register' :
       'Open Chord Charts';
     return (
       <div styles={{fontFamily: Typography.fontFamily}}>
