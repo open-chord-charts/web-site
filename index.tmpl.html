@@ -5,25 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Open Chord Charts</title>
+    <link href="//fonts.googleapis.com/css?family=Roboto:400,700,300,300italic,500,100,100italic,400italic,500italic,700italic,900,900italic" rel="stylesheet">
     <link charset="utf-8" href="app.{%=o.webpack.hash%}.css" media="screen" rel="stylesheet">
   </head>
   <body>
     <div id="app-mount-point"></div>
-    <!-- This script adds the Roboto font to our project. For more detail go to this site:  http://www.google.com/fonts#UsePlace:use/Collection:Roboto:400,300,500 -->
-    <script>
-      var WebFontConfig = {
-        google: { families: [ 'Roboto:400,300,500:latin' ] }
-      };
-      (function() {
-        var wf = document.createElement('script');
-        wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
-        '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-        wf.type = 'text/javascript';
-        wf.async = 'true';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(wf, s);
-      })();
-    </script>
     <script src="{%=o.htmlWebpackPlugin.assets.main%}"></script>
   </body>
 </html>
