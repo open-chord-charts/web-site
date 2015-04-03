@@ -1,6 +1,6 @@
 {
   "name": "openchordcharts-web-site",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Open Chord Charts - web site",
   "scripts": {
     "analyze": "webpack --progress --colors --display-modules --display-reasons --sort-modules-by size",
