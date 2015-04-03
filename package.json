@@ -3,8 +3,8 @@
   "version": "0.0.5",
   "description": "Open Chord Charts - web site",
   "scripts": {
-    "analyze": "jq '.modules | sort_by(.size) | .[] | {name: .name, size: .size}' stats.json",
-    "build:prod": "webpack -p --config webpack-prod.config.js --json > stats.json",
+    "analyze": "webpack --progress --colors --display-modules --display-reasons --sort-modules-by size",
+    "build:prod": "webpack --config webpack-prod.config.js --production --progress --colors",
     "clean": "rm -rf dist stats.json",
     "ctags": "ctags --recurse=yes --exclude=node_modules .",
     "start": "webpack-dev-server --hot --progress --colors --inline",
