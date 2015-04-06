@@ -30,9 +30,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 var {RouteHandler} = require('react-router');
 var {Typography} = require('react-material').style;
 var React = require('react');
-var StyleSheet = require('react-style');
 
-var Navigation = require('./navigation');
+var ResponsiveLayout = require('./responsive-layout');
 
 
 var App = React.createClass({
@@ -81,34 +80,24 @@ var App = React.createClass({
     var query = router.getCurrentQuery();
     var {chart} = this.props;
     var title = router.isActive('about') ? 'About' :
-      router.isActive('chart') ? (chart ? `${chart.title}${this.state.edited ? ' (edit mode)' : ''}` : null) :
+      router.isActive('chart') ? (chart ? `${chart.title}${this.state.edited ? ' (edit mode)' : ''}` : '') :
       router.isActive('charts') ? (query.owner ? `Charts of ${query.owner}` : 'Charts') :
       router.isActive('register') ? 'Register' :
       'Open Chord Charts';
     var isChartRoute = router.isActive('chart');
-    var onEdit = isChartRoute && ! this.state.edited ? this.handleEdit : null;
-    var onSave = isChartRoute && this.state.edited ? this.handleSave : null;
     return (
       <div styles={{fontFamily: Typography.fontFamily}}>
-        <Navigation
+        <ResponsiveLayout
           edited={this.state.edited}
           loggedInUsername={this.state.loggedInUsername}
-          onEdit={onEdit}
-          onSave={onSave}
+          onEdit={isChartRoute && ! this.state.edited ? this.handleEdit : null}
+          onSave={isChartRoute && this.state.edited ? this.handleSave : null}
           title={title}
-        />
-        <div styles={Styles.belowNavigation}>
+        >
           <RouteHandler {...this.props} appState={this.state} />
-        </div>
+        </ResponsiveLayout>
       </div>
     );
-  },
-});
-
-
-var Styles = StyleSheet.create({
-  belowNavigation: {
-    paddingTop: 56,
   },
 });
 

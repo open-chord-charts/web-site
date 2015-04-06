@@ -40,6 +40,7 @@ var Navigation = React.createClass({
     router: React.PropTypes.func.isRequired,
   },
   propTypes: {
+    dockedSideNavigation: React.PropTypes.bool,
     edited: React.PropTypes.bool,
     loggedInUsername: React.PropTypes.string,
     onEdit: React.PropTypes.func,
@@ -71,7 +72,7 @@ var Navigation = React.createClass({
   },
   render() {
     var {showSideNavigation} = this.state;
-    var {title} = this.props;
+    var {dockedSideNavigation, title} = this.props;
     var {router} = this.context;
     var isChartRoute = router.isActive('chart');
     var actionButtons = isChartRoute ? [
@@ -85,16 +86,29 @@ var Navigation = React.createClass({
       <div>
         <AppBar
           onBackButtonClick={isChartRoute ? this.handleBackButtonClick : null}
-          onNavButtonClick={isChartRoute ? null : this.handleNavButtonClick}
+          onNavButtonClick={dockedSideNavigation || isChartRoute ? null : this.handleNavButtonClick}
           shadow={true}
-          styles={Styles}
+          styles={
+            {
+              normalAppBarStyle: Object.assign(
+                {},
+                Styles.normalAppBarStyle,
+                dockedSideNavigation ? Styles.dockedAppBarNormalStyle : null
+              ),
+            }
+          }
           title={title}
           actionButtons={actionButtons}
         />
-        <Overlay show={showSideNavigation} onClick={this.handleOverlayClick} />
-        <SideNavigation show={showSideNavigation}>
+        {!dockedSideNavigation && <Overlay show={showSideNavigation} onClick={this.handleOverlayClick} />}
+        <SideNavigation show={dockedSideNavigation || showSideNavigation}>
           <List>
-            <ListItem onClick={() => this.handleListItemClick('charts')}>Charts</ListItem>
+            <ListItem
+              onClick={() => this.handleListItemClick('charts')}
+              styles={[router.isActive('charts') && Styles.activeListItemStyle]}
+            >
+              Charts
+            </ListItem>
             {
               this.props.loggedInUsername ? (
                 <ListItem onClick={this.handleLogoutTouchTap}>
@@ -114,6 +128,12 @@ var Navigation = React.createClass({
 
 
 var Styles = StyleSheet.create({
+  activeListItemStyle: {
+    color: Colors.teal.P500,
+  },
+  dockedAppBarNormalStyle: {
+    marginLeft: 240,
+  },
   normalAppBarStyle: {
     backgroundColor: Colors.teal.P500,
   },
