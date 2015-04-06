@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 var React = require('react');
 var t = require('transducers.js');
 
+var KeySelect = require('./key-select');
 var propTypes = require('../prop-types');
 
 
@@ -40,6 +41,7 @@ var ChartGrid = React.createClass({
     nbBarsByRow: React.PropTypes.number.isRequired,
     onBarAdd: React.PropTypes.func,
     onBarSelect: React.PropTypes.func,
+    onChordChange: React.PropTypes.func,
     partNameColumnWidth: React.PropTypes.number.isRequired,
     selectedBar: propTypes.selectedBar,
     selectedBarBorderWidth: React.PropTypes.number.isRequired,
@@ -69,6 +71,13 @@ var ChartGrid = React.createClass({
     // };
     // this.props.onChordChange(newChord, idx, partName);
   },
+  handleSelectedBarChordKeyChange(chordKey, barChordIdx) {
+    this.props.onChordChange(chordKey, barChordIdx);
+  },
+  isBarSelected(partName, barIdx) {
+    var {edited, selectedBar} = this.props;
+    return edited && selectedBar && selectedBar.partName === partName && selectedBar.partIndex === barIdx;
+  },
   render() {
     var chordColumnWidth = Math.min(
       (this.props.width - this.props.partNameColumnWidth) / this.props.nbBarsByRow,
@@ -79,11 +88,7 @@ var ChartGrid = React.createClass({
       (kv) => [kv[0], t.partition(kv[1], this.props.nbBarsByRow)]
     );
     return (
-      <table
-        style={{
-          border: '1px solid #ddd',
-        }}
-      >
+      <table>
         <tbody>
           {
             this.props.structure.map(
@@ -98,26 +103,37 @@ var ChartGrid = React.createClass({
   },
   renderBar(barChords, chordColumnWidth) {
     return barChords.length === 1 ? (
-      <div className='text-center'>
+      <div style={{textAlign: 'center'}}>
         {barChords[0].rendered}
       </div>
     ) : (
       this.renderSplitBar(barChords, chordColumnWidth)
     );
   },
+  renderBarEdited(barChords) {
+    return (
+      <div style={{textAlign: 'center'}}>
+        {
+          barChords.map((barChord, barChordIdx) => (
+            <div>
+              <KeySelect
+                onChange={(chordKey) => this.handleSelectedBarChordKeyChange(chordKey, barChordIdx)}
+                value={barChord.rendered}
+              />
+            </div>
+          ))
+        }
+      </div>
+    );
+  },
   renderPartRow(partName, bars, chordColumnWidth) {
     return (
-      <tr
-        style={{
-          border: '1px solid #ddd',
-          height: this.props.tableRowHeight,
-        }}
-      >
+      <tr style={{height: this.props.tableRowHeight}}>
         <td
-          className='text-center'
           style={{
-            border: '1px solid #ddd',
+            fontSize: 'small',
             fontStyle: 'italic',
+            fontWeight: 'bold',
             height: this.props.tableRowHeight,
             lineHeight: 0,
             verticalAlign: 'middle',
@@ -127,23 +143,26 @@ var ChartGrid = React.createClass({
           {partName}
         </td>
         {
-          bars.map((barChords, idx) => (
+          bars.map((barChords, barIdx) => (
             <td
-              key={idx}
-              onClick={() => this.props.onBarSelect ? this.props.onBarSelect(partName, idx) : null}
+              key={barIdx}
+              onClick={() => this.props.onBarSelect ? this.props.onBarSelect(partName, barIdx) : null}
               style={{
                 border: '1px solid #ddd',
-                borderWidth: this.props.selectedBar &&
-                  this.props.selectedBar.partName === partName &&
-                  this.props.selectedBar.partIndex === idx ? this.props.selectedBarBorderWidth : null,
+                borderWidth: this.isBarSelected(partName, barIdx) ? this.props.selectedBarBorderWidth : null,
+                cursor: 'default',
                 height: this.props.tableRowHeight,
                 lineHeight: 0,
-                padding: 0,
                 minWidth: chordColumnWidth,
+                padding: 0,
                 verticalAlign: 'middle',
               }}
             >
-              {this.renderBar(barChords,  chordColumnWidth)}
+              {
+                this.isBarSelected(partName, barIdx) ?
+                  this.renderBarEdited(barChords) :
+                  this.renderBar(barChords, chordColumnWidth)
+              }
             </td>
           ))
         }
@@ -156,10 +175,7 @@ var ChartGrid = React.createClass({
                 verticalAlign: 'middle',
               }}
             >
-              <button
-                className='btn btn-default'
-                onClick={() => this.props.onBarAdd ? this.props.onBarAdd(partName) : null}
-              >
+              <button onClick={() => this.props.onBarAdd ? this.props.onBarAdd(partName) : null}>
                 +
               </button>
             </td>

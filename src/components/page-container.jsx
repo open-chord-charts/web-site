@@ -46,7 +46,9 @@ var Styles = StyleSheet.create({
   style: {
     margin: 'auto',
     maxWidth: 700,
-    padding: '0 20px',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 20,
   },
 });
 

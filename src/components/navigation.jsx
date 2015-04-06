@@ -127,15 +127,17 @@ var Navigation = React.createClass({
 });
 
 
+var colorTheme = Colors.blueGrey;
+
 var Styles = StyleSheet.create({
   activeListItemStyle: {
-    color: Colors.teal.P500,
+    color: colorTheme.P500,
   },
   dockedAppBarNormalStyle: {
     marginLeft: 240,
   },
   normalAppBarStyle: {
-    backgroundColor: Colors.teal.P500,
+    backgroundColor: colorTheme.P500,
   },
 });
 

@@ -34,7 +34,6 @@ var React = require('react/addons');
 var t = require('transducers.js');
 
 var ChartGrid = require('./chart-grid');
-var ChordEditToolbar = require('./chord-edit-toolbar');
 var KeySelect = require('./key-select');
 var model = require('../model');
 var PageContainer = require('./page-container');
@@ -81,8 +80,8 @@ var ChartPage = React.createClass({
   handleChartKeyChange(newChartKey) {
     this.setState({key: newChartKey});
   },
-  handleChordKeyChange(newChordKey) {
-    console.log('handleChordChange', newChordKey);
+  handleChordChange(chordKey, barChordIdx) {
+    console.log('handleChordChange', chordKey, barChordIdx);
     // var newChart = this.state.chart; // TODO immutable
     // newChart.parts[partName][idx] = newChord;
     // this.setState({chart: newChart});
@@ -108,7 +107,32 @@ var ChartPage = React.createClass({
     );
     return (
       <PageContainer>
-        <Link to='charts' query={{owner: chart.owner.slug}}>{chart.owner.username}</Link>
+        {chart.genre && <p>Genre: {chart.genre}</p>}
+        <p>
+          <KeySelect onChange={this.handleChartKeyChange} value={this.state.key} />
+        </p>
+        {
+          this.state.chartGridWidth && (
+            <div style={{
+                display: 'table',
+                marginBottom: 60,
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                marginTop: 30,
+            }}>
+              <ChartGrid
+                barsByPartName={barsByPartName}
+                edited={this.props.edited}
+                onBarAdd={this.props.edited ? this.handleBarAdd : null}
+                onBarSelect={this.props.edited ? this.handleBarSelect : null}
+                onChordChange={this.handleChordChange}
+                selectedBar={this.state.selectedBar}
+                structure={chart.structure}
+                width={this.state.chartGridWidth}
+              />
+            </div>
+          )
+        }
         {
           chart.composers && chart.compositionYear ? (
             <p>Composed by {chart.composers.join(', ')} in {chart.compositionYear}</p>
@@ -120,7 +144,9 @@ var ChartPage = React.createClass({
             ) : null
           )
         }
-        {chart.genre && <p>Genre: {chart.genre}</p>}
+        <p>
+          Owner: <Link to='charts' query={{owner: chart.owner.slug}}>{chart.owner.username}</Link>
+        </p>
         {
           chart.interpretations && (
             <p>
@@ -140,32 +166,6 @@ var ChartPage = React.createClass({
                 )
               }
             </p>
-          )
-        }
-        <div>
-          <KeySelect onChange={this.handleChartKeyChange} value={this.state.key} />
-          {
-            this.props.edited && this.state.selectedBar &&
-            barsByPartName[this.state.selectedBar.partName][this.state.selectedBar.partIndex].map((barChord, idx) => (
-              <ChordEditToolbar
-                chordKey={barChord.rendered}
-                key={idx}
-                onChordChange={this.handleChordKeyChange}
-              />
-            ))
-          }
-        </div>
-        {
-          this.state.chartGridWidth && (
-            <ChartGrid
-              barsByPartName={barsByPartName}
-              edited={this.props.edited}
-              onBarAdd={this.props.edited ? this.handleBarAdd : null}
-              onBarSelect={this.props.edited ? this.handleBarSelect : null}
-              selectedBar={this.state.selectedBar}
-              structure={chart.structure}
-              width={this.state.chartGridWidth}
-            />
           )
         }
         {this.renderActionsToolbar()}

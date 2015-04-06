@@ -69,9 +69,11 @@ var ChartsPage = React.createClass({
 });
 
 
+var colorTheme = Colors.blueGrey;
+
 var Styles = StyleSheet.create({
   withSeparator: {
-    borderBottomColor: Colors.teal.P500,
+    borderBottomColor: colorTheme.P500,
     borderBottomStyle: 'solid',
     borderBottomWidth: 1,
   },
