@@ -29,24 +29,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 var React = require('react');
 
+var NotFoundPage = require('../pages/not-found-page');
 var PageContainer = require('../page-container');
-var webservices = require('../../webservices');
 
 
-var AccountHandler = React.createClass({
-  statics: {
-    fetchData(params) {
-      return webservices.fetchAccount(params.slug);
-    },
-  },
+var NotFoundHandler = React.createClass({
   render() {
     return (
       <PageContainer>
-        <h1>Account</h1>
+        <NotFoundPage />
       </PageContainer>
     );
-  },
+  }
 });
 
 
-module.exports = AccountHandler;
+module.exports = NotFoundHandler;

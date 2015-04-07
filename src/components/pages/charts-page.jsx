@@ -32,7 +32,7 @@ var {List, ListItem} = require('react-material').components;
 var React = require('react');
 var StyleSheet = require('react-style');
 
-var propTypes = require('../prop-types');
+var propTypes = require('../../prop-types');
 
 
 var ChartsPage = React.createClass({
@@ -46,24 +46,18 @@ var ChartsPage = React.createClass({
     this.context.router.transitionTo('chart', chart);
   },
   render() {
-    return (
-      <div>
+    return this.props.charts ? (
+      <List>
         {
-          this.props.charts ? (
-            <List>
-              {
-                this.props.charts.map((chart, idx) => (
-                  <ListItem key={idx} onClick={() => this.handleListItemClick(chart)} styles={Styles.withSeparator}>
-                    {chart.title}
-                  </ListItem>
-                ))
-              }
-            </List>
-          ) : (
-            <p>No charts!</p>
-          )
+          this.props.charts.map((chart, idx) => (
+            <ListItem key={idx} onClick={() => this.handleListItemClick(chart)} styles={Styles.withSeparator}>
+              {chart.title}
+            </ListItem>
+          ))
         }
-      </div>
+      </List>
+    ) : (
+      <p>No charts!</p>
     );
   },
 });

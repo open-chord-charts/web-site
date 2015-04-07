@@ -30,22 +30,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 var {DefaultRoute, NotFoundRoute, Redirect, Route} = require('react-router');
 var React = require('react');
 
-var AboutPage = require('./components/about-page');
+var AboutPage = require('./components/pages/about-page');
 var AccountHandler = require('./components/route-handlers/account-handler');
 var App = require('./components/app');
-var ChartPageHandler = require('./components/route-handlers/chart-page-handler');
+var ChartHandler = require('./components/route-handlers/chart-handler');
 var ChartsHandler = require('./components/route-handlers/charts-handler');
-var NotFound = require('./components/not-found');
+var NotFoundHandler = require('./components/route-handlers/not-found-handler');
 var RegisterHandler = require('./components/route-handlers/register-handler');
 
 
 var routes = (
   <Route handler={App}>
-    <NotFoundRoute handler={NotFound} />
+    <NotFoundRoute handler={NotFoundHandler} />
     <Route name='about' handler={AboutPage} />
     <Route name='account' path='accounts/:slug' handler={AccountHandler} />
     <Route path='charts'>
-      <Route name='chart' path=':slug' handler={ChartPageHandler} />
+      <Route name='chart' path=':slug' handler={ChartHandler} />
       <DefaultRoute name='charts' handler={ChartsHandler} />
     </Route>
     <Route name='register' path='register' handler={RegisterHandler} />

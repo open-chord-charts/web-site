@@ -29,20 +29,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 var React = require('react');
 
-var constants = require('../constants');
-var PageContainer = require('./page-container');
 
-
-var AboutPage = React.createClass({
+var NotFoundPage = React.createClass({
   render() {
     return (
-      <PageContainer>
-        <h1>Open Chord Charts</h1>
-        <p>Version {constants.VERSION}</p>
-      </PageContainer>
+      <h1>Not found</h1>
     );
   },
 });
 
 
-module.exports = AboutPage;
+module.exports = NotFoundPage;

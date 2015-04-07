@@ -33,12 +33,11 @@ var Immutable = require('immutable');
 var React = require('react/addons');
 var t = require('transducers.js');
 
-var ChartGrid = require('./chart-grid');
-var KeySelect = require('./key-select');
-var model = require('../model');
-var PageContainer = require('./page-container');
-var propTypes = require('../prop-types');
-var webservices = require('../webservices');
+var ChartGrid = require('../chart-grid');
+var KeySelect = require('../key-select');
+var model = require('../../model');
+var propTypes = require('../../prop-types');
+var webservices = require('../../webservices');
 
 
 var ChartPage = React.createClass({
@@ -106,7 +105,7 @@ var ChartPage = React.createClass({
       (kv) => [kv[0], model.chordsToBars(kv[1], this.state.key)]
     );
     return (
-      <PageContainer>
+      <div>
         {chart.genre && <p>Genre: {chart.genre}</p>}
         <p>
           <KeySelect onChange={this.handleChartKeyChange} value={this.state.key} />
@@ -169,7 +168,7 @@ var ChartPage = React.createClass({
           )
         }
         {this.renderActionsToolbar()}
-      </PageContainer>
+      </div>
     );
   },
   renderActionsToolbar() {

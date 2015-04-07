@@ -29,13 +29,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 var React = require('react');
 
-var ChartPage = require('../chart-page');
-var NotFound = require('../not-found');
+var ChartPage = require('../pages/chart-page');
+var NotFoundPage = require('../pages/not-found-page');
+var PageContainer = require('../page-container');
 var propTypes = require('../../prop-types');
 var webservices = require('../../webservices');
 
 
-var ChartPageHandler = React.createClass({
+var ChartHandler = React.createClass({
   propTypes: {
     appState: propTypes.appState.isRequired,
     errors: React.PropTypes.object,
@@ -47,8 +48,9 @@ var ChartPageHandler = React.createClass({
     },
   },
   render() {
+    var content;
     if (this.props.chart) {
-      return (
+      content = (
         <ChartPage
           chart={this.props.chart}
           edited={this.props.appState.edited}
@@ -56,18 +58,23 @@ var ChartPageHandler = React.createClass({
         />
       );
     } else if (this.props.appState.loading) {
-      return this.props.appState.loading === 'slow' ? <h1>Loading…</h1> : null;
+      content = this.props.appState.loading === 'slow' ? <h1>Loading…</h1> : null;
     } else if (this.props.errors && this.props.errors.chart) {
-      return (
+      content = (
         <p>Unable to fetch data from API.</p>
       );
     } else {
-      return (
-        <NotFound />
+      content = (
+        <NotFoundPage />
       );
     }
+    return content ? (
+      <PageContainer>
+        {content}
+      </PageContainer>
+    ) : null;
   },
 });
 
 
-module.exports = ChartPageHandler;
+module.exports = ChartHandler;
