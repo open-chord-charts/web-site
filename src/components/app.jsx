@@ -24,14 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
 var {RouteHandler} = require('react-router');
-var {Typography} = require('react-material').style;
 var React = require('react');
 
-var ResponsiveLayout = require('./responsive-layout');
+var Layout = require('./layout');
 
 
 var App = React.createClass({
@@ -43,9 +39,7 @@ var App = React.createClass({
     global.loadingEvents.on('loadStart', () => {
       clearTimeout(timer);
       this.setState({loading: true});
-      // for slow responses, indicate the app is thinking
-      // otherwise its fast enough to just wait for the
-      // data to load
+      // For slow responses, indicate the app is thinking otherwise its fast enough to just wait for the data to load.
       timer = setTimeout(() => {
         this.setState({loading: 'slow'});
       }, 300);
@@ -63,40 +57,15 @@ var App = React.createClass({
   },
   getInitialState() {
     return {
-      edited: false, // Is current displayed chart edited.
       loading: true,
-      loggedInUsername: sessionStorage.loggedInUsername || null,
+      loggedInUsername: global.sessionStorage ? (sessionStorage.loggedInUsername || null) : null,
     };
   },
-  handleEdit() {
-    this.setState({edited: true});
-  },
-  handleSave() {
-    // TODO Really save chart.
-    this.setState({edited: false});
-  },
   render() {
-    var {router} = this.context;
-    var query = router.getCurrentQuery();
-    var {chart} = this.props;
-    var title = router.isActive('about') ? 'About' :
-      router.isActive('chart') ? (chart ? `${chart.title}${this.state.edited ? ' (edit mode)' : ''}` : '') :
-      router.isActive('charts') ? (query.owner ? `Charts of ${query.owner}` : 'Charts') :
-      router.isActive('register') ? 'Register' :
-      'Open Chord Charts';
-    var isChartRoute = router.isActive('chart');
     return (
-      <div styles={{fontFamily: Typography.fontFamily}}>
-        <ResponsiveLayout
-          edited={this.state.edited}
-          loggedInUsername={this.state.loggedInUsername}
-          onEdit={isChartRoute && ! this.state.edited ? this.handleEdit : null}
-          onSave={isChartRoute && this.state.edited ? this.handleSave : null}
-          title={title}
-        >
-          <RouteHandler {...this.props} appState={this.state} />
-        </ResponsiveLayout>
-      </div>
+      <Layout loggedInUsername={this.state.loggedInUsername}>
+        <RouteHandler {...this.props} appState={this.state} />
+      </Layout>
     );
   },
 });

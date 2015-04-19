@@ -24,13 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
 var {Link} = require('react-router');
-var {Button} = require('react-material').components;
 var Immutable = require('immutable');
-var React = require('react/addons');
+var React = require('react');
 var t = require('transducers.js');
 
 var ChartGrid = require('../chart-grid');
@@ -44,7 +40,6 @@ var ChartPage = React.createClass({
   propTypes: {
     // TODO Remove nest level of chart.
     chart: propTypes.chart.isRequired,
-    edited: React.PropTypes.bool,
     loggedInUsername: React.PropTypes.string,
   },
   componentDidMount() {
@@ -58,6 +53,7 @@ var ChartPage = React.createClass({
     return {
       chart: this.props.chart,
       chartGridWidth: null, // TODO Use flexbox instead of computing column widths manually.
+      edited: false,
       key: this.props.chart.key,
       selectedBar: null,
     };
@@ -94,6 +90,13 @@ var ChartPage = React.createClass({
       webservices.deleteChart(slug);
     }
   },
+  handleEditClick() {
+    this.setState({edited: true});
+  },
+  handleSaveClick() {
+    // TODO Really save chart.
+    this.setState({edited: false});
+  },
   handleWidthChange() {
     var componentWidth = this.getDOMNode().offsetWidth;
     this.setState({chartGridWidth: componentWidth});
@@ -102,14 +105,13 @@ var ChartPage = React.createClass({
     var {chart} = this.state;
     var barsByPartName = t.map(
       chart.parts,
-      (kv) => [kv[0], model.chordsToBars(kv[1], this.state.key)]
+      kv => [kv[0], model.chordsToBars(kv[1], this.state.key)]
     );
     return (
       <div>
+        <h1>{chart.title}</h1>
         {chart.genre && <p>Genre: {chart.genre}</p>}
-        <p>
-          <KeySelect onChange={this.handleChartKeyChange} value={this.state.key} />
-        </p>
+        <KeySelect onChange={this.handleChartKeyChange} value={this.state.key} />
         {
           this.state.chartGridWidth && (
             <div style={{
@@ -121,9 +123,9 @@ var ChartPage = React.createClass({
             }}>
               <ChartGrid
                 barsByPartName={barsByPartName}
-                edited={this.props.edited}
-                onBarAdd={this.props.edited ? this.handleBarAdd : null}
-                onBarSelect={this.props.edited ? this.handleBarSelect : null}
+                edited={this.state.edited}
+                onBarAdd={this.state.edited ? this.handleBarAdd : null}
+                onBarSelect={this.state.edited ? this.handleBarSelect : null}
                 onChordChange={this.handleChordChange}
                 selectedBar={this.state.selectedBar}
                 structure={chart.structure}
@@ -176,16 +178,20 @@ var ChartPage = React.createClass({
     var isOwner = loggedInUsername === this.state.chart.owner.username;
     var buttons = [];
     if (isOwner) {
-      if (!this.props.edited) {
-        var deleteButton = (
-          <Button key='delete' onClick={this.handleDeleteClick} raised={true}>Delete</Button>
+      if (this.state.edited) {
+        buttons.push(
+          <button key='save' onClick={this.handleSaveClick}>Save</button>
         );
-        buttons.push(deleteButton);
+      } else {
+        buttons = buttons.concat([
+          <button className="mr1" key='edit' onClick={this.handleEditClick}>Edit</button>,
+          <button key='delete' onClick={this.handleDeleteClick}>Delete</button>,
+        ]);
       }
     }
     if (loggedInUsername !== null && ! isOwner) {
       var cloneButton = (
-        <Button key='clone' onClick={this.handleCloneClick} raised={true}>Clone</Button>
+        <button key='clone' onClick={this.handleCloneClick}>Clone</button>
       );
       buttons.push(cloneButton);
     }

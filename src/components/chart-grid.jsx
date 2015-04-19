@@ -24,9 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
 var React = require('react');
 var t = require('transducers.js');
 
@@ -85,15 +82,15 @@ var ChartGrid = React.createClass({
     );
     var rowsByPartName = t.map(
       this.props.barsByPartName,
-      (kv) => [kv[0], t.partition(kv[1], this.props.nbBarsByRow)]
+      kv => [kv[0], t.partition(kv[1], this.props.nbBarsByRow)]
     );
     return (
-      <table>
+      <table style={{borderCollapse: "collapse"}}>
         <tbody>
           {
             this.props.structure.map(
-              (partName) => rowsByPartName[partName].map(
-                (bars) => this.renderPartRow(partName, bars, chordColumnWidth)
+              partName => rowsByPartName[partName].map(
+                bars => this.renderPartRow(partName, bars, chordColumnWidth)
               )
             )
           }

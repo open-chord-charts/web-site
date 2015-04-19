@@ -24,12 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
+import fetch from "isomorphic-fetch";
 var qs = require('querystringify');
 
-var constants = require('./constants');
+import config from "./config";
 
 
 // Generic fetch functions
@@ -60,11 +58,11 @@ function json(response) {
 
 // Data manipulation
 
-var CHARTS_URL = `${constants.API_BASE_URL}/charts`;
+const chartUrl = `${config.apiBaseUrl}/charts`;
 
 
 function deleteChart(slug) {
-  var url = `${CHARTS_URL}/${slug}/delete`;
+  var url = `${chartUrl}/${slug}/delete`;
   return fetch(url, {credentials: 'cors'});
 }
 
@@ -80,9 +78,10 @@ function fetchChart(slug) {
 
 
 function fetchCharts(query = {}) {
-  var url = CHARTS_URL;
+  var url = chartUrl;
   if (Object.keys(query).length) {
     query = {ownerSlug: query.owner}; // Rename route params to endpoint GET params.
+    // TODO Check there is no side-effect (url modification does not modify chartUrl).
     url += qs.stringify(query, true);
   }
   return fetchCachedJSON(url).then(data => data.charts);
@@ -92,19 +91,19 @@ function fetchCharts(query = {}) {
 // Authentication
 
 function login() {
-  var url = `${constants.API_BASE_URL}/login`;
+  var url = `${config.apiBaseUrl}/login`;
   return fetchJSON(url, {credentials: 'cors'});
 }
 
 
 function logout() {
-  var url = `${constants.API_BASE_URL}/logout`;
+  var url = `${config.apiBaseUrl}/logout`;
   return fetchJSON(url, {credentials: 'cors'});
 }
 
 
 function register(username, password, email) {
-  var url = `${constants.API_BASE_URL}/register`;
+  var url = `${config.apiBaseUrl}/register`;
   var formData = new FormData();
   formData.append('username', username);
   formData.append('password', password);

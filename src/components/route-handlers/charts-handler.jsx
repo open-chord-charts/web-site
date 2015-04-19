@@ -24,13 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
 var React = require('react');
 
 var ChartsPage = require('../pages/charts-page');
-var PageContainer = require('../page-container');
 var propTypes = require('../../prop-types');
 var webservices = require('../../webservices');
 
@@ -51,15 +47,11 @@ var ChartsHandler = React.createClass({
     var content;
     if (this.props.appState.loading) {
       content = this.props.appState.loading === 'slow' ? (
-        <PageContainer>
-          <p>Loading…</p>
-        </PageContainer>
+        <p>Loading…</p>
       ) : null;
     } else if (this.props.errors && this.props.errors.charts) {
       content = (
-        <PageContainer>
-          <p>Unable to fetch data from API.</p>
-        </PageContainer>
+        <p>Unable to fetch data from API.</p>
       );
     } else {
       content = (

@@ -24,9 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
 var {DefaultRoute, NotFoundRoute, Redirect, Route} = require('react-router');
 var React = require('react');
 
@@ -35,13 +32,39 @@ var AccountHandler = require('./components/route-handlers/account-handler');
 var App = require('./components/app');
 var ChartHandler = require('./components/route-handlers/chart-handler');
 var ChartsHandler = require('./components/route-handlers/charts-handler');
-var NotFoundHandler = require('./components/route-handlers/not-found-handler');
+var NotFoundPage = require('./components/pages/not-found-page');
 var RegisterHandler = require('./components/route-handlers/register-handler');
+
+
+const debug = require("debug")("app:routes");
+
+
+function fetchData(matchedRoutes, params, query) {
+  var data = {};
+  var errors = {};
+  return Promise.all(
+    matchedRoutes
+      .filter(route => route.handler.fetchData)
+      .map(
+        route => route.handler.fetchData(params, query)
+          .then(handlerData => { data[route.name] = handlerData; })
+          .catch(error => {
+            debug("error", error);
+            errors[route.name] = error;
+          })
+      )
+  ).then(() => {
+    if (Object.keys(errors).length > 0) {
+      throw errors;
+    }
+    return data;
+  });
+}
 
 
 var routes = (
   <Route handler={App}>
-    <NotFoundRoute handler={NotFoundHandler} />
+    <NotFoundRoute handler={NotFoundPage} />
     <Route name='about' handler={AboutPage} />
     <Route name='account' path='accounts/:slug' handler={AccountHandler} />
     <Route path='charts'>
@@ -54,4 +77,4 @@ var routes = (
 );
 
 
-module.exports = routes;
+export default {fetchData, routes};

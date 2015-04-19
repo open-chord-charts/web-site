@@ -24,14 +24,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
+import React, {PropTypes} from "react";
+
+var Header = require("./header");
 
 
-/*
-This file concentrates all the constants coming from webpack configuration file via DefinePlugin,
-so the JS modules require it explicit and avoid "magical" constants substitution,
-and also avoid jshint "undefined variable" errors.
-*/
+var Layout = React.createClass({
+  propTypes: {
+    children: PropTypes.node,
+    loggedInUsername: PropTypes.string,
+  },
+  render() {
+    return (
+      <div>
+        <Header loggedInUsername={this.props.loggedInUsername} />
+        <main className="container px2">
+          {this.props.children}
+        </main>
+      </div>
+    );
+  },
+});
 
 
-module.exports = {API_BASE_URL, VERSION};
+module.exports = Layout;

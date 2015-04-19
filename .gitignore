@@ -1,6 +1,6 @@
 *~
-/dist/
 /node_modules/
 /npm-debug.log
-/stats.json
+/public/
+/src/server/webpack-stats.json
 /tags

@@ -24,13 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
-var {Colors} = require('react-material').style;
-var {List, ListItem} = require('react-material').components;
+var {Link} = require('react-router');
 var React = require('react');
-var StyleSheet = require('react-style');
 
 var propTypes = require('../../prop-types');
 
@@ -42,34 +37,20 @@ var ChartsPage = React.createClass({
   propTypes: {
     charts: React.PropTypes.arrayOf(propTypes.chart),
   },
-  handleListItemClick(chart) {
-    this.context.router.transitionTo('chart', chart);
-  },
   render() {
     return this.props.charts ? (
-      <List>
+      <ul>
         {
           this.props.charts.map((chart, idx) => (
-            <ListItem key={idx} onClick={() => this.handleListItemClick(chart)} styles={Styles.withSeparator}>
-              {chart.title}
-            </ListItem>
+            <li key={idx}>
+              <Link to='chart' params={chart}>{chart.title}</Link>
+            </li>
           ))
         }
-      </List>
+      </ul>
     ) : (
       <p>No charts!</p>
     );
-  },
-});
-
-
-var colorTheme = Colors.blueGrey;
-
-var Styles = StyleSheet.create({
-  withSeparator: {
-    borderBottomColor: colorTheme.P500,
-    borderBottomStyle: 'solid',
-    borderBottomWidth: 1,
   },
 });
 

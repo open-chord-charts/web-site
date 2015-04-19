@@ -24,12 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
 var React = require('react');
 
-var PageContainer = require('../page-container');
 var webservices = require('../../webservices');
 
 
@@ -41,9 +37,7 @@ var AccountHandler = React.createClass({
   },
   render() {
     return (
-      <PageContainer>
-        <h1>Account</h1>
-      </PageContainer>
+      <h1>Account</h1>
     );
   },
 });

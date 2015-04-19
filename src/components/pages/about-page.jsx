@@ -24,22 +24,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
 var React = require('react');
 
-var constants = require('../../constants');
-var PageContainer = require('../page-container');
+import config from "../../config";
 
 
 var AboutPage = React.createClass({
   render() {
     return (
-      <PageContainer>
-        <h1>Open Chord Charts</h1>
-        <p>Version {constants.VERSION}</p>
-      </PageContainer>
+      <div>
+        <p>Version {config.version}</p>
+      </div>
     );
   },
 });

@@ -10,18 +10,24 @@ editable in a collaborative way.
 
 This software runs the web site of the Open Chord Charts project.
 
-## Build for production
+## Run the server
 
-    npm run build:prod
+The following `npm run` commands are declared in `package.json`.
 
-This will write the build in the `dist` directory and generate a `stats.json` file (see analyze below).
+### Development server
 
-To remove the generated files:
+    npm run dev
 
-    npm run clean
+Open http://localhost:3001/
 
-## Analyze webpack modules
+### Production server
 
-Requires [jq](http://stedolan.github.io/jq/).
+    npm run build
+    npm run prod
 
-    npm run analyze
+Open http://localhost:3001/
+
+## Inspiration
+
+Thanks to the [isomorphic500](https://github.com/gpbl/isomorphic500) project for inspiration
+about the JavaScript build system and React server-side rendering!

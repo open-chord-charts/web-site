@@ -24,16 +24,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
 var React = require('react');
 
 
 var NotFoundPage = React.createClass({
   render() {
     return (
-      <h1>Not found</h1>
+      <div>
+        <h1>Not found</h1>
+      </div>
     );
   },
 });

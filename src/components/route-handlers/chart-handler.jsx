@@ -24,23 +24,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
 var React = require('react');
 
 var ChartPage = require('../pages/chart-page');
 var NotFoundPage = require('../pages/not-found-page');
-var PageContainer = require('../page-container');
 var propTypes = require('../../prop-types');
 var webservices = require('../../webservices');
 
 
 var ChartHandler = React.createClass({
+  contextTypes: {
+    router: React.PropTypes.func.isRequired,
+  },
   propTypes: {
     appState: propTypes.appState.isRequired,
-    errors: React.PropTypes.object,
     chart: propTypes.chart,
+    errors: React.PropTypes.object,
   },
   statics: {
     fetchData(params) {
@@ -53,7 +52,6 @@ var ChartHandler = React.createClass({
       content = (
         <ChartPage
           chart={this.props.chart}
-          edited={this.props.appState.edited}
           loggedInUsername={this.props.appState.loggedInUsername}
         />
       );
@@ -68,11 +66,7 @@ var ChartHandler = React.createClass({
         <NotFoundPage />
       );
     }
-    return content ? (
-      <PageContainer>
-        {content}
-      </PageContainer>
-    ) : null;
+    return content;
   },
 });
 

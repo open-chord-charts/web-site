@@ -24,9 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
 var React = require('react');
 
 
@@ -34,7 +31,6 @@ const PT = React.PropTypes;
 
 
 var appState = PT.shape({
-  edited: PT.bool,
   loading: PT.oneOfType([
     PT.bool,
     PT.string,

@@ -24,9 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-'use strict';
-
-
 var Immutable = require('immutable');
 var t = require('transducers.js');
 
@@ -60,7 +57,7 @@ function chordsToBars(chords, key) {
       barChords.push(immutableNewChord.toObject());
     }
     if (barChords.length) {
-      var barChordsDurationSum = t.transduce(barChords, t.map((chord) => chord.duration), t.transformer(sum), 0);
+      var barChordsDurationSum = t.transduce(barChords, t.map(chord => chord.duration), t.transformer(sum), 0);
       if (barChordsDurationSum >= 1) {
         bars.push(barChords);
         barChords = [];
