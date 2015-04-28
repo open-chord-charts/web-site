@@ -24,9 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var React = require('react');
+import React from "react";
 
-var model = require('../model');
+import model from "../model";
 
 
 var KeySelect = React.createClass({
@@ -39,7 +39,7 @@ var KeySelect = React.createClass({
   },
   render() {
     return (
-      <select className='form-control' onChange={this.handleChange} value={this.props.value}>
+      <select className="form-control" onChange={this.handleChange} value={this.props.value}>
         {model.chromaticKeys.map((key, idx) => <option key={idx}>{key}</option>)}
       </select>
     );

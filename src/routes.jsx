@@ -24,16 +24,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var {DefaultRoute, NotFoundRoute, Redirect, Route} = require('react-router');
-var React = require('react');
+import {DefaultRoute, NotFoundRoute, Redirect, Route} from "react-router";
+import React from "react";
 
-var AboutPage = require('./components/pages/about-page');
-var AccountHandler = require('./components/route-handlers/account-handler');
-var App = require('./components/app');
-var ChartHandler = require('./components/route-handlers/chart-handler');
-var ChartsHandler = require('./components/route-handlers/charts-handler');
-var NotFoundPage = require('./components/pages/not-found-page');
-var RegisterHandler = require('./components/route-handlers/register-handler');
+import AboutPage from "./components/pages/about-page";
+import AccountHandler from "./components/route-handlers/account-handler";
+import App from "./components/app";
+import ChartHandler from "./components/route-handlers/chart-handler";
+import ChartsHandler from "./components/route-handlers/charts-handler";
+import NotFoundPage from "./components/pages/not-found-page";
+import RegisterHandler from "./components/route-handlers/register-handler";
 
 
 const debug = require("debug")("app:routes");
@@ -65,14 +65,14 @@ function fetchData(matchedRoutes, params, query) {
 var routes = (
   <Route handler={App}>
     <NotFoundRoute handler={NotFoundPage} />
-    <Route name='about' handler={AboutPage} />
-    <Route name='account' path='accounts/:slug' handler={AccountHandler} />
-    <Route path='charts'>
-      <Route name='chart' path=':slug' handler={ChartHandler} />
-      <DefaultRoute name='charts' handler={ChartsHandler} />
+    <Route handler={AboutPage} name="about" />
+    <Route handler={AccountHandler} name="account" path="accounts/:slug" />
+    <Route path="charts">
+      <Route handler={ChartHandler} name="chart" path=":slug" />
+      <DefaultRoute handler={ChartsHandler} name="charts" />
     </Route>
-    <Route name='register' path='register' handler={RegisterHandler} />
-    <Redirect from='/' to='charts' />
+    <Route handler={RegisterHandler} name="register" path="register" />
+    <Redirect from="/" to="charts" />
   </Route>
 );
 

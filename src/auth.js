@@ -24,20 +24,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var webservices = require('./webservices');
+import webservices from "./webservices";
 
 
 function forgetCredentials() {
   delete sessionStorage.loggedInUsername;
-  global.authEvents.emit('loggedOut');
+  global.authEvents.emit("loggedOut");
 }
 
 
 function login() {
   return webservices.login().then((res) => {
-    if (res.login === 'ok') {
+    if (res.login === "ok") {
       sessionStorage.loggedInUsername = res.username;
-      global.authEvents.emit('loggedIn');
+      global.authEvents.emit("loggedIn");
       return true;
     } else {
       forgetCredentials();

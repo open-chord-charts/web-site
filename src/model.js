@@ -24,11 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var Immutable = require('immutable');
-var t = require('transducers.js');
+import Immutable from "immutable";
+import t from "transducers.js";
 
 
-var chromaticKeys = ['Ab', 'A', 'Bb', 'B', 'C', 'Db', 'D', 'Eb', 'E', 'F', 'Gb', 'G'];
+var chromaticKeys = ["Ab", "A", "Bb", "B", "C", "Db", "D", "Eb", "E", "F", "Gb", "G"];
 
 
 function chordsToBars(chords, key) {
@@ -40,24 +40,24 @@ function chordsToBars(chords, key) {
   var bars = [];
   var barChords = [];
   chords.forEach((chord, idx) => {
-    var immutableNewChord = Immutable.Map(chord).merge({
+    var immutableNewChord = new Immutable.Map(chord).merge({
       referenceIndex: idx,
       rendered: renderChord(chord, key),
     });
     if (chord.duration > 1) {
       var remainingDuration = chord.duration;
       while (remainingDuration > 0) {
-        bars.push([immutableNewChord.set('duration', 1).toObject()]);
+        bars.push([immutableNewChord.set("duration", 1).toObject()]);
         remainingDuration -= 1;
       }
       if (remainingDuration > 0) {
-        barChords.push(immutableNewChord.set('duration', remainingDuration).toObject());
+        barChords.push(immutableNewChord.set("duration", remainingDuration).toObject());
       }
     } else {
       barChords.push(immutableNewChord.toObject());
     }
     if (barChords.length) {
-      var barChordsDurationSum = t.transduce(barChords, t.map(chord => chord.duration), t.transformer(sum), 0);
+      var barChordsDurationSum = t.transduce(barChords, t.map(barChord => barChord.duration), t.transformer(sum), 0);
       if (barChordsDurationSum >= 1) {
         bars.push(barChords);
         barChords = [];

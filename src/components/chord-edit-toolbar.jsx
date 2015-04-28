@@ -24,9 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var React = require('react');
+import React from "react";
 
-var KeySelect = require('./key-select');
+import KeySelect from "./key-select";
 
 
 var ChordEditToolbar = React.createClass({

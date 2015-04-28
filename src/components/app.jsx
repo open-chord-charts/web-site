@@ -24,34 +24,34 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var {RouteHandler} = require('react-router');
-var React = require('react');
+import {RouteHandler} from "react-router";
+import React from "react";
 
-var Layout = require('./layout');
+import Layout from "./layout";
 
 
 var App = React.createClass({
   contextTypes: {
-    router: React.PropTypes.func.isRequired,
+    router: React.PropTypes.func,
   },
   componentDidMount() {
     var timer;
-    global.loadingEvents.on('loadStart', () => {
+    global.loadingEvents.on("loadStart", () => {
       clearTimeout(timer);
       this.setState({loading: true});
       // For slow responses, indicate the app is thinking otherwise its fast enough to just wait for the data to load.
       timer = setTimeout(() => {
-        this.setState({loading: 'slow'});
+        this.setState({loading: "slow"});
       }, 300);
     });
-    global.loadingEvents.on('loadEnd', () => {
+    global.loadingEvents.on("loadEnd", () => {
       clearTimeout(timer);
       this.setState({loading: false});
     });
-    global.authEvents.on('loggedIn', () => {
+    global.authEvents.on("loggedIn", () => {
       this.setState({loggedInUsername: sessionStorage.loggedInUsername});
     });
-    global.authEvents.on('loggedOut', () => {
+    global.authEvents.on("loggedOut", () => {
       this.setState({loggedInUsername: null});
     });
   },

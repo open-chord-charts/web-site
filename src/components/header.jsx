@@ -24,56 +24,51 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-// var {Link} = require("react-router");
-var React = require("react");
-import {Arrow, Button, Group, Navbar} from "rebass";
-var {Item, Spacer} = Navbar;
+import {Link} from "react-router";
+import React from "react";
 
-var auth = require("../auth");
+import auth from "../auth";
 
 
 var Header = React.createClass({
   contextTypes: {
-    router: React.PropTypes.func.isRequired,
+    router: React.PropTypes.func,
   },
   propTypes: {
     loggedInUsername: React.PropTypes.string,
   },
-  handleLogin(event) {
-    event.preventDefault();
+  handleLogin() {
     auth.login();
   },
   handleLogout() {
-    event.preventDefault();
     auth.logout();
-  },
-  handleTransitionTo(routeName) {
-    var {router} = this.context;
-    return function handleTransitionToClick(event) {
-      event.preventDefault();
-      router.transitionTo(routeName);
-    };
   },
   render() {
     return (
-      <Navbar color="aqua">
-        <Item label="Open Chord Charts" onClick={this.handleTransitionTo("/")} />
-        <Item label="Charts" onClick={this.handleTransitionTo("charts")} />
-        <Item label="About" onClick={this.handleTransitionTo("about")} />
-        <Spacer />
-        <Group className="px2 py1">
-          <input className="field-dark" placeholder="Search" type="text" />
-          <Button className="white bg-darken-3">Go</Button>
-        </Group>
-        <Spacer />
-        {
-          this.props.loggedInUsername ? (
-            <Item label={`Logout (${this.props.loggedInUsername})`} onClick={this.handleLogout} />
-          ) : (
-            <Item label="Login" onClick={this.handleLogin} />
-          )
-        }
-      </Navbar>
+      <div className="clearfix mb2 black bg-gray">
+        <div className="left">
+          <Link activeClassName="is-active" className="button py2 button-transparent" to="/">
+            Open Chord Charts
+          </Link>
+          <Link activeClassName="is-active" className="button py2 button-transparent" to="charts">
+            Charts
+          </Link>
+          <Link activeClassName="is-active" className="button py2 button-transparent" to="about">
+            About
+          </Link>
+        </div>
+        <div className="right">
+          {
+            this.props.loggedInUsername ? (
+              <button className="py2 button-transparent" onClick={this.handleLogout}>
+                {`Logout (${this.props.loggedInUsername})`}
+              </button>
+            ) : (
+              <button className="py2 button-transparent" onClick={this.handleLogin}>Login</button>
+            )
+          }
+        </div>
+      </div>
     );
   },
 });

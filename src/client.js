@@ -35,9 +35,6 @@ import Router from "react-router";
 import {fetchData, routes} from "./routes";
 
 
-const debug = require("debug")("app:client");
-
-
 if (process.env.NODE_ENV === "development") {
   var myDebug = require("debug");
   myDebug.enable("app:*");
@@ -50,7 +47,6 @@ function renderApp() {
   global.loadingEvents = new EventEmitter();
   const appMountNode = document.getElementById("app-mount-node");
   Router.run(routes, Router.HistoryLocation, (Handler, state) => {
-    debug("Matched routes", state.routes);
     global.loadingEvents.emit("loadStart");
     fetchData(state.routes, state.params, state.query).then(
       data => React.render(<Handler {...data} />, appMountNode),

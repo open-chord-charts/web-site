@@ -24,9 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var React = require('react');
+import React from "react";
 
-var webservices = require('../../webservices');
+import webservices from "../../webservices";
 
 
 var AccountHandler = React.createClass({

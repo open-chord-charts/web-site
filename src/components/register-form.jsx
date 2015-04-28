@@ -24,17 +24,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var classNames = require('classnames');
-var React = require('react');
-var {Navigation} = require('react-router');
+import classNames from "classnames";
+import React from "react";
+import {Navigation} from "react-router";
 
-var webservices = require('../webservices');
+import webservices from "../webservices";
 
 
 var RegisterForm = React.createClass({
-  mixins: [Navigation],
+  mixins: [Navigation], // TODO Remove deprecated mixin.
   statics: {
-    attemptedTransition: null
+    attemptedTransition: null,
   },
   getInitialState() {
     return {error: null};
@@ -45,14 +45,14 @@ var RegisterForm = React.createClass({
     var password = this.refs.password.getDOMNode().value;
     var email = this.refs.email.getDOMNode().value;
     webservices.register(username, password, email).then((res) => {
-      if (res.register === 'ok') {
-        alert('Congratulations! You are now registered. Please sign in to continue.');
+      if (res.register === "ok") {
+        alert("Congratulations! You are now registered. Please sign in to continue.");
         if (RegisterForm.attemptedTransition) {
           var transition = RegisterForm.attemptedTransition;
           RegisterForm.attemptedTransition = null;
           transition.retry();
         } else {
-          this.replaceWith('/');
+          this.replaceWith("/");
         }
       } else {
         this.setState({error: res.error});
@@ -62,35 +62,35 @@ var RegisterForm = React.createClass({
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        {this.state.error && <p className='text-danger'>{this.state.error.message}</p>}
-        <div className={classNames('form-group', {'has-error': this.state.error})}>
-          <label className='sr-only' htmlFor='inputUsername'>Username</label>
-          <input className='form-control' id='inputUsername' placeholder='Username' ref='username' required />
+        {this.state.error && <p className="text-danger">{this.state.error.message}</p>}
+        <div className={classNames("form-group", {"has-error": this.state.error})}>
+          <label className="sr-only" htmlFor="inputUsername">Username</label>
+          <input className="form-control" id="inputUsername" placeholder="Username" ref="username" required />
         </div>
-        <div className={classNames('form-group', {'has-error': this.state.error})}>
-          <label htmlFor='inputPassword' className='sr-only'>Password</label>
+        <div className={classNames("form-group", {"has-error": this.state.error})}>
+          <label className="sr-only" htmlFor="inputPassword">Password</label>
           <input
-            className='form-control'
-            id='inputPassword'
-            placeholder='Password'
-            ref='password'
+            className="form-control"
+            id="inputPassword"
+            placeholder="Password"
+            ref="password"
             required
-            type='password'
+            type="password"
           />
         </div>
-        <div className={classNames('form-group', {'has-error': this.state.error})}>
-          <label className='sr-only' htmlFor='inputEmail'>Email</label>
-          <input className='form-control' id='inputEmail' placeholder='Email' ref='email' required type="email" />
+        <div className={classNames("form-group", {"has-error": this.state.error})}>
+          <label className="sr-only" htmlFor="inputEmail">Email</label>
+          <input className="form-control" id="inputEmail" placeholder="Email" ref="email" required type="email" />
           {
             this.state.error && this.state.error.errors.email && (
-              <p className='text-danger help-block'>{this.state.error.errors.email}</p>
+              <p className="text-danger help-block">{this.state.error.errors.email}</p>
             )
           }
         </div>
-        <button className='btn btn-primary' type='submit'>Register</button>
+        <button className="btn btn-primary" type="submit">Register</button>
       </form>
     );
-  }
+  },
 });
 
 

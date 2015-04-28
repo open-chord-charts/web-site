@@ -24,11 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var React = require('react');
-var t = require('transducers.js');
+import React from "react";
+import t from "transducers.js";
 
-var KeySelect = require('./key-select');
-var propTypes = require('../prop-types');
+import KeySelect from "./key-select";
+import propTypes from "../prop-types";
 
 
 var ChartGrid = React.createClass({
@@ -100,7 +100,7 @@ var ChartGrid = React.createClass({
   },
   renderBar(barChords, chordColumnWidth) {
     return barChords.length === 1 ? (
-      <div style={{textAlign: 'center'}}>
+      <div style={{textAlign: "center"}}>
         {barChords[0].rendered}
       </div>
     ) : (
@@ -109,7 +109,7 @@ var ChartGrid = React.createClass({
   },
   renderBarEdited(barChords) {
     return (
-      <div style={{textAlign: 'center'}}>
+      <div style={{textAlign: "center"}}>
         {
           barChords.map((barChord, barChordIdx) => (
             <div>
@@ -128,12 +128,12 @@ var ChartGrid = React.createClass({
       <tr style={{height: this.props.tableRowHeight}}>
         <td
           style={{
-            fontSize: 'small',
-            fontStyle: 'italic',
-            fontWeight: 'bold',
+            fontSize: "small",
+            fontStyle: "italic",
+            fontWeight: "bold",
             height: this.props.tableRowHeight,
             lineHeight: 0,
-            verticalAlign: 'middle',
+            verticalAlign: "middle",
             width: this.props.partNameColumnWidth,
           }}
         >
@@ -145,14 +145,14 @@ var ChartGrid = React.createClass({
               key={barIdx}
               onClick={() => this.props.onBarSelect ? this.props.onBarSelect(partName, barIdx) : null}
               style={{
-                border: '1px solid #ddd',
+                border: "1px solid #ddd",
                 borderWidth: this.isBarSelected(partName, barIdx) ? this.props.selectedBarBorderWidth : null,
-                cursor: 'default',
+                cursor: "default",
                 height: this.props.tableRowHeight,
                 lineHeight: 0,
                 minWidth: chordColumnWidth,
                 padding: 0,
-                verticalAlign: 'middle',
+                verticalAlign: "middle",
               }}
             >
               {
@@ -168,8 +168,8 @@ var ChartGrid = React.createClass({
             <td
               style={{
                 minWidth: chordColumnWidth,
-                textAlign: 'center',
-                verticalAlign: 'middle',
+                textAlign: "center",
+                verticalAlign: "middle",
               }}
             >
               <button onClick={() => this.props.onBarAdd ? this.props.onBarAdd(partName) : null}>
@@ -184,10 +184,10 @@ var ChartGrid = React.createClass({
   renderSplitBar(barChords, chordColumnWidth) {
     var padding = chordColumnWidth < 50 ? 2 : chordColumnWidth / 6;
     return (
-      <svg width={chordColumnWidth} height={this.props.tableRowHeight}>
+      <svg height={this.props.tableRowHeight} width={chordColumnWidth}>
         <line
           style={{
-            stroke: '#ddd', // Bootstrap table border color.
+            stroke: "#ddd", // Bootstrap table border color.
             strokeWidth: 1,
           }}
           x1={0}
@@ -195,10 +195,10 @@ var ChartGrid = React.createClass({
           y1={this.props.tableRowHeight}
           y2={0}
         />
-        <text style={{textAnchor: 'start'}} x={padding} y={25}>
+        <text style={{textAnchor: "start"}} x={padding} y={25}>
           {barChords[0].rendered}
         </text>
-        <text style={{textAnchor: 'end'}} x={chordColumnWidth - padding} y={50}>
+        <text style={{textAnchor: "end"}} x={chordColumnWidth - padding} y={50}>
           {barChords[1].rendered}
         </text>
       </svg>

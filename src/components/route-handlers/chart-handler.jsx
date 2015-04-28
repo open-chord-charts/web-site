@@ -24,17 +24,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var React = require('react');
+import React from "react";
 
-var ChartPage = require('../pages/chart-page');
-var NotFoundPage = require('../pages/not-found-page');
-var propTypes = require('../../prop-types');
-var webservices = require('../../webservices');
+import ChartPage from "../pages/chart-page";
+import NotFoundPage from "../pages/not-found-page";
+import propTypes from "../../prop-types";
+import webservices from "../../webservices";
 
 
 var ChartHandler = React.createClass({
   contextTypes: {
-    router: React.PropTypes.func.isRequired,
+    router: React.PropTypes.func,
   },
   propTypes: {
     appState: propTypes.appState.isRequired,
@@ -56,7 +56,7 @@ var ChartHandler = React.createClass({
         />
       );
     } else if (this.props.appState.loading) {
-      content = this.props.appState.loading === 'slow' ? <h1>Loading…</h1> : null;
+      content = this.props.appState.loading === "slow" ? <h1>Loading…</h1> : null;
     } else if (this.props.errors && this.props.errors.chart) {
       content = (
         <p>Unable to fetch data from API.</p>

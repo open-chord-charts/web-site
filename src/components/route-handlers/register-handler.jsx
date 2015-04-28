@@ -24,10 +24,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var React = require('react');
+import React from "react";
 
-var propTypes = require('../../prop-types');
-var RegisterForm = require('../register-form');
+import propTypes from "../../prop-types";
+import RegisterForm from "../register-form";
 
 
 var RegisterHandler = React.createClass({
@@ -46,7 +46,7 @@ var RegisterHandler = React.createClass({
         }
       </div>
     );
-  }
+  },
 });
 
 

@@ -24,10 +24,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-import fetch from "isomorphic-fetch";
-var qs = require('querystringify');
+import qs from "querystringify";
 
 import config from "./config";
+
+
+// Fetch polyfill
+
+function loadFetch() {
+  if (process.env.BROWSER) {
+    if (window.fetch) {
+      return window.fetch;
+    } else {
+      require("whatwg-fetch");
+      return window.fetch;
+    }
+  } else {
+    return require("node-fetch");
+  }
+}
+var fetch = loadFetch();
 
 
 // Generic fetch functions
@@ -63,7 +79,7 @@ const chartUrl = `${config.apiBaseUrl}/charts`;
 
 function deleteChart(slug) {
   var url = `${chartUrl}/${slug}/delete`;
-  return fetch(url, {credentials: 'cors'});
+  return fetch(url, {credentials: "include"});
 }
 
 
@@ -92,23 +108,23 @@ function fetchCharts(query = {}) {
 
 function login() {
   var url = `${config.apiBaseUrl}/login`;
-  return fetchJSON(url, {credentials: 'cors'});
+  return fetchJSON(url, {credentials: "include"});
 }
 
 
 function logout() {
   var url = `${config.apiBaseUrl}/logout`;
-  return fetchJSON(url, {credentials: 'cors'});
+  return fetchJSON(url, {credentials: "include"});
 }
 
 
 function register(username, password, email) {
   var url = `${config.apiBaseUrl}/register`;
   var formData = new FormData();
-  formData.append('username', username);
-  formData.append('password', password);
-  formData.append('email', email);
-  return fetchJSON(url, {body: formData, method: 'post'});
+  formData.append("username", username);
+  formData.append("password", password);
+  formData.append("email", email);
+  return fetchJSON(url, {body: formData, method: "post"});
 }
 
 

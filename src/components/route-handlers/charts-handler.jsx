@@ -24,11 +24,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var React = require('react');
+import React from "react";
 
-var ChartsPage = require('../pages/charts-page');
-var propTypes = require('../../prop-types');
-var webservices = require('../../webservices');
+import ChartsPage from "../pages/charts-page";
+import propTypes from "../../prop-types";
+import webservices from "../../webservices";
 
 
 var ChartsHandler = React.createClass({
@@ -46,7 +46,7 @@ var ChartsHandler = React.createClass({
   render() {
     var content;
     if (this.props.appState.loading) {
-      content = this.props.appState.loading === 'slow' ? (
+      content = this.props.appState.loading === "slow" ? (
         <p>Loading…</p>
       ) : null;
     } else if (this.props.errors && this.props.errors.charts) {

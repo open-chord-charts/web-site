@@ -24,16 +24,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var {Link} = require('react-router');
-var Immutable = require('immutable');
-var React = require('react');
-var t = require('transducers.js');
+import {Link} from "react-router";
+import Immutable from "immutable";
+import React from "react";
+import t from "transducers.js";
 
-var ChartGrid = require('../chart-grid');
-var KeySelect = require('../key-select');
-var model = require('../../model');
-var propTypes = require('../../prop-types');
-var webservices = require('../../webservices');
+import ChartGrid from "../chart-grid";
+import KeySelect from "../key-select";
+import model from "../../model";
+import propTypes from "../../prop-types";
+import webservices from "../../webservices";
 
 
 var ChartPage = React.createClass({
@@ -65,7 +65,7 @@ var ChartPage = React.createClass({
       duration: 1,
     };
     var newChart = Immutable.fromJS(this.state.chart)
-      .updateIn(['parts', partName], (chords) => chords.push(newChord))
+      .updateIn(["parts", partName], (chords) => chords.push(newChord))
       .toJS();
     this.setState({chart: newChart});
   },
@@ -76,7 +76,7 @@ var ChartPage = React.createClass({
     this.setState({key: newChartKey});
   },
   handleChordChange(chordKey, barChordIdx) {
-    console.log('handleChordChange', chordKey, barChordIdx);
+    console.log("handleChordChange", chordKey, barChordIdx);
     // var newChart = this.state.chart; // TODO immutable
     // newChart.parts[partName][idx] = newChord;
     // this.setState({chart: newChart});
@@ -115,11 +115,11 @@ var ChartPage = React.createClass({
         {
           this.state.chartGridWidth && (
             <div style={{
-                display: 'table',
-                marginBottom: 60,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                marginTop: 30,
+              display: "table",
+              marginBottom: 60,
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginTop: 30,
             }}>
               <ChartGrid
                 barsByPartName={barsByPartName}
@@ -136,23 +136,23 @@ var ChartPage = React.createClass({
         }
         {
           chart.composers && chart.compositionYear ? (
-            <p>Composed by {chart.composers.join(', ')} in {chart.compositionYear}</p>
+            <p>Composed by {chart.composers.join(", ")} in {chart.compositionYear}</p>
           ) : (
             chart.composers ? (
-              <p>Composed by {chart.composers.join(', ')}</p>
+              <p>Composed by {chart.composers.join(", ")}</p>
             ) : chart.compositionYear ? (
               <p>Composed in {chart.compositionYear}</p>
             ) : null
           )
         }
         <p>
-          Owner: <Link to='charts' query={{owner: chart.owner.slug}}>{chart.owner.username}</Link>
+          Owner: <Link query={{owner: chart.owner.slug}} to="charts">{chart.owner.username}</Link>
         </p>
         {
           chart.interpretations && (
             <p>
               Interpretations:
-              {' '}
+              {" "}
               {
                 chart.interpretations > 1 ? (
                   <ul>
@@ -180,18 +180,18 @@ var ChartPage = React.createClass({
     if (isOwner) {
       if (this.state.edited) {
         buttons.push(
-          <button key='save' onClick={this.handleSaveClick}>Save</button>
+          <button key="save" onClick={this.handleSaveClick}>Save</button>
         );
       } else {
         buttons = buttons.concat([
-          <button className="mr1" key='edit' onClick={this.handleEditClick}>Edit</button>,
-          <button key='delete' onClick={this.handleDeleteClick}>Delete</button>,
+          <button className="mr1" key="edit" onClick={this.handleEditClick}>Edit</button>,
+          <button key="delete" onClick={this.handleDeleteClick}>Delete</button>,
         ]);
       }
     }
-    if (loggedInUsername !== null && ! isOwner) {
+    if (loggedInUsername !== null && !isOwner) {
       var cloneButton = (
-        <button key='clone' onClick={this.handleCloneClick}>Clone</button>
+        <button key="clone" onClick={this.handleCloneClick}>Clone</button>
       );
       buttons.push(cloneButton);
     }
@@ -206,7 +206,7 @@ var ChartPage = React.createClass({
       <span>
         {
           interpretation.externalLinks ? (
-            <a href={interpretation.externalLinks[0]} rel='external' target='_blank'>{label}</a>
+            <a href={interpretation.externalLinks[0]} rel="external" target="_blank">{label}</a>
           ) : (
             <span>label</span>
           )
@@ -214,10 +214,10 @@ var ChartPage = React.createClass({
         {
           interpretation.externalLinks && interpretation.externalLinks.length > 1 && (
             <span>
-              {' '}
+              {" "}
               {
                 interpretation.externalLinks.slice(1).map((externalLink, idx) => (
-                  <a href={externalLink} key={idx} rel='external' target='_blank'>{`#${idx}`}</a>
+                  <a href={externalLink} key={idx} rel="external" target="_blank">{`#${idx}`}</a>
                 ))
               }
             </span>

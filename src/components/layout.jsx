@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import React, {PropTypes} from "react";
 
-var Header = require("./header");
+import Header from "./header";
 
 
 var Layout = React.createClass({

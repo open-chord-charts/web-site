@@ -24,15 +24,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 
-var {Link} = require('react-router');
-var React = require('react');
+import {Link} from "react-router";
+import React from "react";
 
-var propTypes = require('../../prop-types');
+import propTypes from "../../prop-types";
 
 
 var ChartsPage = React.createClass({
   contextTypes: {
-    router: React.PropTypes.func.isRequired,
+    router: React.PropTypes.func,
   },
   propTypes: {
     charts: React.PropTypes.arrayOf(propTypes.chart),
@@ -43,7 +43,7 @@ var ChartsPage = React.createClass({
         {
           this.props.charts.map((chart, idx) => (
             <li key={idx}>
-              <Link to='chart' params={chart}>{chart.title}</Link>
+              <Link params={chart} to="chart">{chart.title}</Link>
             </li>
           ))
         }

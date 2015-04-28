@@ -3,12 +3,12 @@
 // Register babel to have ES6 support on the server
 require("babel/register");
 
-var path = require("path");
-var strip = require("strip-loader");
-var webpack = require("webpack");
+import path from "path";
+import strip from "strip-loader";
+import webpack from "webpack";
 
 var assetsPath = path.join(__dirname, "../public/assets");
-var writeStats = require("./utils/write-stats");
+import writeStats from "./utils/write-stats";
 
 
 module.exports = {
