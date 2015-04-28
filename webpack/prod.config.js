@@ -3,24 +3,24 @@
 // Register babel to have ES6 support on the server
 require("babel/register");
 
-import path from "path";
-import strip from "strip-loader";
-import webpack from "webpack";
+var path = require("path");
+var strip = require("strip-loader");
+var webpack = require("webpack");
 
 var assetsPath = path.join(__dirname, "../public/assets");
-import writeStats from "./utils/write-stats";
+var writeStats = require("./utils/write-stats");
 
 
 module.exports = {
   devtool: "source-map",
   entry: {
-    "main": "./src/client.js"
+    "main": "./src/client.js",
   },
   output: {
     path: assetsPath,
     filename: "[name]-[chunkhash].js",
     chunkFilename: "[name]-[chunkhash].js",
-    publicPath: "assets/"
+    publicPath: "assets/",
   },
   module: {
     loaders: [
@@ -32,7 +32,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ["", ".js", ".jsx"],
   },
   progress: true,
   plugins: [
@@ -45,7 +45,7 @@ module.exports = {
       "process.env": {
         BROWSER: JSON.stringify(true),
         NODE_ENV: JSON.stringify("production"), // clean up some react stuff
-      }
+      },
     }),
 
     // optimizations
@@ -53,12 +53,12 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
-          warnings: false
-        }
+          warnings: false,
+        },
     }),
 
     // stats
     function() { this.plugin("done", writeStats); },
 
-  ]
+  ],
 };

@@ -4,4 +4,4 @@
 
 export default {
   apiBaseUrl: "http://api.openchordcharts.org/api/1",
-}
+};

@@ -7,7 +7,7 @@
     "build": "webpack --stats --config ./webpack/prod.config.js",
     "clean": "rm -rf public",
     "dev": "npm run assets; NODE_ENV=development DEBUG=app:* node index",
-    "linter": "eslint --ext .js,.jsx src",
+    "linter": "eslint --ext .js,.jsx .",
     "prod": "npm run assets; NODE_ENV=production PORT=3001 DEBUG=app:* node index",
     "start": "npm run assets; NODE_ENV=production node index"
   },
