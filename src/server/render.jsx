@@ -38,10 +38,7 @@ function render(req, res, next) {
     fetchData(state.routes, state.params, state.query)
       .then(
         data => React.renderToString(<Root loading={false} {...data} />),
-        errors => {
-          debug("errors", errors);
-          return React.renderToString(<Root errors={errors} loading={false} />);
-        }
+        errorByRouteName => React.renderToString(<Root errorByRouteName={errorByRouteName} loading={false} />)
       ).then(markup => {
         const css = webpackStats.css.concat([
           process.env.NODE_ENV === "production" ? "/assets/basscss.min.css" : "/assets/basscss.css",
