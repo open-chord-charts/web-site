@@ -34,13 +34,13 @@ function render(req, res, next) {
     },
     routes: routes,
   });
-  router.run((Handler, state) => {
+  router.run((Root, state) => {
     fetchData(state.routes, state.params, state.query)
       .then(
-        data => React.renderToString(<Handler loading={false} {...data} />),
+        data => React.renderToString(<Root loading={false} {...data} />),
         errors => {
           debug("errors", errors);
-          return React.renderToString(<Handler errors={errors} loading={false} />);
+          return React.renderToString(<Root errors={errors} loading={false} />);
         }
       ).then(markup => {
         const css = webpackStats.css.concat([

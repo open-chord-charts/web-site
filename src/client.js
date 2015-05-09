@@ -46,11 +46,11 @@ function renderApp() {
   global.authEvents = new EventEmitter();
   global.loadingEvents = new EventEmitter();
   const appMountNode = document.getElementById("app-mount-node");
-  Router.run(routes, Router.HistoryLocation, (Handler, state) => {
+  Router.run(routes, Router.HistoryLocation, (Root, state) => {
     global.loadingEvents.emit("loadStart");
     fetchData(state.routes, state.params, state.query).then(
-      data => React.render(<Handler {...data} />, appMountNode),
-      errors => React.render(<Handler errorByRouteName={errors} />, appMountNode)
+      data => React.render(<Root {...data} />, appMountNode),
+      errors => React.render(<Root errorByRouteName={errors} />, appMountNode)
     ).then(
       () => global.loadingEvents.emit("loadEnd")
     );
