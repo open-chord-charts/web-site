@@ -34,10 +34,7 @@ function writeStats(stats) {
   const script = getChunks("main", "js");
   const css = getChunks("main", "css");
 
-  const content = {
-    css: css,
-    script: script,
-  };
+  const content = {css, script};
 
   fs.writeFileSync(filepath, JSON.stringify(content));
 
