@@ -36,7 +36,7 @@ import NotFoundPage from "./components/pages/not-found-page";
 import RegisterHandler from "./components/route-handlers/register-handler";
 
 
-const debug = require("debug")("app:routes");
+// const debug = require("debug")("app:routes");
 
 
 function fetchData(matchedRoutes, params, query) {
@@ -49,7 +49,6 @@ function fetchData(matchedRoutes, params, query) {
         route => route.handler.fetchData(params, query)
           .then(handlerData => { data[route.name] = handlerData; })
           .catch(error => {
-            debug("error", error);
             errors[route.name] = error;
           })
       )

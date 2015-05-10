@@ -39,7 +39,7 @@ var ChartHandler = React.createClass({
   propTypes: {
     appState: propTypes.appState.isRequired,
     chart: propTypes.chart,
-    errors: React.PropTypes.object,
+    errorByRouteName: React.PropTypes.object,
   },
   statics: {
     fetchData(params) {
@@ -48,6 +48,7 @@ var ChartHandler = React.createClass({
   },
   render() {
     var content;
+    var error = this.props.errorByRouteName && this.props.errorByRouteName.chart;
     if (this.props.chart) {
       content = (
         <ChartPage
@@ -57,7 +58,7 @@ var ChartHandler = React.createClass({
       );
     } else if (this.props.appState.loading) {
       content = this.props.appState.loading === "slow" ? <h1>Loading…</h1> : null;
-    } else if (this.props.errors && this.props.errors.chart) {
+    } else if (error) {
       content = (
         <p>Unable to fetch data from API.</p>
       );

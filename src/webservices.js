@@ -63,12 +63,20 @@ function fetchCachedJSON(url, options) {
 }
 
 function fetchJSON(url, options) {
-  return fetch(url, options).then(json);
+  return fetch(url, options).then(status).then(json);
 }
 
 
 function json(response) {
   return response.json();
+}
+
+
+function status(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response;
+  }
+  throw new Error(response.statusText);
 }
 
 
@@ -89,7 +97,16 @@ function fetchAccount(slug) {
 
 
 function fetchChart(slug) {
-  return fetchCharts().then(charts => charts.find(chart => chart.slug === slug));
+  return fetchCharts()
+    .then(charts => {
+      var foundChart = charts.find(chart => chart.slug === slug);
+      if (!foundChart) {
+        var error = new Error(`Chart not found: ${slug}`);
+        error.status = 404;
+        throw error;
+      }
+      return foundChart;
+    });
 }
 
 

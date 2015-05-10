@@ -32,7 +32,15 @@ function render(req, res, next) {
     fetchData(state.routes, state.params, state.query)
       .then(
         data => React.renderToString(<Root loading={false} {...data} />),
-        errorByRouteName => React.renderToString(<Root errorByRouteName={errorByRouteName} loading={false} />)
+        errorByRouteName => {
+          // Handle route errors with dynamic path parts (like not-found chart).
+          var lastRouteName = state.routes[state.routes.length - 1].name;
+          var lastRouteError = errorByRouteName[lastRouteName];
+          if (lastRouteError && lastRouteError.status) {
+            res.status(lastRouteError.status);
+          }
+          return React.renderToString(<Root errorByRouteName={errorByRouteName} loading={false} />);
+        }
       )
       .then(appHtml => res.send(renderMarkup(appHtml)))
       .catch(error => next(error));
