@@ -18,7 +18,7 @@ server.use(compression());
 
 // Use the public directory for static files.
 // This directory is created by webpack on build time (npm run build).
-// In development it serves assets like bootstrap CSS, in production it serves the bundled JS too.
+// In development it serves assets like basscss CSS, in production it serves the bundled JS too.
 
 server.use(express.static(path.resolve(__dirname, "../public"), {
   maxAge: 365 * 24 * 60 * 60,
